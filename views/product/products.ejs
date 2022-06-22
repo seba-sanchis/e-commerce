@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+  <!-----------------HEAD - ACÁ LINKEO ENLACES EXTERNOS------------------------->
+  
+  <%- include ('../partials/head.ejs', {titulo: 'PayCrypt', cssSheets: 'styles_index'}) %>
+
+  <body>
+
+    <%- include ('../partials/header.ejs') %> 
+
+    <!-----------------ACÁ SE MUESTRAN TODOS LOS PRODUCTOS------------------------->
+    <main>
+      <!------BANNER------------->
+      <div class="banner">
+        <img src="/images/banner.png" alt="Banner">
+      </div>
+
+      <!------ACÁ ARRANCAN LOS PRODUCTOS----------->
+      <h2 class="buscados">Tu busqueda:</h2>
+
+      <section class="list-of-products">
+
+        <!------PRODUCTOS AUTOMATIZADOS CON EJS----------->
+          <% productsSent.forEach(producto => { %>
+          <article class="each-product">
+            <a href="/product/detail/<%= producto.id %>">  
+             <div class="img-product">
+              <img src="/images/products/<%= producto.image %>" alt=""> <!--poner con ejs -> producto.photoProduct --> 
+             </div>
+              
+            <div class="product-description">
+              <p class="price"><%= Number(producto.price).toString() %>  <!--PRECIO-->
+
+               <!--MUESTRA EL LOGO DE LA MONEDA QUE ELIGIO-->       
+                <% if (producto.coinId == 1) { %> 
+                  <span>
+                    <img src="/images/btc-logo.svg" alt="" class="usdt">
+                  </span>
+              
+                <% } else if(producto.coinId == 3) { %> 
+                  <span>
+                    <img src="/images/eth-logo.svg" alt="" class="usdt">
+                  </span> 
+          
+                <% }else { %>
+                  <span>
+                    <img src="/images/usdt-logo.svg" alt="" class="usdt">
+                  </span>
+
+                <% } %>
+
+              </p>
+
+              <p class="category">
+                <i class="far fa-folder-open"></i><%= producto.categories.name %> <!--CATEGORIA hay que arreglar la categoria-->
+              </p>
+
+
+              <h3 class="name-of-product"><%= producto.name %></h3>
+              <p class="description"><%= producto.shortDescription %></p>
+
+              <p class="date">
+                <!----------->
+                <% function Dias(){ %>
+                  <% let fecha1=producto.date; %><!--fecha del producto--> 
+                  <%let fecha2=new Date();%>    <!--fecha actual--> 
+                  <% let milisegundos = 24*60*60*1000;%> <!--guardamos los milisegundos-->
+                  <% let milisegundostranscurridos= Math.abs(fecha1.getTime() - fecha2.getTime());%> <!--restamos las fechas-->
+                  <%  let diastranscurridos = Math.round(milisegundostranscurridos/milisegundos);%> <!--dividimos apara sacar el numero entero-->
+
+                  <i class="fas fa-clock"></i><%= diastranscurridos %> <p> Dias atrás</p> <!--ponemos el dato dinamico-->
+                  <% } %>     
+              </p>
+            </a>
+          </div>
+          <div class="place">
+            <i class="fas fa-map-marker-alt"></i><p><%= producto.users.location %></p>
+          </div>
+        </article>
+        <% }) %> 
+    
+    </main>
+    
+    <%- include ('../partials/footer.ejs') %> 
+  </body>
+</html>

@@ -1,0 +1,224 @@
+* {
+  font-family: "Open Sans", sans-serif;
+  background: none;
+  color: inherit;
+  text-decoration: inherit;
+  list-style-type: none;
+}
+
+/*----------EL ESTILO DEL INDEX----------------------------------------------*/
+
+/*----------MAIN----------------*/
+
+.buscados {
+  font-size: 20px;
+  margin-left: 25px;
+}
+
+body {
+  min-height: 100vh;
+  height: auto;
+}
+
+main {
+  flex-grow: 1;
+  height: auto;
+}
+
+/*-------BANNER------*/
+
+.banner img {
+  max-width: 100%;
+  width: 100vw;
+  object-fit: cover;
+  height: 150px;
+  margin: 0px 0px 15px 0px;
+}
+
+/*-------CIRCULOS------*/
+
+.navbar-circles {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.icon-product {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  box-shadow: 0px 0px 10px 0px rgb(100, 100, 100);
+}
+
+.icon-product i {
+  font-size: 23px;
+  color: #ffc439;
+}
+
+.each-circle {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-size: 10px;
+}
+
+
+/*-------PRODUCTOS------*/
+
+.list-of-products {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.each-product {
+  box-shadow: 0px 0px 10px 0px rgb(100, 100, 100);
+  width: 250px;
+  border-radius: 5px;
+  margin: 15px;
+}
+
+.img-product {
+  display: flex;
+  overflow: hidden;
+  height: 160px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 5px 5px 0px 0px;
+}
+
+.img-product img {
+  width: auto;
+  height: 100%;
+}
+
+.usdt {
+  width: 20px;
+  height: 20px;
+}
+
+/*-------INFORMACIÓN DE PRODUCTOS------*/
+
+.product-description {
+  padding: 10px 15px;
+}
+
+.place {
+  display: flex;
+  align-items: center;
+  padding: 0px 0px 0px 15px;
+  border-top: solid 1px rgb(100, 100, 100);
+  font-size: 14px;
+}
+
+.category {
+  font-size: 12px;
+  margin-bottom: 5px;
+}
+
+.name-of-product {
+  font-size: 18px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  max-width: 200px;
+  margin: 0;
+}
+
+.description {
+  font-size: 12px;
+  color: #00000080;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  max-width: 200px;
+}
+
+.date {
+  margin-left: 5px;
+}
+
+.product-date {
+  font-size: 12px;
+}
+
+.product-location {
+  margin: 15px 5px;
+}
+
+
+/*----------MEDIA QUERIES PARA INDEX.HTML-------------------------------------*/
+/*----------MOBILE - HASTA 481PX-------------*/
+@media (max-width: 481px) {
+  .nft, .mineria {
+    display: none;
+  }
+
+}
+
+/*----------TABLET - ENTRE 482 Y 1024--------*/
+@media (min-width: 482px) and (max-width: 1024px) {
+  .list-of-products {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    flex-wrap: wrap;
+  }
+  .nft, .mineria {
+    display: none;
+  }
+
+}
+
+/*----------DESKTOP - 1025 EN ADELANTE--------*/
+@media (min-width: 1025px) {
+  .list-of-products {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    flex-wrap: wrap;
+  }
+
+  .first-footer {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+  }
+
+  .ver-mas {
+    display: none;
+  }
+}
+
+/*----------ANIMACIONES-------------*/
+
+.each-circle:hover .icon-product {
+  border-radius: 50%;
+  width: 55px;
+  height: 55px;
+  box-shadow: 0px 0px 10px 0px rgb(100, 100, 100);
+  position: relative;
+  transition: 0.5s;
+}
+
+.each-circle:hover .icon-product i {
+  font-size: 30px;
+  color: #ffc439;
+  transition: 0.5s;
+}
+
+.each-product:hover {
+  box-shadow: 0px 0px 10px 0px rgb(100, 100, 100);
+  width: 260px;
+  height: 435;
+  border-radius: 5px;
+  margin: 15px;
+  transition: 0.5s;
+}
+
+/*----------MEDIA QUERY DE NFT Y MINERIA, PONER DISPLAY:NONE AL VER MÁS-------------*/

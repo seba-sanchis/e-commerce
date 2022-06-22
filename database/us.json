@@ -1,0 +1,56 @@
+[
+ {
+  "id": 2,
+  "name": "Carlitos",
+  "lastname": "Moulia",
+  "dni": 45870300,
+  "email": "makuinmk@gmail.com",
+  "password": "midgard",
+  "image": "default-user.png"
+ },
+ {
+  "id": 3,
+  "name": "Sebastian",
+  "lastName": "Sanchis",
+  "dni": "36825552",
+  "email": "seba.sanchis@gmail.com",
+  "password": "$2a$10$Glkza3xvJFFH9UWXbbiFnuheLCWgllfUNHUD2DPAwlBS0/zFe1mN.",
+  "image": "1638640995804_img.png"
+ },
+ {
+  "id": 4,
+  "name": "Sebastian",
+  "lastName": "Sanchis",
+  "dni": "36825552",
+  "email": "seb@test.com",
+  "password": "$2a$10$uuAVkDiSTx/3g1V0SfP1d..0o17iEvVYqPJD375Qu04csJWMjPV8K",
+  "image": "1638227238814_img.png"
+ },
+ {
+  "id": 5,
+  "name": "Tomas",
+  "lastName": "Espil",
+  "dni": "42850900",
+  "email": "tomasynaza@gmail.com",
+  "password": "$2a$10$0szzHCSSu7EenBfpSZsoH.gB8iFYb.D5HqN06XD.irs2tdNufJLGG",
+  "image": "1638481183397_img.jpg"
+ },
+ {
+  "id": 6,
+  "name": "marcos",
+  "lastName": "zulian",
+  "dni": "35108008",
+  "email": "imaquagarage@gmail.com",
+  "password": "$2a$10$Rqr5w5mNCHNkxzlOrck9J.zUuAHJDut81RqAkGmVGrBJcTAr86vyq",
+  "image": "1638822127594_img.jpg"
+ },
+ {
+  "id": 7,
+  "name": "Maria Belen",
+  "lastName": "Legresti",
+  "dni": "38630829",
+  "email": "mariabelenlegresti@gmail.com",
+  "password": "$2a$10$wM7aHcBkpw7wuv8c1g0V7upWhbLQW.gPipp.jcMkyvHogY9HiSB1y",
+  "image": "1639343157294_img.jpg"
+ }
+]

@@ -1,0 +1,271 @@
+* {
+  font-family: "Open Sans", sans-serif;
+  box-sizing: border-box;
+  background: none;
+  color: inherit;
+  text-decoration: inherit;
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+
+/* ICONOS PLACEHOLDER EDITAR USUARIO  */
+
+.icono-placeholder-nombre{
+    background-image: url('../images/users/user_icon.png');
+    background-size: 23px 23px;
+    background-repeat: no-repeat;
+    background-position: 0.5rem center;    padding: 25px;
+}
+
+.icono-placeholder-apellido{
+  background-image: url('../images/users/last_name-icon.png');
+  background-size: 23px 23px;
+  background-repeat: no-repeat;
+  background-position: 0.5rem center;  padding: 25px;
+}
+.icono-placeholder-dni{
+  background-image: url('../images/users/dni-icon.png');
+  background-size: 23px 23px;
+  background-repeat: no-repeat;
+  background-position: 0.5rem center;  padding: 27px;
+}
+.icono-placeholder-email{
+  background-image: url('../images/users/email-icon.png');
+  background-size: 23px 23px;
+  background-repeat: no-repeat;
+  background-position: 0.5rem center;  padding: 25px;
+}
+.icono-placeholder-password{
+  background-image: url('../images/users/password-icon.png');
+  background-size: 23px 23px;
+  background-repeat: no-repeat;
+  background-position: 0.5rem center;  padding: 25px;
+}
+.icono-placeholder-confirm-password{
+  background-image: url('../images/users/confirm-password-icon.png');
+  background-size: 23px 23px;
+  background-repeat: no-repeat;
+  background-position: 0.5rem center;
+  padding: 25px;
+}
+
+
+
+/* main */
+
+body {
+  background-color: #ffc439;
+}
+
+/* CONTENEDOR DEL FORMULARIO*/
+.contenedor-formulario {
+  margin: auto;
+  padding: 10px;
+  margin-top: 100px;
+  display: flex;
+  flex-direction: column;
+  border-radius: 10px;
+  width: 320px;
+  background-color: #ffff;
+}
+
+.imagen-paycript-formulario {
+  width: 141px;
+}
+
+/*  NOMBRE USUARIO A EDITAR   */
+
+.nombre-usuario-a-editar {
+  text-align: center;
+  margin-top: 10px;
+  font-size: 14px;
+}
+
+/* LOGO PAYCRIPT ENCIMA DEL FORMULARIO*/
+.registro-logo {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+/* CONTROL DE TODOS LOS ELEMENTOS DEL FORMULARIO*/
+.formulario-control {
+  margin: 10px;
+  padding: 10px;
+  border: grey solid 1px;
+  display: flex;
+  flex-direction: column;
+  border-radius: 8px;
+}
+
+/* CONTROL DEL LABEL (Editar Perfil) */
+.p-editar-perfil {
+  font-size: 20px;
+  /*margin-left: 21px; */
+  text-align: center;
+}
+
+/* LABEL CAMBIAR DE CATEGORIA  */
+.cambiar-categoria {
+  text-align: center;
+}
+
+/* CONTROL DE LA CHECK-BOX DEL FORMULARIO EDICION DE PERFIL*/
+.check-box-condiciones {
+  display: flex;
+  justify-content: center;
+  color: #27346a;
+}
+
+/* boton formulario CONTINUAR*/
+.boton-formulario-continuar {
+  background-color: #27346a;
+  color: #ffff;
+  border-radius: 5px;
+  padding: 10px;
+  text-align: center;
+  margin-top: 14px;
+  margin-bottom: 14px;
+  cursor: pointer;
+}
+
+.terminos-y-continuar {
+  display: flex;
+  align-items: center;
+}
+
+/* SUBRAYADO DEL BOTON AL TENER EL MOUSE ENCIMA*/
+.boton-formulario-continuar:hover {
+  text-decoration: underline;
+}
+
+/* boton formulario INICIAR SESION*/
+
+.boton-formulario-iniciar-sesion {
+  color: #27346a;
+  margin: 10px;
+}
+
+/* SUBRAYADO DEL BOTON AL TENER EL MOUSE ENCIMA*/
+
+.boton-formulario-iniciar-sesion:hover {
+  text-decoration: underline;
+}
+/* SELECCIONA ARCHIVO CSS */
+
+#image {
+  display: none;
+}
+
+input[type="”file”"]#image {
+  width: 0.1px;
+  height: 0.1px;
+  opacity: 0;
+  overflow: hidden;
+  position: absolute;
+  z-index: -1;
+}
+
+label[for="image"] {
+  font-size: 14px;
+  color: #27346a;
+  background-color: #ffffff;
+  border: 1px solid #27346a;
+  display: block;
+  cursor: pointer;
+  padding: 8px;
+  text-align: center;
+  border-radius: 5px;
+  width: 210px;
+  margin-left: 10px;
+  margin: auto;
+}
+
+/*MOBILE*/
+/*
+.contenedor-formulario {
+  margin: auto;
+  padding: 10px;
+  background-color: #ffff;
+  margin-top: 100px;
+  display: flex;
+  flex-direction: column;
+  border-radius: 10px;
+  width: 465px;
+}
+*/
+
+.formulario-control {
+  margin: 10px;
+  padding: 10px;
+  border: grey solid 1px;
+  display: flex;
+  flex-direction: column;
+  border-radius: 7px;
+  width: 250px;
+  text-align: center;
+  font-size: 14px;
+  
+}
+
+/*tablets*/
+@media (min-width: 768px) {
+  /* Tablet: Main */
+}
+
+/*desktop*/
+@media (min-width: 1024px) {
+  /* Laptop: main */
+
+  .contenedor-formulario {
+    width: 630px;
+    margin-top: 50px;
+    /* height: 470px; */
+  }
+
+  .formulario-control {
+    width: 500px;
+    height: 50px;
+     /*  relleno para dejar espacio a los iconos */
+}
+  
+  }
+
+  .formulario-flex {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    flex-direction: column; 
+}
+.boton-formulario-iniciar-sesion {
+  position: relative;
+  left: 556px;
+}
+
+.boton-formulario-continuar {
+  width: 332px;
+  margin-top: 10px;
+}
+  
+  .boton-formulario-iniciar-sesion {
+    position: relative;
+    left: 556px;
+  }
+
+  .boton-formulario-continuar {
+    width: 250px;
+  }
+
+  .nueva-foto-perfil {
+    text-align: center;
+    margin-top: 5px;
+  }
+
+  .cambiar-categoria {
+    text-align: center;
+    margin: 15px;
+  }
+
