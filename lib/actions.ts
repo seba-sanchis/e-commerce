@@ -191,11 +191,11 @@ export async function newCheckOut(params: PreferenceItem[]) {
     const response = await mercadopago.preferences.create({
       items: params,
       back_urls: {
-        failure: "https://main.d3g37xmie64p3b.amplifyapp.com/profile",
-        pending: "https://main.d3g37xmie64p3b.amplifyapp.com/profile",
-        success: "https://main.d3g37xmie64p3b.amplifyapp.com/profile",
+        failure: "https://main.d3230oyu2t880h.amplifyapp.com/profile",
+        pending: "https://main.d3230oyu2t880h.amplifyapp.com/profile",
+        success: "https://main.d3230oyu2t880h.amplifyapp.com/profile",
       },
-      notification_url: "https://main.d3g37xmie64p3b.amplifyapp.com/api/payment",
+      notification_url: "https://main.d3230oyu2t880h.amplifyapp.com/api/payment",
     });
 
     return response.body;
