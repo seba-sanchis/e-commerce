@@ -191,11 +191,11 @@ export async function newCheckOut(params: PreferenceItem[]) {
     const response = await mercadopago.preferences.create({
       items: params,
       back_urls: {
-        failure: "http://localhost:3000/profile",
-        pending: "http://localhost:3000/profile",
-        success: "http://localhost:3000/profile",
+        failure: "https://main.d3g37xmie64p3b.amplifyapp.com/profile",
+        pending: "https://main.d3g37xmie64p3b.amplifyapp.com/profile",
+        success: "https://main.d3g37xmie64p3b.amplifyapp.com/profile",
       },
-      notification_url: "https://e-commerce-2-omega.vercel.app/api/payment",
+      notification_url: "https://main.d3g37xmie64p3b.amplifyapp.com/api/payment",
     });
 
     return response.body;
