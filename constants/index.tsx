@@ -1,4 +1,4 @@
-export const topRated = [
+export const cards = [
   {
     name: "Bombas para piscina",
     description: "Toda la línea de autocebantes Vulcano al mejor precio.",

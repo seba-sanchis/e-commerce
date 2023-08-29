@@ -1,13 +1,13 @@
 import Image from "next/image";
 import Link from "next/link";
 
-import { topRated } from "@/constants";
+import { cards } from "@/constants";
 
 export default function Categories() {
   return (
     <section className="mb-8">
       <div className="flex justify-between w-full max-w-[980px] mx-auto gap-3">
-        {topRated.map((category) => (
+        {cards.map((category) => (
           <div>
             <div className="absolute flex flex-col items-center justify-center w-[485px] h-[395px] px-4">
               <h4 className="font-semibold text-[40px] text-primary-gray">
