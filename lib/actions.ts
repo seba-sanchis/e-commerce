@@ -185,7 +185,7 @@ export async function newCheckOut(params: PreferenceItem[]) {
   try {
     // Agrega credenciales
     mercadopago.configure({
-      access_token: `${process.env.MERCADOPAGO_ACCESSTOKEN}`,
+      access_token: `${process.env.MERCADOPAGO_TOKEN}`,
     });
 
     const response = await mercadopago.preferences.create({
