@@ -1,0 +1,32 @@
+@import url("https://cdn-uicons.flaticon.com/uicons-regular-rounded/css/uicons-regular-rounded.css");
+@import url("https://cdn-uicons.flaticon.com/uicons-brands/css/uicons-brands.css");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.navbar_link {
+  @apply text-sm text-primary-black/80 hover:text-primary-black transition-colors;
+}
+
+.icon {
+  @apply flex justify-center items-center w-6 h-6 text-2xl;
+}
+
+.input {
+  @apply flex items-center border border-[#d6d6d6] rounded h-14 px-4 placeholder:text-[#888];
+}
+
+.button {
+  @apply bg-primary-blue hover:bg-[#0077ed] text-white px-4 py-2 rounded-lg w-fit h-fit;
+}
+
+/* Hide arrows from input number */
+@layer base {
+  input[type="number"]::-webkit-outer-spin-button,
+  input[type="number"]::-webkit-inner-spin-button,
+  input[type="number"] {
+    -webkit-appearance: none;
+    -moz-appearance: textfield !important;
+  }
+}
