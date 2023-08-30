@@ -34,7 +34,11 @@ export default function CheckOut({
 
   const handleCheckOut = async () => {
     if (session.user) {
-      const response = await checkOut(order, session.user.dni as number);
+      const response = await checkOut(
+        order,
+        session.user.email as string,
+        session.user.dni as number
+      );
 
       router.push(response.init_point);
     } else {

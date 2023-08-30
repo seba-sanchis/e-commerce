@@ -182,7 +182,11 @@ export async function removeItem(itemId: ObjectId, userId: string) {
 }
 
 // Payment gateway integration
-export async function checkOut(params: PreferenceItem[], dni: number) {
+export async function checkOut(
+  params: PreferenceItem[],
+  email: string,
+  dni: number
+) {
   // Agrega credenciales
   mercadopago.configure({
     access_token: `${process.env.MERCADOPAGO_TOKEN}`,
@@ -199,9 +203,12 @@ export async function checkOut(params: PreferenceItem[], dni: number) {
         success: "https://main.d3230oyu2t880h.amplifyapp.com/profile",
       },
       payer: {
+        email: email,
         identification: { type: "DNI", number: `${dni}` },
       },
     });
+
+    console.log("checkout:", response);
 
     return response.body;
   } catch (error: any) {
