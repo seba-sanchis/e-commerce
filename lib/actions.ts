@@ -206,6 +206,7 @@ export async function checkOut(
         email: email,
         identification: { type: "DNI", number: `${dni}` },
       },
+      external_reference: "abc123",
     });
 
     console.log("checkout:", response);
