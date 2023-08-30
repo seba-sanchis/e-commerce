@@ -98,7 +98,8 @@ export async function addToCart(params: Items) {
   });
 
   const alreadyInCart = currentSession.cart.find(
-    (cartItem: Items) => cartItem.product._id?.toString() === params.product.toString()
+    (cartItem: Items) =>
+      cartItem.product._id?.toString() === params.product.toString()
   );
 
   if (alreadyInCart) {
@@ -182,21 +183,23 @@ export async function removeItem(itemId: ObjectId, userId: string) {
 
 // Payment gateway integration
 export async function newCheckOut(params: PreferenceItem[]) {
-  try {
-    // Agrega credenciales
-    mercadopago.configure({
-      access_token: `${process.env.MERCADOPAGO_TOKEN}`,
-    });
+  // Agrega credenciales
+  mercadopago.configure({
+    access_token: `${process.env.MERCADOPAGO_TOKEN}`,
+  });
 
+  try {
     const response = await mercadopago.preferences.create({
       items: params,
+      notification_url: "https://main.d3230oyu2t880h.amplifyapp.com/api/payment",
       back_urls: {
         failure: "https://main.d3230oyu2t880h.amplifyapp.com/profile",
         pending: "https://main.d3230oyu2t880h.amplifyapp.com/profile",
         success: "https://main.d3230oyu2t880h.amplifyapp.com/profile",
       },
-      notification_url: "https://main.d3230oyu2t880h.amplifyapp.com/api/payment",
     });
+
+    console.log("newCheckOut response:", response);
 
     return response.body;
   } catch (error: any) {

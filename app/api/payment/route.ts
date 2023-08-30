@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import mercadopago from "mercadopago";
 
 export const POST = async (request: NextRequest) => {
-  console.log("request:", request);
+  console.log("/api/payment request:", request);
 
   const { query } = await request.json();
 
