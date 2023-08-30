@@ -28,7 +28,7 @@ export default function CheckOut({ bag }: { bag: Item[] }) {
 
   const handleCheckOut = async () => {
     const response = await newCheckOut(order);
-    console.log("/bag response", response);
+    console.log("/bag response", response.items);
     router.push(response.init_point);
   };
 

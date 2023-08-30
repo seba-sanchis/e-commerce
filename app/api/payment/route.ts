@@ -2,25 +2,18 @@ import { NextRequest, NextResponse } from "next/server";
 import mercadopago from "mercadopago";
 
 export const POST = async (request: NextRequest) => {
-  const { id, data, date_created, type } = await request.json();
-
-  console.log("/api/payment request:", {
-    id: id, // 107293030343
-    data_id: data.id, // "1317514189"
-    date_created: date_created, // "2023-08-30T12:42:24Z"
-    type: type, // "payment"
-  });
+  const { data, type } = await request.json();
 
   try {
     if (type === "payment") {
       const { body } = await mercadopago.payment.findById(data.id);
 
       console.log("/api/payment body:", {
-        collectorid: body.collector_id, // 103268085
         orderid: body.order.id, // "11427418621"
         date: body.date_approved, // "2023-08-30T10:19:34.892-04:00"
         status: body.status, // "approved"
         description: body.description, // "Bomba BAP para piscina"
+        items: body.additional_info.items, // [Array]
         payment: {
           id: body.payment_method.id, // "visa"
           type: body.payment_method.type, // "credit_card"
@@ -45,7 +38,6 @@ export const POST = async (request: NextRequest) => {
           id: body.payer.id, // "192180541"
         },
       });
-      //pending: need to store in database
     }
 
     return NextResponse.json({ status: 201 });
