@@ -8,17 +8,15 @@ export const POST = async (request: NextRequest) => {
     if (type === "payment") {
       const { body } = await mercadopago.payment.findById(data.id);
 
-      console.log("/api/payment body:", {
-        orderid: body.order.id, // "11427418621"
+      console.log("/api/payment:", {
+        orderId: body.order.id, // "11427418621"
         date: body.date_approved, // "2023-08-30T10:19:34.892-04:00"
         status: body.status, // "approved"
-        description: body.description, // "Bomba BAP para piscina"
         items: body.additional_info.items, // [Array]
         payment: {
           id: body.payment_method.id, // "visa"
           type: body.payment_method.type, // "credit_card"
         },
-        id: body.id, // 1317515789
         installments: body.installments, // 1
         transaction: {
           bank: body.transaction_details.financial_institution, // 50
@@ -28,6 +26,7 @@ export const POST = async (request: NextRequest) => {
           overpaid: body.transaction_details.overpaid_amount, // 0
         },
         payer: {
+          id: body.payer.id, // "192180541"
           firstName: body.payer.first_name, // null
           lastName: body.payer.last_name, // null
           email: body.payer.email, // "test_user_80507629@testuser.com"
@@ -35,7 +34,6 @@ export const POST = async (request: NextRequest) => {
           phone: body.payer.phone, // [Object]
           type: body.payer.type, // null
           entity_type: body.payer.entity_type, // null
-          id: body.payer.id, // "192180541"
         },
       });
     }

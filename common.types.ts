@@ -50,7 +50,7 @@ export interface Sessions extends Session {
     name?: string | null;
     email?: string | null;
     image?: string | null;
-    firstName?: string | null;
+    dni?: number | null;
     cart?: Item[] | null;
   };
 }

@@ -11,6 +11,8 @@ import Link from "next/link";
 export default async function Page() {
   const session = (await getServerSession(authOptions)) as Sessions;
 
+  const sessionData = await JSON.parse(JSON.stringify(session));
+
   const response = await getItems(session.user?.id as string);
 
   const data = await JSON.parse(JSON.stringify(response));
@@ -123,7 +125,7 @@ export default async function Page() {
             </div>
           </div>
         </div>
-        <CheckOut bag={data.cart} />
+        <CheckOut bag={data.cart} session={sessionData} />
       </div>
     </div>
   );

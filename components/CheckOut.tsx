@@ -2,13 +2,19 @@
 
 import { useEffect, useState } from "react";
 
-import { newCheckOut } from "@/lib/actions";
+import { checkOut } from "@/lib/actions";
 import { useRouter } from "next/navigation";
-import { Item } from "@/common.types";
+import { Item, Sessions } from "@/common.types";
 import { Currency } from "mercadopago/shared/currency";
 import { PreferenceItem } from "mercadopago/models/preferences/create-payload.model";
 
-export default function CheckOut({ bag }: { bag: Item[] }) {
+export default function CheckOut({
+  bag,
+  session,
+}: {
+  bag: Item[];
+  session: Sessions;
+}) {
   const router = useRouter();
   const [order, setOrder] = useState<PreferenceItem[]>([]);
 
@@ -27,9 +33,13 @@ export default function CheckOut({ bag }: { bag: Item[] }) {
   }, [bag]);
 
   const handleCheckOut = async () => {
-    const response = await newCheckOut(order);
-    console.log("/bag response", response.items);
-    router.push(response.init_point);
+    if (session.user) {
+      const response = await checkOut(order, session.user.dni as number);
+
+      router.push(response.init_point);
+    } else {
+      router.push("/sign-in");
+    }
   };
 
   return (

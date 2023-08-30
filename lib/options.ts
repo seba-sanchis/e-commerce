@@ -61,7 +61,7 @@ export const authOptions: NextAuthOptions = {
         });
 
         session.user.id = sessionUser._id.toString();
-        session.user.firstName = sessionUser.firstName;
+        session.user.dni = sessionUser.dni;
         session.user.cart = sessionUser.cart;
       }
 
