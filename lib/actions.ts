@@ -193,7 +193,7 @@ export async function newCheckOut(params: PreferenceItem[]) {
       items: params,
       notification_url: "https://main.d3230oyu2t880h.amplifyapp.com/api/payment",
       back_urls: {
-        failure: "https://main.d3230oyu2t880h.amplifyapp.com/profile",
+        failure: "https://main.d3230oyu2t880h.amplifyapp.com/bag",
         pending: "https://main.d3230oyu2t880h.amplifyapp.com/profile",
         success: "https://main.d3230oyu2t880h.amplifyapp.com/profile",
       },
