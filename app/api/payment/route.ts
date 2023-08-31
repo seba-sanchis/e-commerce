@@ -7,7 +7,7 @@ export const POST = async (request: NextRequest) => {
   try {
     if (type === "payment") {
       const { body } = await mercadopago.payment.findById(data.id);
-      console.log("body:", body);
+      console.log("/api/payment:", body);
       // console.log("/api/payment:", {
       //   orderId: body.order.id, // "11427418621"
       //   date: body.date_approved, // "2023-08-30T10:19:34.892-04:00"

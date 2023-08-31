@@ -209,7 +209,7 @@ export async function checkOut(
       external_reference: "abc123",
     });
 
-    console.log("checkout:", response);
+    console.log("/actions checkout:", response);
 
     return response.body;
   } catch (error: any) {
