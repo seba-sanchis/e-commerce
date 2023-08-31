@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import mercadopago from "mercadopago";
 import { newOrder } from "@/lib/actions";
+import { PreferenceItem } from "mercadopago/models/preferences/create-payload.model";
 
 export const POST = async (request: NextRequest) => {
   const { data, type } = await request.json();
@@ -9,21 +10,21 @@ export const POST = async (request: NextRequest) => {
     if (type === "payment") {
       const { body } = await mercadopago.payment.findById(data.id);
 
+      const pickedItems = body.additional_info.items.map((item: PreferenceItem) => ({
+        category: item.category_id,
+        description: item.description,
+        sku: item.id,
+        thumbnail: item.picture_url,
+        quantity: item.quantity,
+        name: item.title,
+        price: item.unit_price,
+      }));
+
       const order = {
         orderId: body.order.id,
         date: body.date_approved,
         status: body.status,
-        picked: [
-          {
-            category: body.additional_info.items.category_id,
-            description: body.additional_info.items.description,
-            sku: body.additional_info.items.id,
-            thumbnail: body.additional_info.items.picture_url,
-            quantity: body.additional_info.items.quantity,
-            name: body.additional_info.items.title,
-            price: body.additional_info.items.unit_price,
-          },
-        ],
+        picked: pickedItems,
         payment: {
           company: body.payment_method.id,
           type: body.payment_method.type,
