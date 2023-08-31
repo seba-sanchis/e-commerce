@@ -3,6 +3,8 @@
 import { getServerSession } from "next-auth";
 import bcrypt from "bcryptjs";
 import mercadopago from "mercadopago";
+import { ObjectId } from "mongodb";
+import { PreferenceItem } from "mercadopago/models/preferences/create-payload.model";
 
 import { connectToDB } from "./database";
 import { authOptions } from "./options";
@@ -15,9 +17,10 @@ import {
 import Item from "@/models/item";
 import Product from "@/models/product";
 import User from "@/models/user";
-import { ObjectId } from "mongodb";
-import { PreferenceItem } from "mercadopago/models/preferences/create-payload.model";
 import Order from "@/models/order";
+import { env } from "@/constants";
+
+const { MERCADOPAGO_TOKEN, MERCADOPAGO_URL } = env;
 
 // Create a new user
 export async function newUser(params: UserProfile) {
@@ -196,18 +199,17 @@ export async function newCheckOut(
 ) {
   // Agrega credenciales
   mercadopago.configure({
-    access_token: `${process.env.MERCADOPAGO_TOKEN}`,
+    access_token: MERCADOPAGO_TOKEN!,
   });
 
   try {
     const response = await mercadopago.preferences.create({
       items: params,
-      notification_url:
-        "https://main.d3230oyu2t880h.amplifyapp.com/api/payment",
+      notification_url: `${MERCADOPAGO_URL}/api/payment`,
       back_urls: {
-        failure: "https://main.d3230oyu2t880h.amplifyapp.com/bag",
-        pending: "https://main.d3230oyu2t880h.amplifyapp.com/profile",
-        success: "https://main.d3230oyu2t880h.amplifyapp.com/profile",
+        failure: `${MERCADOPAGO_URL}/bag`,
+        pending: `${MERCADOPAGO_URL}/profile`,
+        success: `${MERCADOPAGO_URL}/profile`,
       },
       payer: {
         email: email,

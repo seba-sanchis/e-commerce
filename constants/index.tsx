@@ -13,6 +13,14 @@ export const cards = [
   },
 ];
 
+export const env = {
+  MERCADOPAGO_TOKEN: process.env.MERCADOPAGO_TOKEN,
+  MERCADOPAGO_URL: process.env.MERCADOPAGO_URL,
+  MONGODB_URI: process.env.MONGODB_URI,
+  NEXTAUTH_SECRET: process.env.NEXTAUTH_SECRET,
+  NEXTAUTH_URL: process.env.NEXTAUTH_URL,
+};
+
 export const features = [
   {
     name: "Accesorios de Instalación",

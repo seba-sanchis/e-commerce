@@ -1,4 +1,7 @@
 import mongoose from "mongoose";
+import { env } from "@/constants";
+
+const { MONGODB_URI } = env;
 
 let isConnected = false; // track the connection
 
@@ -11,7 +14,7 @@ export const connectToDB = async () => {
   }
 
   try {
-    await mongoose.connect(`${process.env.MONGODB_URI}`, {
+    await mongoose.connect(`${MONGODB_URI}`, {
       dbName: "e-commerce",
     });
 
