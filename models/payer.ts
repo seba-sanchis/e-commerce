@@ -1,14 +1,8 @@
 import { Schema, model, models } from "mongoose";
 
 const PayerSchema = new Schema({
-  firstName: {
-    type: String,
-    required: true,
-  },
-  lastName: {
-    type: String,
-    required: true,
-  },
+  firstName: String,
+  lastName: String,
   email: {
     type: String,
     required: true,

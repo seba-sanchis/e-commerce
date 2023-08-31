@@ -5,10 +5,7 @@ const PickSchema = new Schema({
     type: String,
     required: true,
   },
-  description: {
-    type: String,
-    required: true,
-  },
+  description: String, // Optional description field
   sku: {
     type: String,
     required: true,

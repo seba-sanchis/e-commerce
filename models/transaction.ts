@@ -1,10 +1,7 @@
 import { Schema, model, models } from "mongoose";
 
 const TransactionSchema = new Schema({
-  bank: {
-    type: String,
-    required: true,
-  },
+  bank: String,
   installment: {
     type: Number,
     required: true,

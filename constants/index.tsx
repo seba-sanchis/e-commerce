@@ -289,3 +289,48 @@ export const region = [
 //     },
 //   },
 // };
+
+// const order = {
+//   orderId: "11457633291",
+//   date: "2023-08-31T15:49:17.591-04:00",
+//   status: "approved",
+//   picked: [
+//     {
+//       category: "bombas-autocebantes",
+//       description: null,
+//       sku: "106101",
+//       thumbnail:
+//         "https://http2.mlstatic.com/D_NQ_NP_806484-MLA71366463512_082023-F.jpg",
+//       quantity: "2",
+//       name: "Bomba BAS para piscina",
+//       price: "50",
+//     },
+//     {
+//       category: "bombas-autocebantes",
+//       description: null,
+//       sku: "106009",
+//       thumbnail:
+//         "https://http2.mlstatic.com/D_NQ_NP_701609-MLA71353725868_082023-F.jpg",
+//       quantity: "2",
+//       name: "Bomba BAE para piscina",
+//       price: "50",
+//     },
+//   ],
+//   payment: { company: "visa", type: "credit_card" },
+//   installments: 1,
+//   transaction: {
+//     bank: null,
+//     installment: 200,
+//     paid: 200,
+//     received: 191.8,
+//     overpaid: 0,
+//   },
+//   payer: {
+//     firstName: null,
+//     lastName: null,
+//     email: "test_user_80507629@testuser.com",
+//     identification: "32659430",
+//     phone: { areaCode: null, number: null, extension: null },
+//   },
+//   reference: "64efc78ad432ca9884d0cd3c",
+// };
