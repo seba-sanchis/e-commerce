@@ -51,7 +51,7 @@ export const POST = async (request: NextRequest) => {
         reference: body.external_reference,
       };
 
-      console.log("/api/payment order:", order);
+      // console.log("/api/payment order:", order);
 
       await newOrder(order);
     }

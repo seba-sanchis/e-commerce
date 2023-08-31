@@ -227,14 +227,14 @@ export async function newCheckOut(
 export async function newOrder(order: Orders) {
   try {
     await connectToDB();
-
+    console.log("params:", order)
     // Find the existing client by ID
     const currentSession = await User.findById(order.reference);
 
     const newOrder = new Order(order);
     console.log("newOrder:", newOrder);
     await newOrder.save();
-
+    console.log("currentSession1:", currentSession)
     currentSession.purchases.push(newOrder);
 
     const itemsToRemove = currentSession.bag.map((item: Items) => item._id);
@@ -243,7 +243,7 @@ export async function newOrder(order: Orders) {
     await Item.deleteMany({ _id: { $in: itemsToRemove } });
 
     currentSession.bag = [];
-    console.log("currentSession:", currentSession);
+    console.log("currentSession2:", currentSession);
     await currentSession.save();
   } catch (error: any) {
     throw new Error(`Failed to create a new order: ${error.message}`);
