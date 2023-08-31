@@ -1,3 +1,4 @@
+import { PreferenceItem } from "mercadopago/models/preferences/create-payload.model";
 import type { ObjectId } from "mongodb";
 import type { Session } from "next-auth";
 
@@ -30,12 +31,12 @@ export interface Order {
   orderId: string;
   date: string;
   status: string;
-  installments: number;
-  reference: string;
-  items: Item[];
+  picked: Pick[];
   payment: Payment;
   payer: Payer;
   transaction: Transaction;
+  installments: number;
+  reference: string;
 }
 
 export interface Payment {
@@ -53,9 +54,20 @@ export interface Payer {
   phone: Phone;
 }
 
+export interface Pick {
+  _id?: ObjectId;
+  category: string;
+  description: string;
+  sku: string;
+  thumbnail: string;
+  quantity: number;
+  name: string;
+  price: number;
+}
+
 export interface Transaction {
   _id?: ObjectId;
-  bank: number;
+  bank: string;
   installment: number;
   paid: number;
   received: number;
@@ -64,7 +76,7 @@ export interface Transaction {
 
 export interface Phone {
   _id?: ObjectId;
-  area_code: string;
+  areaCode: string;
   number: string;
   extension?: string | undefined;
 }

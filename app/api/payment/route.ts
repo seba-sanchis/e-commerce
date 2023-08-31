@@ -13,7 +13,17 @@ export const POST = async (request: NextRequest) => {
         orderId: body.order.id,
         date: body.date_approved,
         status: body.status,
-        items: body.additional_info.items,
+        picked: [
+          {
+            category: body.additional_info.items.category_id,
+            description: body.additional_info.items.description,
+            sku: body.additional_info.items.id,
+            thumbnail: body.additional_info.items.picture_url,
+            quantity: body.additional_info.items.quantity,
+            name: body.additional_info.items.title,
+            price: body.additional_info.items.unit_price,
+          },
+        ],
         payment: {
           company: body.payment_method.id,
           type: body.payment_method.type,
@@ -31,13 +41,18 @@ export const POST = async (request: NextRequest) => {
           lastName: body.payer.last_name,
           email: body.payer.email,
           identification: body.payer.identification.number,
-          phone: body.payer.phone,
+          phone: {
+            areaCode: body.payer.phone.area_code,
+            number: body.payer.phone.number,
+            extension: body.payer.phone.extension,
+          },
         },
         reference: body.external_reference,
       };
-      
+
       console.log("/api/payment order:", order);
-      // await newOrder(order);
+
+      await newOrder(order);
     }
 
     return NextResponse.json({ status: 201 });

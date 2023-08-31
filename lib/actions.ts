@@ -237,6 +237,11 @@ export async function newOrder(order: Orders) {
 
     currentSession.purchases = [...currentSession.purchases, newOrder];
 
+    const itemsToRemove = currentSession.bag.map((item: Items) => item._id);
+
+    // Delete items from the 'Item' collection
+    await Item.deleteMany({ _id: { $in: itemsToRemove } });
+
     currentSession.bag = [];
 
     await currentSession.save();
