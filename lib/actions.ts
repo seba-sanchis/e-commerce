@@ -232,18 +232,18 @@ export async function newOrder(order: Orders) {
     const currentSession = await User.findById(order.reference);
 
     const newOrder = new Order(order);
-
+    console.log("newOrder:", newOrder);
     await newOrder.save();
 
-    currentSession.purchases = [...currentSession.purchases, newOrder];
+    currentSession.purchases.push(newOrder);
 
     const itemsToRemove = currentSession.bag.map((item: Items) => item._id);
-
+    console.log("itemsToRemove:", itemsToRemove);
     // Delete items from the 'Item' collection
     await Item.deleteMany({ _id: { $in: itemsToRemove } });
 
     currentSession.bag = [];
-
+    console.log("currentSession:", currentSession);
     await currentSession.save();
   } catch (error: any) {
     throw new Error(`Failed to create a new order: ${error.message}`);
@@ -265,3 +265,30 @@ export async function newOrder(order: Orders) {
 
 //   return currentSession;
 // }
+
+// const session = await mongoose.startSession();
+// session.startTransaction();
+
+// await connectToDB();
+
+// // Find the existing client by ID
+// const currentSession = await User.findById(order.reference).session(
+//   session
+// );
+
+// const newOrder = new Order(order);
+
+// await newOrder.save({ session });
+
+// currentSession.purchases.push(newOrder);
+
+// const itemsToRemove = currentSession.bag.map((item: Items) => item._id);
+
+// // Delete items from the 'Item' collection
+// await Item.deleteMany({ _id: { $in: itemsToRemove } }, { session });
+
+// currentSession.bag = [];
+
+// await currentSession.save({ session });
+
+// await session.commitTransaction();
