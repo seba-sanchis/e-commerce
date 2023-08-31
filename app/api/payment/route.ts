@@ -15,7 +15,7 @@ export const POST = async (request: NextRequest) => {
         status: body.status,
         items: body.additional_info.items,
         payment: {
-          id: body.payment_method.id,
+          company: body.payment_method.id,
           type: body.payment_method.type,
         },
         installments: body.installments,
@@ -27,7 +27,6 @@ export const POST = async (request: NextRequest) => {
           overpaid: body.transaction_details.overpaid_amount,
         },
         payer: {
-          id: body.payer.id,
           firstName: body.payer.first_name,
           lastName: body.payer.last_name,
           email: body.payer.email,
@@ -36,8 +35,8 @@ export const POST = async (request: NextRequest) => {
         },
         reference: body.external_reference,
       };
-
-      await newOrder(order);
+      console.log("/api/payment order:", order);
+      // await newOrder(order);
     }
 
     return NextResponse.json({ status: 201 });

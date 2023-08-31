@@ -10,5 +10,10 @@ export default async function Page() {
 
   if (!session?.user) redirect("/");
 
-  return <SignOutButton />;
+  return (
+    <div>
+      <div></div>
+      <SignOutButton />
+    </div>
+  );
 }

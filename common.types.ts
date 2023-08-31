@@ -30,32 +30,43 @@ export interface Order {
   orderId: string;
   date: string;
   status: string;
-  items: Item[];
-  payment: {
-    id: string;
-    type: string;
-  };
   installments: number;
-  transaction: {
-    bank: number;
-    installment: number;
-    paid: number;
-    received: number;
-    overpaid: number;
-  };
-  payer: {
-    id: string;
-    firstName: string;
-    lastName: string;
-    email: string;
-    identification: string;
-    phone: {
-      area_code: string;
-      number: string;
-      extension?: string | undefined;
-    };
-  };
   reference: string;
+  items: Item[];
+  payment: Payment;
+  payer: Payer;
+  transaction: Transaction;
+}
+
+export interface Payment {
+  _id?: ObjectId;
+  company: string;
+  type: string;
+}
+
+export interface Payer {
+  _id?: ObjectId;
+  firstName: string;
+  lastName: string;
+  email: string;
+  identification: string;
+  phone: Phone;
+}
+
+export interface Transaction {
+  _id?: ObjectId;
+  bank: number;
+  installment: number;
+  paid: number;
+  received: number;
+  overpaid: number;
+}
+
+export interface Phone {
+  _id?: ObjectId;
+  area_code: string;
+  number: string;
+  extension?: string | undefined;
 }
 
 export interface Product {

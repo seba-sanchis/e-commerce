@@ -242,3 +242,19 @@ export async function newOrder(order: Orders) {
     throw new Error(`Failed to create a new order: ${error.message}`);
   }
 }
+
+// //Get orders
+// export async function getOrders(params: string) {
+//   await connectToDB();
+
+//   // Find the existing client by ID
+//   const currentSession = await User.findById(params).populate({
+//     path: "purchases",
+//     populate: {
+//       path: "product", // Populate the product field within bag
+//       model: Product,
+//     },
+//   });
+
+//   return currentSession;
+// }
