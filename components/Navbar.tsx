@@ -41,7 +41,7 @@ export default async function Navbar() {
             {session && (
               <div className="absolute flex justify-end items-end w-8 h-8">
                 <span className="flex justify-center items-center w-3.5 h-3.5 rounded-full text-[10px] text-white bg-black">
-                  {session.user?.cart?.length}
+                  {session.user?.bag?.length}
                 </span>
               </div>
             )}

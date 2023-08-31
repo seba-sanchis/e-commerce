@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 
-import { checkOut } from "@/lib/actions";
+import { newCheckOut } from "@/lib/actions";
 import { useRouter } from "next/navigation";
 import { Item, Sessions } from "@/common.types";
 import { Currency } from "mercadopago/shared/currency";
@@ -34,8 +34,9 @@ export default function CheckOut({
 
   const handleCheckOut = async () => {
     if (session.user) {
-      const response = await checkOut(
+      const response = await newCheckOut(
         order,
+        session.user.id as string,
         session.user.email as string,
         session.user.dni as number
       );

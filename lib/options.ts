@@ -62,7 +62,7 @@ export const authOptions: NextAuthOptions = {
 
         session.user.id = sessionUser._id.toString();
         session.user.dni = sessionUser.dni;
-        session.user.cart = sessionUser.cart;
+        session.user.bag = sessionUser.bag;
       }
 
       return session;

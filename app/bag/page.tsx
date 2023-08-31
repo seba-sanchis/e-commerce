@@ -16,7 +16,6 @@ export default async function Page() {
   const response = await getItems(session.user?.id as string);
 
   const data = await JSON.parse(JSON.stringify(response));
-  // console.log(data.cart)
 
   return (
     <div className="flex justify-center w-full grow">
@@ -35,7 +34,7 @@ export default async function Page() {
         </div>
 
         <ol className="mt-16">
-          {data.cart.map((item: Item) => (
+          {data.bag.map((item: Item) => (
             <li className="flex pb-16 mb-16 border-b border-secondary-gray">
               <div className="flex h-full justify-center flex-1 max-w-[25%]">
                 <Link
@@ -93,7 +92,7 @@ export default async function Page() {
           <div className="flex justify-between mb-2">
             <div>Subtotal</div>
             <div>
-              {data.cart
+              {data.bag
                 ?.reduce(
                   (sum: number, item: Item) =>
                     sum + item.product?.price * item.quantity,
@@ -112,7 +111,7 @@ export default async function Page() {
           <div className="flex justify-between mt-4 pt-4 text-2xl font-semibold border-t border-secondary-gray">
             <div>Total</div>
             <div>
-              {response.cart
+              {response.bag
                 ?.reduce(
                   (sum: number, item: Item) =>
                     sum + item.product?.price * item.quantity,
@@ -125,7 +124,7 @@ export default async function Page() {
             </div>
           </div>
         </div>
-        <CheckOut bag={data.cart} session={sessionData} />
+        <CheckOut bag={data.bag} session={sessionData} />
       </div>
     </div>
   );

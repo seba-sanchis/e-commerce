@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import mercadopago from "mercadopago";
+import { newOrder } from "@/lib/actions";
 
 export const POST = async (request: NextRequest) => {
   const { data, type } = await request.json();
@@ -7,35 +8,36 @@ export const POST = async (request: NextRequest) => {
   try {
     if (type === "payment") {
       const { body } = await mercadopago.payment.findById(data.id);
-      console.log("/api/payment:", body);
-      // console.log("/api/payment:", {
-      //   orderId: body.order.id, // "11427418621"
-      //   date: body.date_approved, // "2023-08-30T10:19:34.892-04:00"
-      //   status: body.status, // "approved"
-      //   items: body.additional_info.items, // [Array]
-      //   payment: {
-      //     id: body.payment_method.id, // "visa"
-      //     type: body.payment_method.type, // "credit_card"
-      //   },
-      //   installments: body.installments, // 1
-      //   transaction: {
-      //     bank: body.transaction_details.financial_institution, // 50
-      //     installment: body.transaction_details.installment_amount, // 50
-      //     paid: body.transaction_details.total_paid_amount, // 50
-      //     received: body.transaction_details.net_received_amount, // 47.95
-      //     overpaid: body.transaction_details.overpaid_amount, // 0
-      //   },
-      //   payer: {
-      //     id: body.payer.id, // "192180541"
-      //     firstName: body.payer.first_name, // null
-      //     lastName: body.payer.last_name, // null
-      //     email: body.payer.email, // "test_user_80507629@testuser.com"
-      //     identification: body.payer.identification, // [Object]
-      //     phone: body.payer.phone, // [Object]
-      //     type: body.payer.type, // null
-      //     entity_type: body.payer.entity_type, // null
-      //   },
-      // });
+
+      const order = {
+        orderId: body.order.id,
+        date: body.date_approved,
+        status: body.status,
+        items: body.additional_info.items,
+        payment: {
+          id: body.payment_method.id,
+          type: body.payment_method.type,
+        },
+        installments: body.installments,
+        transaction: {
+          bank: body.transaction_details.financial_institution,
+          installment: body.transaction_details.installment_amount,
+          paid: body.transaction_details.total_paid_amount,
+          received: body.transaction_details.net_received_amount,
+          overpaid: body.transaction_details.overpaid_amount,
+        },
+        payer: {
+          id: body.payer.id,
+          firstName: body.payer.first_name,
+          lastName: body.payer.last_name,
+          email: body.payer.email,
+          identification: body.payer.identification.number,
+          phone: body.payer.phone,
+        },
+        reference: body.external_reference,
+      };
+
+      await newOrder(order);
     }
 
     return NextResponse.json({ status: 201 });

@@ -6,12 +6,18 @@ import mercadopago from "mercadopago";
 
 import { connectToDB } from "./database";
 import { authOptions } from "./options";
-import { Item as Items, Sessions, UserProfile } from "@/common.types";
+import {
+  Item as Items,
+  Order as Orders,
+  Sessions,
+  UserProfile,
+} from "@/common.types";
 import Item from "@/models/item";
 import Product from "@/models/product";
 import User from "@/models/user";
 import { ObjectId } from "mongodb";
 import { PreferenceItem } from "mercadopago/models/preferences/create-payload.model";
+import Order from "@/models/order";
 
 // Create a new user
 export async function newUser(params: UserProfile) {
@@ -82,54 +88,54 @@ export async function getProductsByName(params: string) {
   return data;
 }
 
-// Add products to cart
-export async function addToCart(params: Items) {
+// Add products to bag
+export async function addToBag(params: Items) {
   const session = (await getServerSession(authOptions)) as Sessions;
 
   await connectToDB();
 
   // Find the existing client by ID
   const currentSession = await User.findById(session.user?.id).populate({
-    path: "cart",
+    path: "bag",
     populate: {
-      path: "product", // Populate the product field within cart
+      path: "product", // Populate the product field within bag
       model: Product,
     },
   });
 
-  const alreadyInCart = currentSession.cart.find(
-    (cartItem: Items) =>
-      cartItem.product._id?.toString() === params.product.toString()
+  const alreadyInBag = currentSession.bag.find(
+    (bagItem: Items) =>
+      bagItem.product._id?.toString() === params.product.toString()
   );
 
-  if (alreadyInCart) {
-    // Product already in cart, update the quantity
-    alreadyInCart.quantity += params.quantity;
+  if (alreadyInBag) {
+    // Product already in bag, update the quantity
+    alreadyInBag.quantity += params.quantity;
 
-    await Item.findByIdAndUpdate(alreadyInCart._id, {
-      quantity: alreadyInCart.quantity,
+    await Item.findByIdAndUpdate(alreadyInBag._id, {
+      quantity: alreadyInBag.quantity,
     });
   } else {
-    // Product not in cart, add as a new item
+    // Product not in bag, add as a new item
     const newItem = new Item(params);
 
     await newItem.save();
 
-    currentSession.cart = [...currentSession.cart, newItem];
+    currentSession.bag = [...currentSession.bag, newItem];
 
     await currentSession.save();
   }
 }
 
-//Get cart items
+//Get bag items
 export async function getItems(params: string) {
   await connectToDB();
 
   // Find the existing client by ID
   const currentSession = await User.findById(params).populate({
-    path: "cart",
+    path: "bag",
     populate: {
-      path: "product", // Populate the product field within cart
+      path: "product", // Populate the product field within bag
       model: Product,
       // select: "_id name parentId image", // Select only _id and username fields of the author
     },
@@ -138,7 +144,7 @@ export async function getItems(params: string) {
   return currentSession;
 }
 
-//Update cart item
+//Update bag item
 export async function updateItem(itemId: ObjectId, quantity: number) {
   try {
     await connectToDB();
@@ -147,12 +153,12 @@ export async function updateItem(itemId: ObjectId, quantity: number) {
     await Item.findByIdAndUpdate(itemId, { quantity });
   } catch (error: any) {
     throw new Error(
-      `Failed to delete item and update user's cart: ${error.message}`
+      `Failed to delete item and update user's bag: ${error.message}`
     );
   }
 }
 
-//Remove cart item
+//Remove bag item
 export async function removeItem(itemId: ObjectId, userId: string) {
   try {
     await connectToDB();
@@ -171,19 +177,20 @@ export async function removeItem(itemId: ObjectId, userId: string) {
       throw new Error("User not found");
     }
 
-    // Update the user's cart by removing the deleted item
-    user.cart.pull(deletedItem._id); // Use Mongoose's pull method to remove the item from the cart array
+    // Update the user's bag by removing the deleted item
+    user.bag.pull(deletedItem._id); // Use Mongoose's pull method to remove the item from the bag array
     await user.save();
   } catch (error: any) {
     throw new Error(
-      `Failed to delete item and update user's cart: ${error.message}`
+      `Failed to delete item and update user's bag: ${error.message}`
     );
   }
 }
 
 // Payment gateway integration
-export async function checkOut(
+export async function newCheckOut(
   params: PreferenceItem[],
+  id: string,
   email: string,
   dni: number
 ) {
@@ -206,13 +213,32 @@ export async function checkOut(
         email: email,
         identification: { type: "DNI", number: `${dni}` },
       },
-      external_reference: "abc123",
+      external_reference: id,
     });
-
-    console.log("/actions checkout:", response);
 
     return response.body;
   } catch (error: any) {
     throw new Error(`Failed to checkout: ${error.message}`);
+  }
+}
+
+export async function newOrder(order: Orders) {
+  try {
+    await connectToDB();
+
+    // Find the existing client by ID
+    const currentSession = await User.findById(order.reference);
+
+    const newOrder = new Order(order);
+
+    await newOrder.save();
+
+    currentSession.purchases = [...currentSession.purchases, newOrder];
+
+    currentSession.bag = [];
+
+    await currentSession.save();
+  } catch (error: any) {
+    throw new Error(`Failed to create a new order: ${error.message}`);
   }
 }

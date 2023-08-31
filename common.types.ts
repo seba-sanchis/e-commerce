@@ -15,7 +15,7 @@ export interface UserProfile {
   password: string;
   areaCode: number;
   phone: number;
-  cart?: Item[];
+  bag?: Item[];
   purchases?: Order[];
 }
 
@@ -26,8 +26,36 @@ export interface Item {
 }
 
 export interface Order {
-  user: UserProfile;
-  date: Date;
+  _id?: ObjectId;
+  orderId: string;
+  date: string;
+  status: string;
+  items: Item[];
+  payment: {
+    id: string;
+    type: string;
+  };
+  installments: number;
+  transaction: {
+    bank: number;
+    installment: number;
+    paid: number;
+    received: number;
+    overpaid: number;
+  };
+  payer: {
+    id: string;
+    firstName: string;
+    lastName: string;
+    email: string;
+    identification: string;
+    phone: {
+      area_code: string;
+      number: string;
+      extension?: string | undefined;
+    };
+  };
+  reference: string;
 }
 
 export interface Product {
@@ -51,6 +79,6 @@ export interface Sessions extends Session {
     email?: string | null;
     image?: string | null;
     dni?: number | null;
-    cart?: Item[] | null;
+    bag?: Item[] | null;
   };
 }

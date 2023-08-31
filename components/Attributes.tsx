@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 
-import { addToCart } from "@/lib/actions";
+import { addToBag } from "@/lib/actions";
 import { Item, Product, Sessions } from "@/common.types";
 
 const firstAttribute = [
@@ -55,7 +55,7 @@ export default function Attributes({
     e.preventDefault();
 
     if (session) {
-      addToCart(item);
+      addToBag(item);
 
       router.refresh();
     } else {

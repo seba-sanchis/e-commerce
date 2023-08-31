@@ -59,7 +59,7 @@ const UserSchema = new Schema({
     type: Number,
     required: [true, "Phone is required!"],
   },
-  cart: [
+  bag: [
     {
       type: Schema.Types.ObjectId,
       ref: "Item",
