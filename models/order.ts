@@ -16,7 +16,7 @@ const OrderSchema = new Schema({
   picked: [
     {
       type: Schema.Types.ObjectId,
-      ref: "Pick",
+      ref: "Picked",
     },
   ],
   payment: {

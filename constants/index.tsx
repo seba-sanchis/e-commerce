@@ -291,8 +291,8 @@ export const region = [
 // };
 
 // const order = {
-//   orderId: "11457633291",
-//   date: "2023-08-31T15:49:17.591-04:00",
+//   orderId: "11460640037",
+//   date: "2023-08-31T17:26:43.989-04:00",
 //   status: "approved",
 //   picked: [
 //     {
@@ -301,7 +301,7 @@ export const region = [
 //       sku: "106101",
 //       thumbnail:
 //         "https://http2.mlstatic.com/D_NQ_NP_806484-MLA71366463512_082023-F.jpg",
-//       quantity: "2",
+//       quantity: "1",
 //       name: "Bomba BAS para piscina",
 //       price: "50",
 //     },
@@ -320,9 +320,9 @@ export const region = [
 //   installments: 1,
 //   transaction: {
 //     bank: null,
-//     installment: 200,
-//     paid: 200,
-//     received: 191.8,
+//     installment: 150,
+//     paid: 150,
+//     received: 143.85,
 //     overpaid: 0,
 //   },
 //   payer: {

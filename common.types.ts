@@ -31,10 +31,10 @@ export interface Order {
   orderId: string;
   date: string;
   status: string;
-  picked: Pick[];
-  payment: Payment;
-  payer: Payer;
-  transaction: Transaction;
+  picked?: Picked[];
+  payment?: Payment;
+  payer?: Payer;
+  transaction?: Transaction;
   installments: number;
   reference: string;
 }
@@ -51,10 +51,17 @@ export interface Payer {
   lastName: string;
   email: string;
   identification: string;
-  phone: Phone;
+  phone?: Phone;
 }
 
-export interface Pick {
+export interface Phone {
+  _id?: ObjectId;
+  areaCode: string;
+  number: string;
+  extension?: string | undefined;
+}
+
+export interface Picked {
   _id?: ObjectId;
   category: string;
   description: string;
@@ -72,13 +79,6 @@ export interface Transaction {
   paid: number;
   received: number;
   overpaid: number;
-}
-
-export interface Phone {
-  _id?: ObjectId;
-  areaCode: string;
-  number: string;
-  extension?: string | undefined;
 }
 
 export interface Product {

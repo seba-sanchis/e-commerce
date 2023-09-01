@@ -11,7 +11,12 @@ import { authOptions } from "./options";
 import {
   Item as Items,
   Order as Orders,
+  Payer as Payers,
+  Payment as Payments,
+  Phone as Phones,
+  Picked as Pickeds,
   Sessions,
+  Transaction as Transactions,
   UserProfile,
 } from "@/common.types";
 import Item from "@/models/item";
@@ -19,6 +24,11 @@ import Product from "@/models/product";
 import User from "@/models/user";
 import Order from "@/models/order";
 import { env } from "@/constants";
+import Payer from "@/models/payer";
+import Payment from "@/models/payment";
+import Picked from "@/models/picked";
+import Transaction from "@/models/transaction";
+import Phone from "@/models/phone";
 
 const { MERCADOPAGO_TOKEN, MERCADOPAGO_URL } = env;
 
@@ -224,26 +234,56 @@ export async function newCheckOut(
   }
 }
 
-export async function newOrder(order: Orders) {
+export async function newOrder(
+  order: Orders,
+  payer: Payers,
+  payment: Payments,
+  phone: Phones,
+  picked: Pickeds[],
+  transaction: Transactions
+) {
   try {
     await connectToDB();
-    console.log("params:", order)
+
+    // Create payer, payment, picked, and transaction subdocuments
+    const newPayer = new Payer({
+      ...payer,
+      phone: phone ? new Phone(payer.phone) : undefined,
+    });
+    await newPayer.save();
+
+    const newPayment = new Payment(payment);
+    await newPayment.save();
+
+    const newPicked = await Picked.create(picked);
+
+    const newTransaction = new Transaction(transaction);
+    await newTransaction.save();
+
+    // Create and save the new order with associated subdocuments
+    const newOrder = new Order({
+      ...order,
+      payer: newPayer._id,
+      payment: newPayment._id,
+      picked: newPicked.map((item: Pickeds) => item._id),
+      transaction: newTransaction._id,
+    });
+    await newOrder.save();
+
     // Find the existing client by ID
     const currentSession = await User.findById(order.reference);
 
-    const newOrder = new Order(order);
-    console.log("newOrder:", newOrder);
-    await newOrder.save();
-    console.log("currentSession1:", currentSession)
+    // Update user's purchases
     currentSession.purchases.push(newOrder);
 
-    const itemsToRemove = currentSession.bag.map((item: Items) => item._id);
-    console.log("itemsToRemove:", itemsToRemove);
     // Delete items from the 'Item' collection
+    const itemsToRemove = currentSession.bag.map((item: Items) => item._id);
     await Item.deleteMany({ _id: { $in: itemsToRemove } });
 
+    // Clear user's bag
     currentSession.bag = [];
-    console.log("currentSession2:", currentSession);
+
+    // Save user session
     await currentSession.save();
   } catch (error: any) {
     throw new Error(`Failed to create a new order: ${error.message}`);

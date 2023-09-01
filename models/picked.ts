@@ -1,6 +1,6 @@
 import { Schema, model, models } from "mongoose";
 
-const PickSchema = new Schema({
+const PickedSchema = new Schema({
   category: {
     type: String,
     required: true,
@@ -28,6 +28,6 @@ const PickSchema = new Schema({
   },
 });
 
-const Pick = models.Pick || model("Pick", PickSchema);
+const Picked = models.Picked || model("Picked", PickedSchema);
 
-export default Pick;
+export default Picked;
