@@ -29,6 +29,7 @@ import Payment from "@/models/payment";
 import Picked from "@/models/picked";
 import Transaction from "@/models/transaction";
 import Phone from "@/models/phone";
+import { startSession } from "mongoose";
 
 const { MERCADOPAGO_TOKEN, MERCADOPAGO_URL } = env;
 
@@ -242,6 +243,9 @@ export async function newOrder(
   picked: Pickeds[],
   transaction: Transactions
 ) {
+  const session = await startSession();
+  session.startTransaction();
+
   try {
     await connectToDB();
 
@@ -285,50 +289,37 @@ export async function newOrder(
 
     // Save user session
     await currentSession.save();
+
+    await session.commitTransaction();
   } catch (error: any) {
+    await session.abortTransaction();
     throw new Error(`Failed to create a new order: ${error.message}`);
+  } finally {
+    session.endSession();
   }
 }
 
-// //Get orders
-// export async function getOrders(params: string) {
-//   await connectToDB();
+//Get orders
+export async function getOrders(params: string) {
+  try {
+    await connectToDB();
 
-//   // Find the existing client by ID
-//   const currentSession = await User.findById(params).populate({
-//     path: "purchases",
-//     populate: {
-//       path: "product", // Populate the product field within bag
-//       model: Product,
-//     },
-//   });
+    // Find the user based on the provided userId
+    const currentSession = await User.findById(params);
 
-//   return currentSession;
-// }
+    if (!currentSession) {
+      throw new Error(`User not found with id: ${params}`);
+    }
 
-// const session = await mongoose.startSession();
-// session.startTransaction();
+    // Fetch orders associated with the user
+    const orders = await Order.find({ reference: params })
+      .populate("payer") // Populate the payer subdocument
+      .populate("payment") // Populate the payment subdocument
+      .populate("picked") // Populate the picked subdocuments
+      .populate("transaction"); // Populate the transaction subdocument
 
-// await connectToDB();
-
-// // Find the existing client by ID
-// const currentSession = await User.findById(order.reference).session(
-//   session
-// );
-
-// const newOrder = new Order(order);
-
-// await newOrder.save({ session });
-
-// currentSession.purchases.push(newOrder);
-
-// const itemsToRemove = currentSession.bag.map((item: Items) => item._id);
-
-// // Delete items from the 'Item' collection
-// await Item.deleteMany({ _id: { $in: itemsToRemove } }, { session });
-
-// currentSession.bag = [];
-
-// await currentSession.save({ session });
-
-// await session.commitTransaction();
+    return orders;
+  } catch (error: any) {
+    throw new Error(`Failed to fetch orders: ${error.message}`);
+  }
+}
