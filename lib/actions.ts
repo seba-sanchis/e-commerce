@@ -393,16 +393,10 @@ export async function newOrder(
     currentSession.purchases.push(newOrder);
 
     // Update the sold count for each product in the picked array
-    console.log("newPicked", newPicked);
-
     for (const pickedItem of newPicked) {
-      const product = await Product.findById(pickedItem._id); // Identify the product
-      console.log("pickedItem", pickedItem);
-      console.log("product before", product);
-
+      const product = await Product.findOne({ sku: pickedItem.sku }); // Using 'sku' as a unique identifier for products
       if (product) {
         product.sold += pickedItem.quantity;
-        console.log("product after", product);
         await product.save();
       }
     }
