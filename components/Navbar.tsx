@@ -8,8 +8,6 @@ import { Menu, Searchbar } from ".";
 export default async function Navbar() {
   const session = (await getServerSession(authOptions)) as Sessions;
 
-  // console.log("session:", session);
-
   return (
     <header className="w-full h-14 px-6 z-10 bg-[rgba(251,251,253,.8)]">
       <nav className="flex items-center justify-between w-full max-w-[980px] h-full mx-auto">

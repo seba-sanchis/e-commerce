@@ -126,7 +126,7 @@ export async function updateUser(params: UserProfile) {
     }
     existingUser.areaCode = areaCode;
     existingUser.phone = phone;
-    // console.log("existingUser:", existingUser)
+
     await existingUser.save();
   } catch (error: any) {
     throw new Error(`Failed to update user: ${error.message}`);
@@ -437,7 +437,8 @@ export async function getOrders(params: string) {
       .populate("payer") // Populate the payer subdocument
       .populate("payment") // Populate the payment subdocument
       .populate("picked") // Populate the picked subdocuments
-      .populate("transaction"); // Populate the transaction subdocument
+      .populate("transaction") // Populate the transaction subdocument
+      .sort({ date: -1 }); // Sort by date
 
     return orders;
   } catch (error: any) {
