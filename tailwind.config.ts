@@ -20,6 +20,7 @@ const config: Config = {
         "primary-white": "#fbfbfd",
         "primary-red": "#de071c",
         "secondary-red": "#fef0f0",
+        "tertiary-red": "#bf4800",
       },
     },
   },

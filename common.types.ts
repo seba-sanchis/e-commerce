@@ -1,4 +1,3 @@
-import { PreferenceItem } from "mercadopago/models/preferences/create-payload.model";
 import type { ObjectId } from "mongodb";
 import type { Session } from "next-auth";
 
@@ -17,6 +16,7 @@ export interface UserProfile {
   areaCode: number;
   phone: number;
   bag?: Item[];
+  favorite?: Product[],
   purchases?: Order[];
 }
 

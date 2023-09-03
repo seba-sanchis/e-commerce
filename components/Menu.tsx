@@ -13,7 +13,7 @@ export default function Menu() {
     <div className="flex items-center gap-5">
       <Link
         href="/"
-        className="navbar_link z-50"
+        className="navbar_link z-30"
         onClick={() => setToggleMenu(false)}
       >
         <Image
@@ -23,7 +23,7 @@ export default function Menu() {
           height={40}
         />
       </Link>
-      <ul className="flex gap-4 z-50">
+      <ul className="flex gap-4 z-30">
         <li>
           <button
             onClick={() => setToggleMenu((state) => !state)}
@@ -35,7 +35,7 @@ export default function Menu() {
       </ul>
 
       <div
-        className={`absolute flex flex-wrap w-full p-1.5 top-0 left-0 transition-all duration-[240ms] ease-[cubic-bezier(.4,0,.6,1)] delay-[80ms] z-30 bg-primary-white ${
+        className={`absolute flex flex-wrap w-full p-1.5 top-0 left-0 transition-all duration-[240ms] ease-[cubic-bezier(.4,0,.6,1)] delay-100 z-10 bg-primary-white ${
           toggleMenu ? "visible h-[512px]" : "h-14 invisible"
         }`}
       >
@@ -66,7 +66,7 @@ export default function Menu() {
       </div>
       <div
         onClick={() => setToggleMenu(false)}
-        className={`fixed inset-0 top-14 w-full h-screen duration-[320ms] delay-[80ms] ease-in-out bg-[rgba(232,232,237,.4)] backdrop-blur-[20px] ${
+        className={`fixed inset-0 top-14 w-full h-screen duration-[320ms] delay-100 ease-in-out bg-[rgba(232,232,237,.4)] backdrop-blur-[20px] ${
           toggleMenu ? "visible opacity-100" : "hidden opacity-0"
         }`}
       ></div>

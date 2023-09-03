@@ -65,6 +65,12 @@ const UserSchema = new Schema({
       ref: "Item",
     },
   ],
+  favorite: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: "Product",
+    },
+  ],
   purchases: [
     {
       type: Schema.Types.ObjectId,

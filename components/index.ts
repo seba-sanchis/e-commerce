@@ -12,4 +12,4 @@ export { default as PaymentData } from "./PaymentData";
 export { default as Product } from "./Product";
 export { default as Searchbar } from "./Searchbar";
 export { default as Select } from "./Select";
-export { default as SignOutButton } from "./SignOutButton";
+export { default as Sidebar } from "./Sidebar";

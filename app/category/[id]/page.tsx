@@ -11,7 +11,7 @@ export default async function Page({ params }: { params: { id: string } }) {
   );
 
   return (
-    <div className="flex justify-center w-full bg-primary-gray grow">
+    <div className="flex justify-center w-full grow">
       <div className="flex flex-col flex-grow w-full max-w-[980px] mb-8">
         <section className="flex flex-col">
           <div className="pt-[66px] pb-[74px]">

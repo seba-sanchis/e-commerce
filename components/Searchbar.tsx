@@ -1,6 +1,6 @@
 export default function Searchbar() {
   return (
-    <div className="flex items-center z-50">
+    <div className="flex items-center z-10">
       <form>
         <input
           type="text"

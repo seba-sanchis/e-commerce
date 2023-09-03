@@ -11,16 +11,16 @@ export default async function Navbar() {
   // console.log("session:", session);
 
   return (
-    <header className="w-full h-14 px-6 z-30 bg-[rgba(251,251,253,.8)]">
+    <header className="w-full h-14 px-6 z-10 bg-[rgba(251,251,253,.8)]">
       <nav className="flex items-center justify-between w-full max-w-[980px] h-full mx-auto">
         <Menu />
 
         <Searchbar />
 
-        <div className="flex justify-end items-center gap-4 z-50">
+        <div className="flex justify-end items-center gap-4 z-10">
           {session ? (
             <Link
-              href="/profile"
+              href="/profile/orders"
               className="navbar_link flex justify-center items-center px-2"
             >
               Mi perfil

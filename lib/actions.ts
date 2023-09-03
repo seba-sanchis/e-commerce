@@ -84,6 +84,54 @@ export async function newUser(params: UserProfile) {
   }
 }
 
+// Update an user
+export async function updateUser(params: UserProfile) {
+  const {
+    _id,
+    firstName,
+    lastName,
+    dni,
+    birthday,
+    region,
+    location,
+    address,
+    postcode,
+    email,
+    password,
+    areaCode,
+    phone,
+  } = params;
+
+  try {
+    await connectToDB();
+
+    // Find the existing client by ID
+    const existingUser = await User.findById(_id);
+
+    if (!existingUser) throw new Error("User not found");
+
+    // Update the product with new data
+    existingUser.firstName = firstName;
+    existingUser.lastName = lastName;
+    existingUser.dni = dni;
+    existingUser.birthday = birthday;
+    existingUser.region = region;
+    existingUser.location = location;
+    existingUser.address = address;
+    existingUser.postcode = postcode;
+    existingUser.email = email;
+    if (password) {
+      existingUser.password = password;
+    }
+    existingUser.areaCode = areaCode;
+    existingUser.phone = phone;
+    // console.log("existingUser:", existingUser)
+    await existingUser.save();
+  } catch (error: any) {
+    throw new Error(`Failed to update user: ${error.message}`);
+  }
+}
+
 // Get products by category
 export async function getProductsByCategory(params: string) {
   await connectToDB();
@@ -219,8 +267,8 @@ export async function newCheckOut(
       notification_url: `${MERCADOPAGO_URL}/api/payment`,
       back_urls: {
         failure: `${MERCADOPAGO_URL}/bag`,
-        pending: `${MERCADOPAGO_URL}/profile`,
-        success: `${MERCADOPAGO_URL}/profile`,
+        pending: `${MERCADOPAGO_URL}/profile/orders`,
+        success: `${MERCADOPAGO_URL}/profile/orders`,
       },
       payer: {
         email: email,
