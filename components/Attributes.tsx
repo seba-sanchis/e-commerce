@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 
-import { addToBag } from "@/lib/actions";
+import { addToBag, addToFavorite } from "@/lib/actions";
 import { Item, Product, Sessions } from "@/common.types";
 
 const firstAttribute = [
@@ -61,6 +61,14 @@ export default function Attributes({
     } else {
       router.push("/sign-in");
     }
+  };
+
+  const handleFavorite = () => {
+    if (session.user && session.user.id && product && product._id) {
+      addToFavorite(session.user.id, product._id);
+    }
+
+    router.refresh();
   };
 
   return (
@@ -130,7 +138,7 @@ export default function Attributes({
           ))}
         </div>
 
-        <div className="flex justify-end pt-8 gap-4">
+        <div className="flex justify-end items-center pt-8 gap-4">
           <div className="flex flex-col items-end">
             <span className="text-2xl font-semibold">
               {product &&
@@ -147,6 +155,21 @@ export default function Attributes({
           </div>
 
           <button className="button">Agregar al carrito</button>
+
+          <button
+            type="button"
+            onClick={handleFavorite}
+            className="text-tertiary-blue"
+          >
+            {session.user?.favorite?.some(
+              (favoriteProduct) =>
+                favoriteProduct.toString() === product?._id?.toString()
+            ) ? (
+              <i className="fi fi-sr-heart icon"></i>
+            ) : (
+              <i className="fi fi-rr-heart icon"></i>
+            )}
+          </button>
         </div>
       </form>
     </div>

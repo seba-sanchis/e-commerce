@@ -15,13 +15,14 @@ export default function Sidebar() {
         <li>
           <Link
             href={setting.url}
-            className={`flex w-full px-4 py-2 relative right-[-1px] ${
+            className={`flex gap-2 w-full p-4 relative right-[-1px] ${
               pathName === setting.url
                 ? "text-[#1d1d1f] cursor-default border-r border-[#1d1d1f]"
                 : "text-[#6e6e73] hover:text-[#424245]"
             }`}
           >
-            {setting.name}
+            {setting.icon}
+            <span>{setting.name}</span>
           </Link>
         </li>
       ))}
@@ -29,9 +30,10 @@ export default function Sidebar() {
         <button
           type="button"
           onClick={() => signOut()}
-          className="text-[#6e6e73] hover:text-[#424245] px-4 py-2 relative right-[-1px]"
+          className="flex items-center gap-2 p-4 relative right-[-1px] text-[#6e6e73] hover:text-[#424245]"
         >
-          Cerrar sesión
+          <i className="fi fi-rr-exit flex items-center text-xl"></i>
+          <span> Cerrar sesión</span>
         </button>
       </li>
     </ul>

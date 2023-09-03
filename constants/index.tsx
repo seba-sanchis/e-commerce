@@ -115,13 +115,16 @@ export const settings = [
   {
     name: "Compras",
     url: "/profile/orders",
+    icon: <i className="fi fi-rr-box-open-full flex items-center text-xl"></i>,
   },
   {
     name: "Favoritos",
     url: "/profile/favorites",
+    icon: <i className="fi fi-rr-heart flex items-center text-xl"></i>,
   },
   {
     name: "Configuración",
     url: "/profile/account",
+    icon: <i className="fi fi-rr-settings flex items-center text-xl"></i>,
   },
 ]

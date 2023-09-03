@@ -63,6 +63,7 @@ export const authOptions: NextAuthOptions = {
         session.user.id = sessionUser._id.toString();
         session.user.dni = sessionUser.dni;
         session.user.bag = sessionUser.bag;
+        session.user.favorite = sessionUser.favorite;
       }
 
       return session;

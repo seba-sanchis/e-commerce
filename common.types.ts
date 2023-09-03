@@ -103,5 +103,6 @@ export interface Sessions extends Session {
     image?: string | null;
     dni?: number | null;
     bag?: Item[] | null;
+    favorite?: Product[] | null;
   };
 }

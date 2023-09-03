@@ -1,5 +1,4 @@
 import { getServerSession } from "next-auth";
-import { redirect } from "next/navigation";
 
 import { authOptions } from "@/lib/options";
 import { Picked, Sessions } from "@/common.types";
@@ -8,9 +7,7 @@ import { getOrders } from "@/lib/actions";
 export default async function Page() {
   const session = (await getServerSession(authOptions)) as Sessions;
 
-  if (!session?.user) redirect("/");
-
-  const response = await getOrders(session.user.id as string);
+  const response = await getOrders(session.user?.id as string);
 
   // Function to format a date string to "dd de MMMM" format with or without the year
   function formatDate(orderDate: string) {
