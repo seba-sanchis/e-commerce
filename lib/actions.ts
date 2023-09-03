@@ -133,22 +133,43 @@ export async function updateUser(params: UserProfile) {
   }
 }
 
+// Get bestsellers products
+export async function getBestsellers() {
+  try {
+    await connectToDB();
+
+    const products = await Product.find().sort({ sold: -1 }).limit(4);
+
+    return products;
+  } catch (error: any) {
+    throw new Error(`Failed to get all products: ${error.message}`); // Handle any errors
+  }
+}
+
 // Get products by category
 export async function getProductsByCategory(params: string) {
-  await connectToDB();
+  try {
+    await connectToDB();
 
-  const data = await Product.find({ category: params });
+    const data = await Product.find({ category: params });
 
-  return data;
+    return data;
+  } catch (error: any) {
+    throw new Error(`Failed to get products by category: ${error.message}`); // Handle any errors
+  }
 }
 
 // Get products by name
 export async function getProductsByName(params: string) {
-  await connectToDB();
+  try {
+    await connectToDB();
 
-  const data = await Product.find({ name: params });
+    const data = await Product.find({ name: params });
 
-  return data;
+    return data;
+  } catch (error: any) {
+    throw new Error(`Failed to get products by name: ${error.message}`); // Handle any errors
+  }
 }
 
 // Add products to favorite
@@ -370,6 +391,15 @@ export async function newOrder(
 
     // Update user's purchases
     currentSession.purchases.push(newOrder);
+
+    // Update the sold count for each product in the picked array
+    for (const pickedItem of newPicked) {
+      const product = await Product.findById(pickedItem._id); // Identify the product
+      if (product) {
+        product.sold += pickedItem.quantity;
+        await product.save();
+      }
+    }
 
     // Delete items from the 'Item' collection
     const itemsToRemove = currentSession.bag.map((item: Items) => item._id);

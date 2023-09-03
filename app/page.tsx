@@ -1,4 +1,4 @@
-import { Banner, Categories, PaymentData } from "@/components";
+import { Banner, Bestsellers, Categories, PaymentData } from "@/components";
 
 export default function Home() {
   return (
@@ -8,6 +8,8 @@ export default function Home() {
       <PaymentData />
 
       <Categories />
+
+      <Bestsellers />
     </main>
   );
 }
