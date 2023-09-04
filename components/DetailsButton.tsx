@@ -19,8 +19,8 @@ export default function DetailsButton({ features }: { features: string[] }) {
           toggleFeatures ? "h-full" : "h-0"
         }`}
       >
-        {features?.map((feature) => (
-          <li>{feature}</li>
+        {features?.map((feature, i) => (
+          <li key={i}>{feature}</li>
         ))}
       </ul>
     </>

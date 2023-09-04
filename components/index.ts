@@ -8,7 +8,7 @@ export { default as DetailsButton } from "./DetailsButton";
 export { default as Footer } from "./Footer";
 export { default as Navbar } from "./Navbar";
 export { default as Menu } from "./Menu";
-export { default as PaymentData } from "./PaymentData";
+export { default as PaymentData } from "./PaymentInfo";
 export { default as Product } from "./Product";
 export { default as Searchbar } from "./Searchbar";
 export { default as Select } from "./Select";

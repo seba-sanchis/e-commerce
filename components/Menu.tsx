@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 
-import { features } from "@/constants";
+import { categories, features } from "@/constants";
 import Link from "next/link";
 import Image from "next/image";
 
@@ -24,14 +24,16 @@ export default function Menu() {
         />
       </Link>
       <ul className="flex gap-4 z-30">
-        <li>
-          <button
-            onClick={() => setToggleMenu((state) => !state)}
-            className="navbar_link h-10 px-2 sticky"
-          >
-            Piscinas
-          </button>
-        </li>
+        {categories.map((category) => (
+          <li key={category}>
+            <button
+              onClick={() => setToggleMenu((state) => !state)}
+              className="navbar_link h-10 px-2 sticky"
+            >
+              {category}
+            </button>
+          </li>
+        ))}
       </ul>
 
       <div

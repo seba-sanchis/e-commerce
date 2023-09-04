@@ -16,6 +16,7 @@ export default async function Page() {
       <ol className="flex flex-wrap">
         {response.map((favorite: Product, i: number) => (
           <li
+            key={favorite.sku}
             className={`flex flex-col items-center w-1/3 p-4 border-b border-secondary-gray ${
               i % 3 > 0 && "border-l"
             }`}

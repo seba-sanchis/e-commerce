@@ -35,7 +35,7 @@ export default async function Page() {
 
         <ol className="mt-16">
           {data.bag.map((item: Item) => (
-            <li className="flex pb-16 mb-16 border-b border-secondary-gray">
+            <li key={item.product.sku} className="flex pb-16 mb-16 border-b border-secondary-gray">
               <div className="flex h-full justify-center flex-1 max-w-[25%]">
                 <Link
                   href={`/product/${item.product.name.replace(/\s+/g, "-")}`}

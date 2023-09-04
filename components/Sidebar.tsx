@@ -12,7 +12,7 @@ export default function Sidebar() {
   return (
     <ul className="w-full max-w-[245px] border-r border-secondary-gray">
       {settings.map((setting) => (
-        <li>
+        <li key={setting.name}>
           <Link
             href={setting.url}
             className={`flex gap-2 w-full p-4 relative right-[-1px] ${
@@ -26,14 +26,14 @@ export default function Sidebar() {
           </Link>
         </li>
       ))}
-      <li>
+      <li key="Cerrar sesión">
         <button
           type="button"
           onClick={() => signOut()}
           className="flex items-center gap-2 p-4 relative right-[-1px] text-[#6e6e73] hover:text-[#424245]"
         >
           <i className="fi fi-rr-exit flex items-center text-xl"></i>
-          <span> Cerrar sesión</span>
+          <span>Cerrar sesión</span>
         </button>
       </li>
     </ul>

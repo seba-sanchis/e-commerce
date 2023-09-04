@@ -13,6 +13,8 @@ export const cards = [
   },
 ];
 
+export const categories = ["Piscinas"];
+
 export const env = {
   MERCADOPAGO_TOKEN: process.env.MERCADOPAGO_TOKEN,
   MERCADOPAGO_URL: process.env.MERCADOPAGO_URL,
@@ -64,22 +66,22 @@ export const features = [
   },
 ];
 
-export const paymentMethods = [
+export const payments = [
   {
-    name: "Tarjeta de crédito",
-    icon: <i className="fi fi-rr-bank icon"></i>,
+    description: "Seguridad y protección.",
+    icon: <i className="fi fi-rr-shield-check icon"></i>
   },
   {
-    name: "Tarjeta de débito",
+    description: "Medios de pago más usados.",
+    icon: <i className="fi fi-rr-wallet icon"></i>,
+  },
+  {
+    description: "Cuotas con o sin tarjeta.",
     icon: <i className="fi fi-rr-credit-card icon"></i>,
   },
   {
-    name: "Cuotas sin tarjeta",
-    icon: <i className="fi fi-rr-hand-holding-usd icon"></i>,
-  },
-  {
-    name: "Efectivo",
-    icon: <i className="fi fi-rr-money-bill-wave icon"></i>,
+    description: "Envío gratuito a todo el país.",
+    icon: <i className="fi fi-rr-box-open-full icon"></i>,
   },
 ];
 
@@ -127,4 +129,4 @@ export const settings = [
     url: "/profile/account",
     icon: <i className="fi fi-rr-settings flex items-center text-xl"></i>,
   },
-]
+];

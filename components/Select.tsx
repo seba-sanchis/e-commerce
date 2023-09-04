@@ -40,7 +40,7 @@ export default function Select({
             onChange={handleSelect}
           >
             {quantities.map((quantity) => (
-              <option value={quantity}>
+              <option key={quantity} value={quantity}>
                 {quantity < 10 ? quantity : `${quantity}+`}
               </option>
             ))}
