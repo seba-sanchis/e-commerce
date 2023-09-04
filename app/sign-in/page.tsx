@@ -58,10 +58,10 @@ export default function Page() {
         Iniciá sesión para comprar.
       </h1>
       <div className="flex flex-col items-center grow w-[480px] mt-[72px] mx-auto text-[#494949]">
-        <h2 className="text-2xl font-semibold">Ingresá a la tienda</h2>
+        <h2 className="text-2xl font-semibold mb-10">Ingresá a la tienda</h2>
         <form
           onSubmit={handleSubmit}
-          className="flex flex-col justify-center items-center w-full h-32"
+          className="flex flex-col items-center w-full h-32"
         >
           <label className="sr-only">Iniciá sesión con tu e-mail</label>
           {toggleInput ? (
@@ -71,10 +71,10 @@ export default function Page() {
               onKeyDown={handleKeyDown}
               type="email"
               placeholder="Email"
-              className={`w-full px-4 py-3 rounded-full outline-none border focus:border-2 ${
+              className={`w-full px-4 py-3 rounded-full outline-none border focus:border-2 focus:bg-[hsla(0,0%,100%,.8)] focus:border-primary-blue ${
                 error
                   ? "placeholder:text-primary-red border-primary-red bg-secondary-red"
-                  : "border-secondary-black bg-[hsla(0,0%,100%,.8)] focus:border-primary-blue"
+                  : "border-secondary-gray bg-[hsla(0,0%,100%,.8)]"
               }`}
             />
           ) : (
@@ -83,9 +83,20 @@ export default function Page() {
               onChange={(e) => setUser({ ...user, password: e.target.value })}
               type="password"
               placeholder="Contraseña"
-              className="w-full px-4 py-3 rounded-full outline-none border border-secondary-black focus:border-2 focus:border-primary-blue bg-[hsla(0,0%,100%,.8)]"
+              className={`w-full px-4 py-3 rounded-full outline-none border focus:border-2 focus:bg-[hsla(0,0%,100%,.8)] focus:border-primary-blue ${
+                error
+                  ? "placeholder:text-primary-red border-primary-red bg-secondary-red"
+                  : "border-secondary-gray bg-[hsla(0,0%,100%,.8)]"
+              }`}
             />
           )}
+          {error && (
+            <div className="flex items-center mt-2 text-xs text-primary-red">
+              <i className="fi fi-rr-exclamation flex items-center mr-1"></i>
+              <span>Ingresá un email y contraseña válidos.</span>
+            </div>
+          )}
+
           <button></button>
         </form>
         <div className="flex flex-col items-center text-sm gap-2">

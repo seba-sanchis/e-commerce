@@ -121,6 +121,7 @@ export async function updateUser(params: UserProfile) {
     existingUser.address = address;
     existingUser.postcode = postcode;
     existingUser.email = email;
+
     if (password) {
       existingUser.password = password;
     }

@@ -15,7 +15,7 @@
 }
 
 .input {
-  @apply flex items-center border border-[#d6d6d6] rounded-xl h-14 px-4 placeholder:text-[#888];
+  @apply flex items-center w-full border rounded h-14 px-4 placeholder:text-[#888];
 }
 
 .button {

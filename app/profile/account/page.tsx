@@ -1,5 +1,5 @@
 import { Sessions } from "@/common.types";
-import UpdateUser from "@/components/UpdateUser";
+import { UpdateUser } from "@/components";
 import { authOptions } from "@/lib/options";
 import User from "@/models/user";
 import { getServerSession } from "next-auth";
