@@ -45,6 +45,14 @@ export default function Page() {
     }
   };
 
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    e.preventDefault();
+
+    if (e.key === "Enter" && user.email !== "") {
+      setToggleInput(false);
+    }
+  };
+
   return (
     <div className="flex flex-col flex-1 max-w-[980px] w-full mx-auto">
       <h1 className="text-[40px] font-semibold pt-[34px]">
@@ -61,11 +69,7 @@ export default function Page() {
             <input
               value={user.email}
               onChange={(e) => setUser({ ...user, email: e.target.value })}
-              onKeyDown={(e) => {
-                e.key === "Enter" &&
-                  user.email !== "" &&
-                  (e.preventDefault(), setToggleInput(false));
-              }}
+              onKeyDown={handleKeyDown}
               type="email"
               placeholder="Email"
               className={`w-full px-4 py-3 rounded-full outline-none border focus:border-2 ${

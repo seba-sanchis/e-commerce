@@ -1,13 +1,18 @@
 import { Product } from "@/components";
 import { features } from "@/constants";
-import { getProductsByCategory } from "@/lib/actions";
+import { getProductsBySearch } from "@/lib/actions";
 
 export default async function Page({ params }: { params: { id: string } }) {
-  const response = await getProductsByCategory(params.id);
+  const response = await getProductsBySearch(params.id);
 
   const products = response.filter(
     (product, index, self) =>
       index === self.findIndex((p) => p.name === product.name)
+  );
+
+  const feature = features.find(
+    (feature) =>
+      feature.url.substring(feature.url.lastIndexOf("/") + 1) === params.id
   );
 
   return (
@@ -16,13 +21,7 @@ export default async function Page({ params }: { params: { id: string } }) {
         <section className="flex flex-col">
           <div className="pt-14 pb-5">
             <h1 className="text-center text-5xl leading-[1.05] font-semibold">
-              {
-                features.find(
-                  (feature) =>
-                    feature.url.substring(feature.url.lastIndexOf("/") + 1) ===
-                    params.id
-                )?.name
-              }
+              {feature ? feature.name : "Resultado de búsqueda"}
             </h1>
           </div>
           <div className="flex flex-wrap flex-1 gap-4">
