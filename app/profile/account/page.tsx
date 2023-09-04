@@ -1,8 +1,9 @@
+import { getServerSession } from "next-auth";
+
 import { Sessions } from "@/common.types";
 import { UpdateUser } from "@/components";
 import { authOptions } from "@/lib/options";
 import User from "@/models/user";
-import { getServerSession } from "next-auth";
 
 export default async function Page() {
   const session = (await getServerSession(authOptions)) as Sessions;

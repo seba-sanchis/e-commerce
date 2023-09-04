@@ -90,7 +90,7 @@ export default function Page() {
       validation.dni = "Ingresá un DNI válido.";
     }
 
-    // Validate birthday (add your custom validation logic here)
+    // Validate birthday
     if (!user.birthday) {
       validation.birthday = "Ingresá una fecha válida.";
     }
@@ -202,7 +202,7 @@ export default function Page() {
                 placeholder="Nombre"
                 className={`input ${
                   error.firstName
-                    ? "placeholder:text-primary-red border-primary-red bg-secondary-red"
+                    ? "input_error"
                     : "border-[#d6d6d6] bg-[hsla(0,0%,100%,.8)]"
                 }`}
               />
@@ -213,6 +213,7 @@ export default function Page() {
                 </div>
               )}
             </div>
+
             <div>
               <input
                 value={user.lastName}
@@ -221,7 +222,7 @@ export default function Page() {
                 placeholder="Apellido"
                 className={`input ${
                   error.lastName
-                    ? "placeholder:text-primary-red border-primary-red bg-secondary-red"
+                    ? "input_error"
                     : "border-[#d6d6d6] bg-[hsla(0,0%,100%,.8)]"
                 }`}
               />
@@ -245,7 +246,7 @@ export default function Page() {
                 placeholder="DNI"
                 className={`input ${
                   error.dni
-                    ? "placeholder:text-primary-red border-primary-red bg-secondary-red"
+                    ? "input_error"
                     : "border-[#d6d6d6] bg-[hsla(0,0%,100%,.8)]"
                 }`}
               />
@@ -260,7 +261,7 @@ export default function Page() {
               <div
                 className={`flex items-center border rounded h-14 placeholder:text-[#888] ${
                   error.birthday
-                    ? "placeholder:text-primary-red border-primary-red bg-secondary-red"
+                    ? "input_error"
                     : "border-[#d6d6d6] bg-[hsla(0,0%,100%,.8)]"
                 }`}
               >
@@ -276,7 +277,7 @@ export default function Page() {
                 />
 
                 <span
-                  className={`absolute px-4 ${
+                  className={`absolute py-2 px-4 ${
                     error.birthday
                       ? "text-primary-red border-primary-red bg-secondary-red"
                       : "bg-[hsla(0,0%,100%,.8)] text-[#888]"
@@ -322,7 +323,7 @@ export default function Page() {
               placeholder="Ciudad"
               className={`input ${
                 error.location
-                  ? "placeholder:text-primary-red border-primary-red bg-secondary-red"
+                  ? "input_error"
                   : "border-[#d6d6d6] bg-[hsla(0,0%,100%,.8)]"
               }`}
             />
@@ -343,7 +344,7 @@ export default function Page() {
                 placeholder="Dirección"
                 className={`input ${
                   error.address
-                    ? "placeholder:text-primary-red border-primary-red bg-secondary-red"
+                    ? "input_error"
                     : "border-[#d6d6d6] bg-[hsla(0,0%,100%,.8)]"
                 }`}
               />
@@ -364,7 +365,7 @@ export default function Page() {
                 placeholder="Código postal"
                 className={`input ${
                   error.postcode
-                    ? "placeholder:text-primary-red border-primary-red bg-secondary-red"
+                    ? "input_error"
                     : "border-[#d6d6d6] bg-[hsla(0,0%,100%,.8)]"
                 }`}
               />
@@ -389,7 +390,7 @@ export default function Page() {
               placeholder="Email"
               className={`input ${
                 error.email
-                  ? "placeholder:text-primary-red border-primary-red bg-secondary-red"
+                  ? "input_error"
                   : "border-[#d6d6d6] bg-[hsla(0,0%,100%,.8)]"
               }`}
             />
@@ -407,7 +408,7 @@ export default function Page() {
             placeholder="Contraseña"
             className={`input ${
               error.password
-                ? "placeholder:text-primary-red border-primary-red bg-secondary-red"
+                ? "input_error"
                 : "border-[#d6d6d6] bg-[hsla(0,0%,100%,.8)]"
             }`}
           />
@@ -419,7 +420,7 @@ export default function Page() {
               placeholder="Confirmar contraseña"
               className={`input ${
                 error.password
-                  ? "placeholder:text-primary-red border-primary-red bg-secondary-red"
+                  ? "input_error"
                   : "border-[#d6d6d6] bg-[hsla(0,0%,100%,.8)]"
               }`}
             />
@@ -445,7 +446,7 @@ export default function Page() {
               placeholder="Código de área"
               className={`input ${
                 error.areaCode
-                  ? "placeholder:text-primary-red border-primary-red bg-secondary-red"
+                  ? "input_error"
                   : "border-[#d6d6d6] bg-[hsla(0,0%,100%,.8)]"
               }`}
             />
@@ -466,7 +467,7 @@ export default function Page() {
               placeholder="Teléfono"
               className={`input ${
                 error.phone
-                  ? "placeholder:text-primary-red border-primary-red bg-secondary-red"
+                  ? "input_error"
                   : "border-[#d6d6d6] bg-[hsla(0,0%,100%,.8)]"
               }`}
             />

@@ -18,6 +18,10 @@
   @apply flex items-center w-full border rounded h-14 px-4 placeholder:text-[#888];
 }
 
+.input_error {
+  @apply placeholder:text-primary-red border-primary-red bg-secondary-red;
+}
+
 .button {
   @apply bg-primary-blue hover:bg-[#0077ed] text-white px-4 py-2 rounded-lg h-12;
 }

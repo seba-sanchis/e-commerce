@@ -6,7 +6,6 @@ export { default as CheckOut } from "./CheckOut";
 export { default as DeleteButton } from "./DeleteButton";
 export { default as DetailsButton } from "./DetailsButton";
 export { default as Footer } from "./Footer";
-// export { default as InputField } from "./InputField";
 export { default as Menu } from "./Menu";
 export { default as Navbar } from "./Navbar";
 export { default as PaymentData } from "./PaymentInfo";
