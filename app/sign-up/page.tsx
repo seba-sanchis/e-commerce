@@ -8,7 +8,6 @@ import { signIn } from "next-auth/react";
 import { region } from "@/constants";
 import { UserProfile } from "@/common.types";
 import { newUser } from "@/lib/actions";
-import { InputField } from "@/components";
 
 type Validation = {
   firstName?: string;
