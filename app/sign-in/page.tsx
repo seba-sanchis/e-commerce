@@ -46,9 +46,8 @@ export default function Page() {
   };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    e.preventDefault();
-
     if (e.key === "Enter" && user.email !== "") {
+      e.preventDefault();
       setToggleInput(false);
     }
   };
