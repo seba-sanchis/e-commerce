@@ -2,9 +2,10 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import { ObjectId } from "mongodb";
 
 import { addToBag, addToFavorite } from "@/lib/actions";
-import { Item, Product, Sessions } from "@/common.types";
+import { Product, Sessions } from "@/common.types";
 
 const firstAttribute = [
   "Potencia: 0.33 HP",
@@ -64,11 +65,13 @@ export default function Attributes({
   };
 
   const handleFavorite = () => {
-    if (session.user && session.user.id && product && product._id) {
-      addToFavorite(session.user.id, product._id);
-    }
+    if (session) {
+      addToFavorite(session.user?.id as string, product?._id as ObjectId);
 
-    router.refresh();
+      router.refresh();
+    } else {
+      router.push("/sign-in");
+    }
   };
 
   return (
@@ -161,7 +164,7 @@ export default function Attributes({
             onClick={handleFavorite}
             className="text-tertiary-blue"
           >
-            {session.user?.favorite?.some(
+            {session?.user?.favorite?.some(
               (favoriteProduct) =>
                 favoriteProduct.toString() === product?._id?.toString()
             ) ? (
