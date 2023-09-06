@@ -1,33 +1,43 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import { ObjectId } from "mongodb";
 
 import { quantities } from "@/constants";
 import { updateItem } from "@/lib/actions";
-import { useEffect, useState } from "react";
-import { ObjectId } from "mongodb";
 
 export default function Select({
   itemId,
   quantity,
+  size,
 }: {
   itemId: ObjectId;
   quantity: number;
+  size: string;
 }) {
   const router = useRouter();
 
-  const [newQuantity, setNewQuantity] = useState<number>();
+  const [newQuantity, setNewQuantity] = useState<number | string>();
 
   useEffect(() => {
     setNewQuantity(quantity);
   }, []);
 
-  const handleSelect = (
+  const handleSelect = async (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
-    setNewQuantity(Number(e.target.value));
-    updateItem(itemId, Number(e.target.value));
-    router.refresh();
+    const newValue = e.target.value === "" ? "1" : e.target.value;
+
+    setNewQuantity(Number(newValue));
+
+    try {
+      await updateItem(itemId, Number(newValue), size);
+      router.refresh();
+    } catch (error) {
+      // If there's not enough stock, update the state to show the previous quantity
+      setNewQuantity(quantity);
+    }
   };
 
   return (
@@ -54,8 +64,11 @@ export default function Select({
           <input
             type="number"
             value={newQuantity}
-            onChange={(e) => setNewQuantity(Number(e.target.value))}
+            onChange={(e) => {
+              setNewQuantity(e.target.value); // Keep it as a string in onChange
+            }}
             onBlur={handleSelect}
+            onKeyDown={(e) => e.key === "Enter" && handleSelect(e as any)}
             className="w-[88px] px-4 pt-5 pb-1 rounded-lg border border-tertiary-gray"
           />
           <span className="absolute mt-1.5 text-xs">Cantidad:</span>

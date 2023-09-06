@@ -35,7 +35,10 @@ export default async function Page() {
 
         <ol className="mt-16">
           {data.bag.map((item: Item) => (
-            <li key={item.product.sku} className="flex pb-16 mb-16 border-b border-secondary-gray">
+            <li
+              key={item.product.sku}
+              className="flex pb-16 mb-16 border-b border-secondary-gray"
+            >
               <div className="flex h-full justify-center flex-1 max-w-[25%]">
                 <Link
                   href={`/product/${item.product.name.replace(/\s+/g, "-")}`}
@@ -60,12 +63,16 @@ export default async function Page() {
                       {item.product?.name}
                     </Link>
                   </h2>
-                  <DetailsButton color={item.product?.colors} size={item.size as string} />
+                  <DetailsButton
+                    color={item.product?.colors}
+                    size={item.size as string}
+                  />
                 </div>
 
                 <Select
                   itemId={item._id as ObjectId}
                   quantity={item.quantity}
+                  size={item.size as string}
                 />
 
                 <div className="flex flex-col items-end pl-2 w-full">

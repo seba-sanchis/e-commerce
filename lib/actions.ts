@@ -284,17 +284,50 @@ export async function getItems(params: string) {
   return currentSession;
 }
 
-//Update bag item
-export async function updateItem(itemId: ObjectId, quantity: number) {
+// Update bag item
+export async function updateItem(
+  itemId: ObjectId,
+  quantity: number,
+  size: string
+) {
   try {
     await connectToDB();
 
     // Find the item to be updated
-    await Item.findByIdAndUpdate(itemId, { quantity });
+    const itemToUpdate = await Item.findById(itemId);
+
+    if (!itemToUpdate) {
+      throw new Error(`Item with ID ${itemId} not found.`);
+    }
+
+    // Check if there is enough stock for the requested quantity
+    const product = await Product.findById(itemToUpdate.product);
+    if (product) {
+      // If the product has sizes, find the stock for the selected size
+      if (product.sizes && product.sizes.length > 0) {
+        const sizeIndex = product.sizes.indexOf(size);
+        if (sizeIndex !== -1) {
+          if (product.stock[sizeIndex] < quantity) {
+            throw new Error(`Not enough stock for size ${size}`);
+          }
+        } else {
+          throw new Error(`Size ${size} not found for product ${product.name}`);
+        }
+      } else {
+        // If the product doesn't have sizes, use stock at index 0
+        if (product.stock[0] < quantity) {
+          throw new Error(`Not enough stock for product ${product.name}`);
+        }
+      }
+    } else {
+      throw new Error(`Product with ID ${itemToUpdate.product} not found.`);
+    }
+
+    // Update the item's quantity if there is enough stock
+    itemToUpdate.quantity = quantity;
+    await itemToUpdate.save();
   } catch (error: any) {
-    throw new Error(
-      `Failed to delete item and update user's bag: ${error.message}`
-    );
+    throw new Error(`Failed to update item: ${error.message}`);
   }
 }
 
