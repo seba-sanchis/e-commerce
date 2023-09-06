@@ -60,7 +60,7 @@ export default async function Page() {
                       {item.product?.name}
                     </Link>
                   </h2>
-                  <DetailsButton features={item.product?.features} />
+                  <DetailsButton color={item.product?.colors} size={item.size as string} />
                 </div>
 
                 <Select

@@ -24,6 +24,7 @@ export interface Item {
   _id?: ObjectId;
   product: Product;
   quantity: number;
+  size?: string;
 }
 
 export interface Order {
@@ -90,9 +91,11 @@ export interface Product {
   image: string;
   description: string;
   features: string[];
+  colors: string;
+  sizes: string[];
+  stock: number[];
+  sold: number[];
   price: number;
-  stock: number;
-  sold: number;
 }
 
 export interface Sessions extends Session {

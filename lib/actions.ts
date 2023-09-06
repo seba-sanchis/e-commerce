@@ -244,7 +244,8 @@ export async function addToBag(params: Items) {
 
   const alreadyInBag = currentSession.bag.find(
     (bagItem: Items) =>
-      bagItem.product._id?.toString() === params.product.toString()
+      bagItem.product._id?.toString() === params.product.toString() &&
+      bagItem.size === params.size
   );
 
   if (alreadyInBag) {
@@ -329,7 +330,7 @@ export async function removeItem(itemId: ObjectId, userId: string) {
 // Payment gateway integration
 export async function newCheckOut(
   params: PreferenceItem[],
-  id: string,
+  userId: string,
   email: string,
   dni: number
 ) {
@@ -351,7 +352,7 @@ export async function newCheckOut(
         email: email,
         identification: { type: "DNI", number: `${dni}` },
       },
-      external_reference: id,
+      external_reference: userId,
     });
 
     return response.body;
@@ -409,7 +410,33 @@ export async function newOrder(
     for (const pickedItem of newPicked) {
       const product = await Product.findOne({ sku: pickedItem.sku }); // Using 'sku' as a unique identifier for products
       if (product) {
-        product.sold += pickedItem.quantity;
+        if (product.sizes && product.sizes.length > 0) {
+          // If the product has sizes, update stock and sold count for the selected size
+          const sizeIndex = product.sizes.indexOf(pickedItem.description);
+          if (sizeIndex !== -1) {
+            if (product.stock[sizeIndex] >= pickedItem.quantity) {
+              product.stock[sizeIndex] -= pickedItem.quantity;
+              product.sold[sizeIndex] += pickedItem.quantity;
+            } else {
+              throw new Error(
+                `Not enough stock for size ${pickedItem.description}`
+              );
+            }
+          } else {
+            throw new Error(
+              `Size ${pickedItem.description} not found for product ${product.name}`
+            );
+          }
+        } else {
+          // If the product doesn't have sizes, update stock at index 0 and sold count at index 0
+          if (product.stock[0] >= pickedItem.quantity) {
+            product.stock[0] -= pickedItem.quantity;
+            product.sold[0] += pickedItem.quantity;
+          } else {
+            throw new Error(`Not enough stock for product ${product.name}`);
+          }
+        }
+
         await product.save();
       }
     }

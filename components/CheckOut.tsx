@@ -22,6 +22,7 @@ export default function CheckOut({
     const items = bag.map((item) => ({
       id: item.product?.sku,
       title: item.product?.name,
+      description: item.size,
       currency_id: "ARS" as Currency,
       picture_url: item.product?.thumbnail,
       category_id: item.product?.category,

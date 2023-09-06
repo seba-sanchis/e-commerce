@@ -7,19 +7,6 @@ import { ObjectId } from "mongodb";
 import { addToBag, addToFavorite } from "@/lib/actions";
 import { Product, Sessions } from "@/common.types";
 
-const firstAttribute = [
-  "Potencia: 0.33 HP",
-  "Potencia: 0.50 HP",
-  "Potencia: 0.75 HP",
-  "Potencia: 1.00 HP",
-  "Potencia: 1.25 HP",
-];
-
-const secondAttribute = [
-  "Tensión: 220 V ~ 50hz monofásica",
-  "Tensión: 220 / 380 V ~ 50hz trifásica",
-];
-
 export default function Attributes({
   products,
   session,
@@ -34,23 +21,24 @@ export default function Attributes({
   const [item, setItem] = useState({
     product: Object(),
     quantity: 0,
+    size: "",
   });
 
-  const [selector, setSelector] = useState({
-    one: firstAttribute[0], // Default-check the first attribute
-    two: secondAttribute[0], // Default-check the second attribute
+  const [selected, setSelected] = useState({
+    color: products[0].colors, // Default-check the first attribute
+    size: products[0].sizes[0], // Default-check the first attribute
   });
 
   useEffect(() => {
     const found = products.find(
       (product) =>
-        product.features.includes(selector.one) &&
-        product.features.includes(selector.two)
+        product.colors.includes(selected.color) &&
+        product.sizes.includes(selected.size)
     );
 
     setProduct(found);
-    setItem({ product: found?._id, quantity: quantity });
-  }, [selector]);
+    setItem({ product: found?._id, quantity: quantity, size: selected.size });
+  }, [selected]);
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -78,64 +66,59 @@ export default function Attributes({
     <div className="flex flex-col flex-wrap flex-1">
       <h1 className="text-4xl font-semibold">{products[0].name}</h1>
       <div className="pt-3 mb-8">
-        <ul className="gap-3">
+        <ul className="h-48 gap-3">
           {product &&
-            product.features.map((feature) => <li key={feature}>{feature}</li>)}
+            product.features.map((feature, i) => (
+              <li key={feature}>{feature}</li>
+            ))}
+          <li>Mostrado en: {product?.colors}</li>
+          <li>Estilo: {product?.sku}</li>
         </ul>
       </div>
       <form onSubmit={handleSubmit} className="border-t border-[#d2d2d7]">
-        <h3 className="mt-4">Potencia</h3>
+        <h3 className="mt-4">Color</h3>
         <div className="flex flex-col flex-wrap gap-3.5 mt-3.5">
-          {firstAttribute.map((attribute, i) => (
-            <div key={attribute} className="h-[56px]">
+          {products.map((product) => (
+            <div key={product.colors} className="h-14">
               <input
-                value={attribute}
-                checked={product?.features.includes(attribute) ? true : false}
-                disabled={
-                  products.find(
-                    (product) =>
-                      product.features.includes(attribute) &&
-                      product.features.includes(selector.two)
-                  )
-                    ? false
-                    : true
-                }
+                id={product.colors}
+                value={product.colors}
+                checked={selected.color === product.colors} // Check if this color is selected
                 onChange={(e) =>
-                  setSelector({ ...selector, one: e.target.value })
+                  setSelected({ ...selected, color: e.target.value })
                 }
                 type="checkbox"
-                className="absolute appearance-none peer w-full max-w-[490px] h-[56px] p-3.5 rounded-xl cursor-pointer"
+                className="absolute appearance-none peer w-full max-w-[490px] h-14 p-3.5 rounded-xl cursor-pointer"
               />
-              <label className="flex flex-wrap p-3.5 cursor-pointer rounded-xl border border-tertiary-gray peer-checked:border-2 peer-checked:border-primary-blue peer-disabled:opacity-40">
-                <span>{attribute}</span>
+              <label
+                htmlFor={product.colors}
+                className="flex flex-wrap p-3.5 cursor-pointer rounded-xl border border-tertiary-gray peer-checked:border-2 peer-checked:border-primary-blue peer-disabled:opacity-40"
+              >
+                <span>{product.colors}</span>
               </label>
             </div>
           ))}
         </div>
-        <h3 className="mt-4">Tensión</h3>
-        <div className="flex flex-col flex-wrap gap-3.5 mt-3.5">
-          {secondAttribute.map((attribute, i) => (
-            <div key={attribute} className="h-[56px]">
+        <h3 className="mt-4">Talle (US)</h3>
+        <div className="flex justify-between flex-wrap gap-3.5 mt-3.5">
+          {product?.sizes.map((size, i) => (
+            <div key={size} className="w-[86px] h-14">
               <input
-                value={attribute}
-                checked={product?.features.includes(attribute) ? true : false}
-                disabled={
-                  products.find(
-                    (product) =>
-                      product.features.includes(attribute) &&
-                      product.features.includes(selector.one)
-                  )
-                    ? false
-                    : true
-                }
+                id={size}
+                value={size}
+                checked={selected.size === size} // Check if this size is selected
                 onChange={(e) =>
-                  setSelector({ ...selector, two: e.target.value })
+                  setSelected({ ...selected, size: e.target.value })
                 }
                 type="checkbox"
-                className="absolute appearance-none peer w-full max-w-[490px] h-[56px] p-3.5 rounded-xl cursor-pointer"
+                className="absolute appearance-none peer w-[86px] max-w-[490px] h-14 p-3.5 rounded-xl cursor-pointer"
+                disabled={product.stock[i] <= 0}
               />
-              <label className="flex flex-wrap p-3.5 cursor-pointer rounded-xl border border-tertiary-gray peer-checked:border-2 peer-checked:border-primary-blue peer-disabled:opacity-40">
-                <span>{attribute}</span>
+              <label
+                htmlFor={size}
+                className="flex justify-center flex-wrap p-3.5 cursor-pointer rounded-xl border border-tertiary-gray peer-checked:border-2 peer-checked:border-primary-blue peer-disabled:opacity-40"
+              >
+                <span>{size}</span>
               </label>
             </div>
           ))}

@@ -9,6 +9,9 @@ const ItemSchema = new Schema({
     type: Number,
     required: [true, "Quantity is required!"],
   },
+  size: {
+    type: String,
+  },
 });
 
 const Item = models.Item || model("Item", ItemSchema);

@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 
-import { categories, features } from "@/constants";
+import { menu, categories } from "@/constants";
 import Link from "next/link";
 import Image from "next/image";
 
@@ -17,14 +17,14 @@ export default function Menu() {
         onClick={() => setToggleMenu(false)}
       >
         <Image
-          src="/assets/brand-40x40.png"
+          src="/assets/brand-01.png"
           alt="brand iso"
           width={40}
           height={40}
         />
       </Link>
       <ul className="flex gap-4 z-30">
-        {categories.map((category) => (
+        {menu.map((category) => (
           <li key={category}>
             <button
               onClick={() => setToggleMenu((state) => !state)}
@@ -37,20 +37,24 @@ export default function Menu() {
       </ul>
 
       <div
-        className={`absolute flex flex-wrap w-full p-1.5 top-0 left-0 transition-all duration-[240ms] ease-[cubic-bezier(.4,0,.6,1)] delay-100 z-10 bg-primary-white ${
-          toggleMenu ? "visible h-[512px]" : "h-14 invisible"
+        className={`fixed flex flex-wrap w-full p-1.5 top-0 left-0 transition-all duration-[240ms] ease-[cubic-bezier(.4,0,.6,1)] delay-100 z-10 bg-primary-white ${
+          toggleMenu ? "visible h-[286px]" : "h-14 invisible"
         }`}
       >
-        <div className="flex flex-col mt-14 pt-10 pb-[84px] w-full max-w-[980px] mx-auto gap-3">
-          <h2 className="px-3 text-xs text-[rgb(110,110,115)]">
-            Explorá Piscinas
+        <div className="flex flex-col mt-14 pt-10 pb-20 w-full max-w-[980px] mx-auto gap-3">
+          <h2
+            className={`px-3 text-xs ${
+              toggleMenu ? "text-[rgb(110,110,115)]" : "text-[rgba(0,0,0,0)]"
+            }`}
+          >
+            Comprar
           </h2>
           <ul
             className={`flex flex-col gap-1.5 text-2xl font-semibold ${
               toggleMenu ? "text-secondary-black" : "text-[rgba(0,0,0,0)]"
             }`}
           >
-            {features.map((feature) => (
+            {categories.map((feature) => (
               <li key={feature.name}>
                 <Link
                   href={`/category/${feature.url}`}

@@ -7,9 +7,9 @@ export default function Footer() {
       <div className="flex justify-between items-center w-full max-w-[980px] my-3 mx-auto text-sm">
         <div className="flex items-center gap-4">
           <Image
-            src="/assets/brand-120x40.png"
+            src="/assets/brand-01.png"
             alt="logo"
-            width={120}
+            width={40}
             height={40}
           />
           <Link href="/" className="navbar_link">

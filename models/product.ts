@@ -32,17 +32,30 @@ const ProductSchema = new Schema({
       required: [true, "Features is required!"],
     },
   ],
+  colors: {
+    type: String,
+    required: [true, "Colors is required!"],
+  },
+  sizes: [
+    {
+      type: String,
+    },
+  ],
+  stock: [
+    {
+      type: Number,
+      required: [true, "Stock is required!"],
+    },
+  ],
+  sold: [
+    {
+      type: Number,
+      required: [true, "Sold is required!"],
+    },
+  ],
   price: {
     type: Number,
     required: [true, "Price is required!"],
-  },
-  stock: {
-    type: Number,
-    required: [true, "Stock is required!"],
-  },
-  sold: {
-    type: Number,
-    required: [true, "Sold is required!"],
   },
 });
 

@@ -1,19 +1,19 @@
 export const cards = [
   {
-    name: "Bombas para piscina",
+    name: "Calzados",
     description: "Toda la línea de autocebantes Vulcano al mejor precio.",
     link: "/piscinas/bombas-autocebantes",
-    url: "/assets/category_1-50.jpg",
+    url: "/assets/category-01.jpg",
   },
   {
-    name: "Filtros para piscina",
+    name: "Ropa",
     description: "Las mejores ofertas en filtros Vulcano.",
     link: "/piscinas/filtros",
-    url: "/assets/category_2-50.jpg",
+    url: "/assets/category-02.jpg",
   },
 ];
 
-export const categories = ["Piscinas"];
+export const menu = ["Tienda"];
 
 export const env = {
   MERCADOPAGO_TOKEN: process.env.MERCADOPAGO_TOKEN,
@@ -23,53 +23,21 @@ export const env = {
   NEXTAUTH_URL: process.env.NEXTAUTH_URL,
 };
 
-export const features = [
+export const categories = [
   {
-    name: "Accesorios de Instalación",
-    url: "accesorios-de-instalacion",
-    category: "Piscinas",
+    name: "Calzado",
+    url: "calzado",
   },
   {
-    name: "Automatización",
-    url: "automatizacion",
-    category: "Piscinas",
-  },
-  {
-    name: "Bombas Autocebantes",
-    url: "bombas-autocebantes",
-    category: "Piscinas",
-  },
-  {
-    name: "Climatización",
-    url: "climatizacion",
-    category: "Piscinas",
-  },
-  {
-    name: "Diseño y Confort",
-    url: "diseno-y-confort",
-    category: "Piscinas",
-  },
-  {
-    name: "Filtros",
-    url: "filtros",
-    category: "Piscinas",
-  },
-  {
-    name: "Iluminación",
-    url: "iluminacion",
-    category: "Piscinas",
-  },
-  {
-    name: "Limpieza",
-    url: "limpieza",
-    category: "Piscinas",
+    name: "Ropa",
+    url: "ropa",
   },
 ];
 
 export const payments = [
   {
     description: "Seguridad y protección.",
-    icon: <i className="fi fi-rr-shield-check icon"></i>
+    icon: <i className="fi fi-rr-shield-check icon"></i>,
   },
   {
     description: "Medios de pago más usados.",
