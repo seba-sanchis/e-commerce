@@ -6,6 +6,7 @@ import { ObjectId } from "mongodb";
 
 import { addToBag, addToFavorite } from "@/lib/actions";
 import { Product, Sessions } from "@/common.types";
+import Image from "next/image";
 
 export default function Attributes({
   products,
@@ -63,101 +64,114 @@ export default function Attributes({
   };
 
   return (
-    <div className="flex flex-col flex-wrap flex-1">
-      <h1 className="text-4xl font-semibold">{products[0].name}</h1>
-      <div className="pt-3 mb-8">
-        <ul className="h-48 gap-3">
-          {product &&
-            product.features.map((feature, i) => (
-              <li key={feature}>{feature}</li>
-            ))}
-          <li>Mostrado en: {product?.colors}</li>
-          <li>Estilo: {product?.sku}</li>
-        </ul>
+    <div className="flex flex-row">
+      <div className="flex flex-wrap flex-1">
+        <div className="block sticky top-0 h-fit">
+          <Image
+            src={product?.image as string}
+            alt="product"
+            width={410}
+            height={410}
+            className="bg-gree-600"
+          />
+        </div>
       </div>
-      <form onSubmit={handleSubmit} className="border-t border-[#d2d2d7]">
-        <h3 className="mt-4">Color</h3>
-        <div className="flex flex-col flex-wrap gap-3.5 mt-3.5">
-          {products.map((product) => (
-            <div key={product.colors} className="h-14">
-              <input
-                id={product.colors}
-                value={product.colors}
-                checked={selected.color === product.colors} // Check if this color is selected
-                onChange={(e) =>
-                  setSelected({ ...selected, color: e.target.value })
-                }
-                type="checkbox"
-                className="absolute appearance-none peer w-full max-w-[490px] h-14 p-3.5 rounded-xl cursor-pointer"
-              />
-              <label
-                htmlFor={product.colors}
-                className="flex flex-wrap p-3.5 cursor-pointer rounded-xl border border-tertiary-gray peer-checked:border-2 peer-checked:border-primary-blue peer-disabled:opacity-40"
-              >
-                <span>{product.colors}</span>
-              </label>
-            </div>
-          ))}
+      <div className="flex flex-col flex-wrap flex-1">
+        <h1 className="text-4xl font-semibold">{products[0].name}</h1>
+        <div className="pt-3 mb-8">
+          <ul className="h-48 gap-3">
+            {product &&
+              product.features.map((feature, i) => (
+                <li key={feature}>{feature}</li>
+              ))}
+            <li>Mostrado en: {product?.colors}</li>
+            <li>Estilo: {product?.sku}</li>
+          </ul>
         </div>
-        <h3 className="mt-4">Talle (US)</h3>
-        <div className="flex justify-between flex-wrap gap-3.5 mt-3.5">
-          {product?.sizes.map((size, i) => (
-            <div key={size} className="w-[86px] h-14">
-              <input
-                id={size}
-                value={size}
-                checked={selected.size === size} // Check if this size is selected
-                onChange={(e) =>
-                  setSelected({ ...selected, size: e.target.value })
-                }
-                type="checkbox"
-                className="absolute appearance-none peer w-[86px] max-w-[490px] h-14 p-3.5 rounded-xl cursor-pointer"
-                disabled={product.stock[i] <= 0}
-              />
-              <label
-                htmlFor={size}
-                className="flex justify-center flex-wrap p-3.5 cursor-pointer rounded-xl border border-tertiary-gray peer-checked:border-2 peer-checked:border-primary-blue peer-disabled:opacity-40"
-              >
-                <span>{size}</span>
-              </label>
-            </div>
-          ))}
-        </div>
-
-        <div className="flex justify-end items-center pt-8 gap-4">
-          <div className="flex flex-col items-end">
-            <span className="text-2xl font-semibold">
-              {product &&
-                product.price.toLocaleString("es-AR", {
-                  style: "currency",
-                  currency: "ARS",
-                })}
-            </span>
-
-            <div className="flex gap-2">
-              <i className="fi fi-rr-truck-side text-xl flex justify-center items-center"></i>
-              <span>Envío gratis</span>
-            </div>
+        <form onSubmit={handleSubmit} className="border-t border-[#d2d2d7]">
+          <h3 className="mt-4">Color</h3>
+          <div className="flex flex-col flex-wrap gap-3.5 mt-3.5">
+            {products.map((product) => (
+              <div key={product.colors} className="h-14">
+                <input
+                  id={product.colors}
+                  value={product.colors}
+                  checked={selected.color === product.colors} // Check if this color is selected
+                  onChange={(e) =>
+                    setSelected({ ...selected, color: e.target.value })
+                  }
+                  type="checkbox"
+                  className="absolute appearance-none peer w-full max-w-[490px] h-14 p-3.5 rounded-xl cursor-pointer"
+                />
+                <label
+                  htmlFor={product.colors}
+                  className="flex flex-wrap p-3.5 cursor-pointer rounded-xl border border-tertiary-gray peer-checked:border-2 peer-checked:border-primary-blue peer-disabled:opacity-40"
+                >
+                  <span>{product.colors}</span>
+                </label>
+              </div>
+            ))}
+          </div>
+          <h3 className="mt-4">Talle (US)</h3>
+          <div className="grid grid-cols-5 gap-3.5 mt-3.5">
+            {product?.sizes.map((size, i) => (
+              <div key={size} className="w-[86px] h-14">
+                <input
+                  id={size}
+                  value={size}
+                  checked={selected.size === size} // Check if this size is selected
+                  onChange={(e) =>
+                    setSelected({ ...selected, size: e.target.value })
+                  }
+                  type="checkbox"
+                  className="absolute appearance-none peer w-[86px] max-w-[490px] h-14 p-3.5 rounded-xl cursor-pointer"
+                  disabled={product.stock[i] <= 0}
+                />
+                <label
+                  htmlFor={size}
+                  className="flex justify-center flex-wrap p-3.5 cursor-pointer rounded-xl border border-tertiary-gray peer-checked:border-2 peer-checked:border-primary-blue peer-disabled:opacity-40"
+                >
+                  <span>{size}</span>
+                </label>
+              </div>
+            ))}
           </div>
 
-          <button className="button">Agregar al carrito</button>
+          <div className="flex justify-end items-center pt-8 gap-4">
+            <div className="flex flex-col items-end">
+              <span className="text-2xl font-semibold">
+                {product &&
+                  product.price.toLocaleString("es-AR", {
+                    style: "currency",
+                    currency: "ARS",
+                  })}
+              </span>
 
-          <button
-            type="button"
-            onClick={handleFavorite}
-            className="text-tertiary-blue"
-          >
-            {session?.user?.favorite?.some(
-              (favoriteProduct) =>
-                favoriteProduct.toString() === product?._id?.toString()
-            ) ? (
-              <i className="fi fi-sr-heart icon"></i>
-            ) : (
-              <i className="fi fi-rr-heart icon"></i>
-            )}
-          </button>
-        </div>
-      </form>
+              <div className="flex gap-2">
+                <i className="fi fi-rr-truck-side text-xl flex justify-center items-center"></i>
+                <span>Envío gratis</span>
+              </div>
+            </div>
+
+            <button className="button">Agregar al carrito</button>
+
+            <button
+              type="button"
+              onClick={handleFavorite}
+              className="text-tertiary-blue"
+            >
+              {session?.user?.favorite?.some(
+                (favoriteProduct) =>
+                  favoriteProduct.toString() === product?._id?.toString()
+              ) ? (
+                <i className="fi fi-sr-heart icon"></i>
+              ) : (
+                <i className="fi fi-rr-heart icon"></i>
+              )}
+            </button>
+          </div>
+        </form>
+      </div>
     </div>
   );
 }

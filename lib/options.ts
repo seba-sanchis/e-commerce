@@ -4,7 +4,7 @@ import bcrypt from "bcryptjs";
 
 import User from "@/models/user";
 import { connectToDB } from "@/lib/database";
-import { Sessions, UserProfile } from "@/common.types";
+import { Item, Sessions, UserProfile } from "@/common.types";
 
 export const authOptions: NextAuthOptions = {
   providers: [
@@ -58,11 +58,18 @@ export const authOptions: NextAuthOptions = {
         // store the user id from MongoDB to session
         const sessionUser = await User.findOne({
           email: session.user.email as string,
-        });
+        }).populate("bag"); // Populate the items in the user's bag
+
+        // Calculate the total quantity of products in the bag
+        const items = sessionUser.bag.reduce(
+          (acc: number, item: Item) => acc + item.quantity,
+          0
+        );
 
         session.user.id = sessionUser._id.toString();
         session.user.dni = sessionUser.dni;
         session.user.bag = sessionUser.bag;
+        session.user.items = items; // Add total quantity to the user object
         session.user.favorite = sessionUser.favorite;
       }
 

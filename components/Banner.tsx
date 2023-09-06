@@ -9,7 +9,7 @@ export default function Banner() {
           <h2 className="text-5xl font-semibold">Just do it. 50% OFF</h2>
           <h3 className="text-xl">Productos seleccionados de la línea Jordan.</h3>
           <Link
-            href="/piscinas/climatizacion"
+            href="/category/calzado"
             className="group flex items-center text-xl text-primary-blue"
           >
             <span className="group-hover:underline">Ver más</span>{" "}

@@ -19,20 +19,7 @@ export default async function Page({ params }: { params: { id: string } }) {
 
   return (
     <div className="flex flex-col flex-grow w-full max-w-[980px] my-8">
-      <div className="flex flex-row">
-        <div className="flex flex-wrap flex-1">
-          <div className="block sticky top-0 h-fit">
-            <Image
-              src={data[0].image}
-              alt="product"
-              width={410}
-              height={410}
-              className="bg-gree-600"
-            />
-          </div>
-        </div>
-        <Attributes products={data} session={sessionData} />
-      </div>
+      <Attributes products={data} session={sessionData} />
     </div>
   );
 }
