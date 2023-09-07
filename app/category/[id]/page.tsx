@@ -14,7 +14,7 @@ export default async function Page({ params }: { params: { id: string } }) {
     (category) =>
       category.url.substring(category.url.lastIndexOf("/") + 1) === params.id
   );
-console.log(response)
+
   return (
     <div className="flex justify-center w-full grow">
       <div className="flex flex-col flex-grow w-full max-w-[980px] mb-8">
