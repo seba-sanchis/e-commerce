@@ -3,6 +3,16 @@ const nextConfig = {
   experimental: {
     serverActions: true,
     serverComponentsExternalPackages: ["mongoose"],
+    images: {
+      remotePatterns: [
+        {
+          protocol: "https",
+          hostname: "http2.mlstatic.com",
+          port: "",
+          pathname: "/",
+        },
+      ],
+    },
   },
 };
 

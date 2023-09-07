@@ -371,7 +371,7 @@ export async function newCheckOut(
   mercadopago.configure({
     access_token: MERCADOPAGO_TOKEN!,
   });
-
+console.log(params)
   try {
     const response = await mercadopago.preferences.create({
       items: params,
