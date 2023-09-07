@@ -3,9 +3,9 @@ const nextConfig = {
   experimental: {
     serverActions: true,
     serverComponentsExternalPackages: ["mongoose"],
-    images: {
-      unoptimized: true,
-    },
+  },
+  images: {
+    unoptimized: true,
   },
 };
 
