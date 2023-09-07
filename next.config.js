@@ -4,14 +4,7 @@ const nextConfig = {
     serverActions: true,
     serverComponentsExternalPackages: ["mongoose"],
     images: {
-      remotePatterns: [
-        {
-          protocol: "https",
-          hostname: "http2.mlstatic.com",
-          port: "",
-          pathname: "/",
-        },
-      ],
+      unoptimized: true,
     },
   },
 };

@@ -35,7 +35,7 @@ export default async function Page() {
                 <div className="w-24 h-24 bg-gray-300">
                   <img src={pick.thumbnail} width={96} height={96} />
                 </div>
-                <div className="flex flex-col p">
+                <div className="flex flex-col p-2">
                   <div className="font-semibold">{pick.name}</div>
                   <div className="text-sm">
                     {pick.quantity === 1

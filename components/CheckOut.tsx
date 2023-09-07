@@ -25,7 +25,7 @@ export default function CheckOut({
       description: item.size,
       currency_id: "ARS" as Currency,
       picture_url:
-        "https://proficient-e-commerce.vercel.app" + item.product?.thumbnail,
+        "https://main.d2gkme05mz41sv.amplifyapp.com" + item.product?.thumbnail,
       category_id: item.product?.category,
       quantity: item.quantity,
       unit_price: item.product?.price,
