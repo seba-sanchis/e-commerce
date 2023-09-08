@@ -55,7 +55,7 @@ export default function Attributes({
 
   const handleFavorite = () => {
     if (session) {
-      addToFavorite(session.user?.id as string, product?._id as ObjectId);
+      addToFavorite(session.user?.id!, product?._id!);
 
       router.refresh();
     } else {
@@ -68,7 +68,7 @@ export default function Attributes({
       <div className="flex flex-wrap flex-1">
         <div className="block sticky top-0 h-fit">
           <Image
-            src={product?.image as string}
+            src={product?.image!}
             alt="product"
             width={410}
             height={410}
@@ -81,11 +81,11 @@ export default function Attributes({
         <div className="pt-3 mb-8">
           <ul className="h-48 gap-3">
             {product &&
-              product.features.map((feature, i) => (
+              product.features.map((feature) => (
                 <li key={feature}>{feature}</li>
               ))}
-            <li>Mostrado en: {product?.colors}</li>
-            <li>Estilo: {product?.sku}</li>
+            <li key={product?.colors}>Mostrado en: {product?.colors}</li>
+            <li key={product?.sku}>Estilo: {product?.sku}</li>
           </ul>
         </div>
         <form onSubmit={handleSubmit} className="border-t border-[#d2d2d7]">

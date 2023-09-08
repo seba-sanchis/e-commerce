@@ -1,14 +1,14 @@
 export const cards = [
   {
-    name: "Calzados",
-    description: "Toda la línea de autocebantes Vulcano al mejor precio.",
-    link: "/piscinas/bombas-autocebantes",
+    name: "Ropa",
+    description: "Comprá la nueva línea.",
+    link: "/category/ropa",
     url: "/assets/category-01.jpg",
   },
   {
-    name: "Ropa",
-    description: "Las mejores ofertas en filtros Vulcano.",
-    link: "/piscinas/filtros",
+    name: "Calzados",
+    description: "¿Por qué esperar? Date el gusto.",
+    link: "/category/calzado",
     url: "/assets/category-02.jpg",
   },
 ];
@@ -36,19 +36,19 @@ export const categories = [
 
 export const payments = [
   {
-    description: "Seguridad y protección.",
+    name: "Seguridad y protección.",
     icon: <i className="fi fi-rr-shield-check icon"></i>,
   },
   {
-    description: "Medios de pago más usados.",
+    name: "Medios de pago más usados.",
     icon: <i className="fi fi-rr-wallet icon"></i>,
   },
   {
-    description: "Cuotas con o sin tarjeta.",
+    name: "Cuotas con o sin tarjeta.",
     icon: <i className="fi fi-rr-credit-card icon"></i>,
   },
   {
-    description: "Envío gratuito a todo el país.",
+    name: "Envío gratuito a todo el país.",
     icon: <i className="fi fi-rr-box-open-full icon"></i>,
   },
 ];

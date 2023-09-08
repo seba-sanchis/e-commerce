@@ -29,10 +29,10 @@ export default async function Page() {
   return (
     <div className="w-full">
       {response.map((order) => (
-        <div className="flex m-4 p-4 rounded-2xl bg-[#f2f2f2]">
+        <div key={order._id} className="flex m-4 p-4 rounded-2xl bg-[#f2f2f2]">
           <div className="flex flex-col gap-2">
-            {order.picked.map((pick: Picked) => (
-              <div className="flex">
+            {order.picked.map((pick: Picked, i: number) => (
+              <div key={pick._id?.toString()} className="flex">
                 <div className="flex justfy-center items-center w-24 h-24 p-1 rounded-lg bg-white">
                   <Image
                     src={pick.thumbnail}

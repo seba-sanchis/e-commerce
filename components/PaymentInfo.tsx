@@ -15,9 +15,9 @@ export default function PaymentData() {
       </div>
       <div className="flex justify-center items-center w-full mb-2 mx-auto gap-8 max-w-[980px]">
         {payments.map((payment) => (
-          <div className="flex items-center gap-2 text-sm">
+          <div key={payment.name} className="flex items-center gap-2 text-sm">
             {payment.icon}
-            <span>{payment.description}</span>
+            <span>{payment.name}</span>
           </div>
         ))}
       </div>

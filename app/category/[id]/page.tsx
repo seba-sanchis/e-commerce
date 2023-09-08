@@ -25,9 +25,13 @@ export default async function Page({ params }: { params: { id: string } }) {
             </h1>
           </div>
           <div className="flex flex-wrap flex-1 gap-4">
-            {products.map((product) => (
-              <Product product={product} />
-            ))}
+            {category
+              ? products.map((product) => (
+                  <Product key={product.sku} product={product} />
+                ))
+              : response.map((product) => (
+                  <Product key={product.sku} product={product} />
+                ))}
           </div>
         </section>
       </div>

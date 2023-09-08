@@ -11,7 +11,11 @@ export default function Searchbar() {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    router.push(`/category/${search}`);
+    if (search === "") {
+      return null;
+    } else {
+      router.push(`/category/${search}`);
+    }
   };
 
   return (

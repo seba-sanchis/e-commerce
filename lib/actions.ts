@@ -160,9 +160,19 @@ export async function getProductsBySearch(params: string) {
     const searchPatterns = searchWords.map((word) => new RegExp(word, "i"));
 
     const data = await Product.find({
-      $or: [
-        { category: { $in: searchPatterns } }, // Match categories containing any word
-        { name: { $in: searchPatterns } }, // Match names containing any word
+      $and: [
+        {
+          $or: [
+            { category: { $in: searchPatterns } }, // Match categories containing any word
+            { name: { $in: searchPatterns } }, // Match names containing any word
+          ],
+        },
+        {
+          $or: [
+            { category: { $all: searchPatterns } }, // Match all categories
+            { name: { $all: searchPatterns } }, // Match all names
+          ],
+        },
       ],
     });
 
@@ -371,7 +381,7 @@ export async function newCheckOut(
   mercadopago.configure({
     access_token: MERCADOPAGO_TOKEN!,
   });
-console.log(params)
+  console.log(params);
   try {
     const response = await mercadopago.preferences.create({
       items: params,

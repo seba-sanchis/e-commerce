@@ -10,12 +10,7 @@ export default function Product({ product }: { product: Product }) {
       className="group flex flex-col w-[230px] rounded-2xl bg-primary-gray cursor-pointer"
     >
       <div className="flex flex-contain rounded-2xl-t overflow-hidden">
-        <Image
-          src={product.image}
-          alt="product image"
-          width={230}
-          height={230}
-        />
+        <Image src={product.image} alt={product.sku} width={230} height={230} />
       </div>
       <div className="flex flex-col p-4 gap-2">
         <div className="text-sm font-semibold line-clamp-2 group-hover:text-tertiary-blue">

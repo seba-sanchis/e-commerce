@@ -13,9 +13,7 @@ export default async function Bestsellers() {
         <div className="text-xl font-semibold mb-4">Productos más vendidos</div>
         <div className="flex justify-between text-ellipsis overflow-hidden">
           {data.map((product: Products) => (
-            <>
-              <Product product={product} />
-            </>
+            <Product key={product.sku} product={product} />
           ))}
         </div>
       </div>
