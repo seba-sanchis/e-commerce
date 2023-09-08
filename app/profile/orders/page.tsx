@@ -33,13 +33,13 @@ export default async function Page() {
           <div className="flex flex-col gap-2">
             {order.picked.map((pick: Picked) => (
               <div className="flex">
-                <div className="flex justfy-center items-center w-24 h-24 rounded-lg bg-white">
+                <div className="flex justfy-center items-center w-24 h-24 p-1 rounded-lg bg-white">
                   <Image
                     src={pick.thumbnail}
                     alt="product image"
                     width={96}
                     height={96}
-                    className="w-24 h-24 rounded-lg object-contain"
+                    className="w-24 h-full rounded-lg object-contain"
                   />
                 </div>
                 <div className="flex flex-col p-2">
