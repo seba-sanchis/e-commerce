@@ -24,7 +24,7 @@ export default async function Page() {
       return `${day} de ${month} de ${year}`;
     }
   }
-  // console.log(response[0].picked)
+
   return (
     <div className="w-full">
       {response.map((order) => (
@@ -32,8 +32,13 @@ export default async function Page() {
           <div className="flex flex-col gap-2">
             {order.picked.map((pick: Picked) => (
               <div className="flex">
-                <div className="flex justfy-center items-center w-24 h-24 bg-white">
-                  <img src={pick.thumbnail} width={96} height={96} className="w-24 h-24 object-contain" />
+                <div className="flex justfy-center items-center w-24 h-24 rounded-lg bg-white">
+                  <img
+                    src={pick.thumbnail}
+                    width={96}
+                    height={96}
+                    className="w-24 h-24 rounded-lg object-contain"
+                  />
                 </div>
                 <div className="flex flex-col p-2">
                   <div className="font-semibold">{pick.name}</div>

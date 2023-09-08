@@ -21,7 +21,7 @@ export default function Banner() {
             src="/assets/banner-01.png"
             alt="advertising banner"
             width={500}
-            height={384}
+            height={313}
           />
         </div>
       </div>
