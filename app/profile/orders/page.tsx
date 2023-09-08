@@ -1,4 +1,5 @@
 import { getServerSession } from "next-auth";
+import Image from "next/image";
 
 import { authOptions } from "@/lib/options";
 import { Picked, Sessions } from "@/common.types";
@@ -33,8 +34,9 @@ export default async function Page() {
             {order.picked.map((pick: Picked) => (
               <div className="flex">
                 <div className="flex justfy-center items-center w-24 h-24 rounded-lg bg-white">
-                  <img
+                  <Image
                     src={pick.thumbnail}
+                    alt="product image"
                     width={96}
                     height={96}
                     className="w-24 h-24 rounded-lg object-contain"
