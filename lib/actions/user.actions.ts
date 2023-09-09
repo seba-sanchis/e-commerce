@@ -4,7 +4,8 @@ import bcrypt from "bcryptjs";
 
 import { connectToDB } from "../database";
 import User from "@/models/user";
-import { UserProfile } from "@/common.types";
+import { Item as Items, UserProfile } from "@/common.types";
+import Item from "@/models/item";
 
 // Create a new user
 export async function newUser(params: UserProfile) {
@@ -54,6 +55,43 @@ export async function newUser(params: UserProfile) {
     await newUser.save();
   } catch (error: any) {
     throw new Error(`Failed to create a new user: ${error.message}`);
+  }
+}
+
+// Get user by email
+export async function getUser(user: UserProfile) {
+  try {
+    await connectToDB();
+
+    // store the user id from MongoDB to session
+    const sessionUser = await User.findOne({
+      email: user.email as string,
+    }).populate({
+      path: "bag",
+      model: Item,
+    }); // Populate the items in the user's bag
+
+    if (!sessionUser) {
+      throw new Error("User not found"); // Handle case when user is not found
+    }
+
+    // Calculate the total quantity of products in the bag
+    const items = sessionUser.bag.reduce(
+      (acc: number, item: Items) => acc + item.quantity,
+      0
+    );
+
+    const session = {
+      id: sessionUser._id.toString(),
+      dni: sessionUser.dni,
+      bag: sessionUser.bag,
+      items: items,
+      favorite: sessionUser.favorite,
+    };
+
+    return session;
+  } catch (error: any) {
+    throw new Error(`Failed to get user: ${error.message}`); // Handle any errors
   }
 }
 
