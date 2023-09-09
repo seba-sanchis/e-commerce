@@ -1,9 +1,9 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-
-import { removeItem } from "@/lib/actions";
 import { ObjectId } from "mongodb";
+
+import { removeItem } from "@/lib/actions/bag.actions";
 
 export default function DeleteButton({
   itemId,

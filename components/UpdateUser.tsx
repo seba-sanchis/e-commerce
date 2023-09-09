@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 
 import { UserProfile } from "@/common.types";
 import { region } from "@/constants";
-import { updateUser } from "@/lib/actions";
+import { updateUser } from "@/lib/actions/user.actions";
 
 type Validation = {
   firstName?: string;

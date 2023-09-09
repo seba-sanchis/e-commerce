@@ -3,7 +3,7 @@ import Image from "next/image";
 
 import { authOptions } from "@/lib/options";
 import { Picked, Sessions } from "@/common.types";
-import { getOrders } from "@/lib/actions";
+import { getOrders } from "@/lib/actions/order.actions";
 
 export default async function Page() {
   const session = (await getServerSession(authOptions)) as Sessions;

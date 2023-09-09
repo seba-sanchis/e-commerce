@@ -1,9 +1,9 @@
-import { getBestsellers } from "@/lib/actions";
+import { getProductsBySales } from "@/lib/actions/product.actions";
 import { Product } from ".";
 import { Product as Products } from "@/common.types";
 
 export default async function Bestsellers() {
-  const response = await getBestsellers();
+  const response = await getProductsBySales();
 
   const data = await JSON.parse(JSON.stringify(response));
 

@@ -1,6 +1,6 @@
 import { Product } from "@/components";
 import { categories } from "@/constants";
-import { getProductsBySearch } from "@/lib/actions";
+import { getProductsBySearch } from "@/lib/actions/product.actions";
 
 export default async function Page({ params }: { params: { id: string } }) {
   const response = await getProductsBySearch(params.id);

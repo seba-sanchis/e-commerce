@@ -1,12 +1,12 @@
 "use client";
 
 import { useEffect, useState } from "react";
-
-import { newCheckOut } from "@/lib/actions";
 import { useRouter } from "next/navigation";
-import { Item, Sessions } from "@/common.types";
-import { Currency } from "mercadopago/shared/currency";
 import { PreferenceItem } from "mercadopago/models/preferences/create-payload.model";
+
+import { Currency } from "mercadopago/shared/currency";
+import { newCheckOut } from "@/lib/actions/checkout.actions";
+import { Item, Sessions } from "@/common.types";
 
 export default function CheckOut({
   bag,

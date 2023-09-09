@@ -2,11 +2,11 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { ObjectId } from "mongodb";
-
-import { addToBag, addToFavorite } from "@/lib/actions";
-import { Product, Sessions } from "@/common.types";
 import Image from "next/image";
+
+import { addToFavorite } from "@/lib/actions/favorite.actions";
+import { addToBag } from "@/lib/actions/bag.actions";
+import { Product, Sessions } from "@/common.types";
 
 export default function Attributes({
   products,

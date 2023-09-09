@@ -1,9 +1,8 @@
-import Image from "next/image";
-
-import { getProductsByName } from "@/lib/actions";
-import { Attributes } from "@/components";
 import { getServerSession } from "next-auth";
+
+import { Attributes } from "@/components";
 import { authOptions } from "@/lib/options";
+import { getProductsByName } from "@/lib/actions/product.actions";
 import { Sessions } from "@/common.types";
 
 export default async function Page({ params }: { params: { id: string } }) {

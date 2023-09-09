@@ -1,12 +1,12 @@
-import { getServerSession } from "next-auth";
 import Image from "next/image";
-
-import { Item, Sessions } from "@/common.types";
-import { authOptions } from "@/lib/options";
-import { getItems } from "@/lib/actions";
-import { CheckOut, DeleteButton, DetailsButton, Select } from "@/components";
-import { ObjectId } from "mongodb";
 import Link from "next/link";
+import { getServerSession } from "next-auth";
+import { ObjectId } from "mongodb";
+
+import { authOptions } from "@/lib/options";
+import { getItems } from "@/lib/actions/bag.actions";
+import { CheckOut, DeleteButton, DetailsButton, Select } from "@/components";
+import { Item, Sessions } from "@/common.types";
 
 export default async function Page() {
   const session = (await getServerSession(authOptions)) as Sessions;

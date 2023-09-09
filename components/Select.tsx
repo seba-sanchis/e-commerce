@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { ObjectId } from "mongodb";
 
 import { quantities } from "@/constants";
-import { updateItem } from "@/lib/actions";
+import { updateItem } from "@/lib/actions/bag.actions";
 
 export default function Select({
   itemId,

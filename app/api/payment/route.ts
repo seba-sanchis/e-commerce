@@ -1,7 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import mercadopago from "mercadopago";
-import { newOrder } from "@/lib/actions";
 import { PreferenceItem } from "mercadopago/models/preferences/create-payload.model";
+
+import { newOrder } from "@/lib/actions/order.actions";
 
 export const POST = async (request: NextRequest) => {
   const { data, type } = await request.json();

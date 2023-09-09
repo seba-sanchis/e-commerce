@@ -7,7 +7,7 @@ import { signIn } from "next-auth/react";
 
 import { region } from "@/constants";
 import { UserProfile } from "@/common.types";
-import { newUser } from "@/lib/actions";
+import { newUser } from "@/lib/actions/user.actions";
 
 type Validation = {
   firstName?: string;
