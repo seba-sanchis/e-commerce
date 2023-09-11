@@ -3,7 +3,7 @@ import { getProviders } from "next-auth/react";
 
 export default async function Page() {
   const providers = await getProviders();
-  console.log(providers);
+  
   return (
     <div className="flex flex-col flex-1 max-w-[980px] w-full mx-auto">
       <h1 className="text-[40px] font-semibold pt-[34px]">

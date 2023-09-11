@@ -37,7 +37,7 @@ export const authOptions: NextAuthOptions = {
     async signIn({ user }: { user: AdapterUser | Users }) {
       try {
         await connectToDB();
-
+console.log("user", user)
         // check if user already exists
         const userExists = (await User.findOne({
           email: user.email as string,
