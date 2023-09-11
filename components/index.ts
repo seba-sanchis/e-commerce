@@ -13,4 +13,5 @@ export { default as Product } from "./Product";
 export { default as Searchbar } from "./Searchbar";
 export { default as Select } from "./Select";
 export { default as Sidebar } from "./Sidebar";
+export { default as SignIn } from "./SignIn";
 export { default as UpdateUser } from "./UpdateUser";
