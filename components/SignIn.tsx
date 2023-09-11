@@ -12,7 +12,7 @@ export default function SignIn({ id, name }: { id: string; name: string }) {
       }}
       className="border border-black p-4"
     >
-      Sign in with {name}
+      Sign in with {id === "azure-ad" ? "Microsoft" : name}
     </button>
   );
 }
