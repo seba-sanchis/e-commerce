@@ -131,7 +131,8 @@ export default function UpdateUser({ session }: { session: UserProfile }) {
     if (
       user.areaCode === 0 ||
       isNaN(user.areaCode) ||
-      user.areaCode.toString().length !== 3
+      user.areaCode.toString().length < 2 ||
+      user.areaCode.toString().length > 3
     ) {
       validation.areaCode = "Código inválido.";
     }
@@ -140,8 +141,8 @@ export default function UpdateUser({ session }: { session: UserProfile }) {
     if (
       user.phone === 0 ||
       isNaN(user.phone) ||
-      user.phone.toString().length !== 7 ||
-      user.phone.toString().length !== 8
+      user.phone.toString().length < 7 ||
+      user.phone.toString().length > 8
     ) {
       validation.phone = "Ingresá un teléfono válido.";
     }

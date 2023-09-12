@@ -1,31 +1,64 @@
 import { Schema, model, models } from "mongoose";
 
 const UserSchema = new Schema({
-  name: {
+  firstName: {
     type: String,
-    required: [false, "Name is required!"],
+    required: [false, "First name is required!"],
     match: [
-      /^(?=.{6,32}$)(?![_.])(?!.*[_.]{2})[a-zA-Z0-9._\s]+(?<![_.])$/,
-      "Name invalid, it should contain 6-32 alphanumeric letters!",
+      /^(?=.{3,20}$)(?![_.])(?!.*[_.]{2})[a-zA-Z0-9._]+(?<![_.])$/,
+      "First name invalid, it should contain 3-20 alphanumeric letters!",
+    ],
+  },
+  lastName: {
+    type: String,
+    required: [false, "Last name is required!"],
+    match: [
+      /^(?=.{3,20}$)(?![_.])(?!.*[_.]{2})[a-zA-Z0-9._]+(?<![_.])$/,
+      "Last name invalid, it should contain 3-20 alphanumeric letters!",
     ],
   },
   dni: {
     type: Number,
     unique: [true, "DNI already exists!"],
+    required: [false, "DNI is required and it should be unique!"],
   },
-  birthday: Date,
-  region: String,
-  location: String,
-  address: String,
-  postcode: Number,
+  birthday: {
+    type: Date,
+    required: [false, "Birthday is required!"],
+  },
+  region: {
+    type: String,
+    required: [false, "Region is required!"],
+  },
+  location: {
+    type: String,
+    required: [false, "Location is required!"],
+  },
+  address: {
+    type: String,
+    required: [false, "Address is required!"],
+  },
+  postcode: {
+    type: Number,
+    required: [false, "Postcode is required!"],
+  },
   email: {
     type: String,
     unique: [true, "Email already exists!"],
-    required: [false, "Email is required and it should be unique!"],
+    required: [true, "Email is required and it should be unique!"],
   },
-  image: String,
-  areaCode: Number,
-  phone: Number,
+  password: {
+    type: String,
+    required: [false, "Password is required!"],
+  },
+  areaCode: {
+    type: Number,
+    required: [false, "Area code is required!"],
+  },
+  phone: {
+    type: Number,
+    required: [false, "Phone is required!"],
+  },
   bag: [
     {
       type: Schema.Types.ObjectId,
@@ -45,7 +78,5 @@ const UserSchema = new Schema({
     },
   ],
 });
-
 const User = models.User || model("User", UserSchema);
-
 export default User;

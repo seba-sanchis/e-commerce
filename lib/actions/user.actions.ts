@@ -121,6 +121,8 @@ export async function updateUser(params: UserProfile) {
 
     if (!existingUser) throw new Error("User not found");
 
+    const hashedPassword = await bcrypt.hash(password, 12);
+
     // Update the product with new data
     existingUser.firstName = firstName;
     existingUser.lastName = lastName;
@@ -131,10 +133,7 @@ export async function updateUser(params: UserProfile) {
     existingUser.address = address;
     existingUser.postcode = postcode;
     existingUser.email = email;
-
-    if (password) {
-      existingUser.password = password;
-    }
+    existingUser.password = hashedPassword;
     existingUser.areaCode = areaCode;
     existingUser.phone = phone;
 
