@@ -12,7 +12,7 @@ export default function SignIn({ id, name }: { id: string; name: string }) {
       }}
       className="border border-black p-4"
     >
-      Ingresar con {name}
+      {id} - Ingresar con {name}
     </button>
   );
 }
