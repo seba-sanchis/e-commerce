@@ -15,7 +15,7 @@ export default async function Page() {
   const providers = await getProviders();
 
   return (
-    <div className="flex flex-col flex-1 max-w-[980px] w-full mx-auto">
+    <section className="flex flex-col flex-1 max-w-[980px] w-full mx-auto">
       <h1 className="text-[40px] font-semibold pt-[34px]">
         Iniciá sesión para comprar.
       </h1>
@@ -26,7 +26,7 @@ export default async function Page() {
 
         <div className="flex flex-col items-center text-sm gap-2 my-4">
           <div>
-            <Link href="#" className="text-tertiary-blue">
+            <Link href="/forgotten-password" className="text-tertiary-blue">
               ¿Olvidaste tu contraseña?
             </Link>
           </div>
@@ -58,6 +58,6 @@ export default async function Page() {
             )}
         </div>
       </div>
-    </div>
+    </section>
   );
 }
