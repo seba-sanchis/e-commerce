@@ -13,6 +13,7 @@ export { default as OAuth } from "./OAuth";
 export { default as PaymentData } from "./PaymentInfo";
 export { default as Product } from "./Product";
 export { default as Searchbar } from "./Searchbar";
+export { default as SearchButton } from "./SearchButton";
 export { default as Select } from "./Select";
 export { default as Sidebar } from "./Sidebar";
 export { default as SignInForm } from "./SignInForm";

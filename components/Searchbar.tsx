@@ -19,7 +19,7 @@ export default function Searchbar() {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="flex items-center z-10">
+    <form onSubmit={handleSubmit} className="hidden md:flex items-center z-10">
       <input
         value={search}
         onChange={(e) => setSearch(e.target.value)}

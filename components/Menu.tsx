@@ -23,7 +23,9 @@ export default function Menu() {
           height={40}
         />
       </Link>
-      <ul className="flex gap-4 z-30">
+      
+      {/* Categories */}
+      <ul className="hidden md:flex gap-4 z-30">
         {menu.map((category) => (
           <li key={category}>
             <button

@@ -6,7 +6,7 @@ import { cards } from "@/constants";
 export default function Categories() {
   return (
     <section className="mb-8">
-      <div className="flex justify-between w-full max-w-[980px] mx-auto gap-3">
+      <div className="flex flex-col md:flex-row justify-between w-full max-w-[980px] px-4 md:px-0 mx-auto gap-3">
         {cards.map((category) => (
           <div key={category.name}>
             {/* <div className="absolute flex flex-col items-center justify-center w-[485px] h-[336px] px-4">
@@ -25,7 +25,7 @@ export default function Categories() {
               </Link>
             </div> */}
 
-            <div className="rounded-r overflow-hidden flex justify-center items-center">
+            <div className="flex justify-center items-center rounded-r overflow-hidden">
               <Image
                 src={category.url}
                 alt="category"

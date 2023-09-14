@@ -83,6 +83,7 @@ export async function getUser(user: UserProfile) {
 
     const session = {
       id: sessionUser._id.toString(),
+      email: sessionUser.email,
       dni: sessionUser.dni,
       bag: sessionUser.bag,
       items: items,

@@ -3,34 +3,35 @@ import { getServerSession } from "next-auth";
 
 import { authOptions } from "@/lib/options";
 import { Sessions } from "@/common.types";
-import { Menu, Searchbar } from ".";
+import { Menu, SearchButton, Searchbar } from ".";
 
 export default async function Navbar() {
   const session = (await getServerSession(authOptions)) as Sessions;
 
   return (
-    <header className="w-full h-14 px-6 z-10 bg-[rgba(251,251,253,.8)]">
-      <nav className="flex items-center justify-between w-full max-w-[980px] h-full mx-auto">
+    <header className="w-full h-14 px-4 z-10 bg-[rgba(251,251,253,.8)]">
+      <nav className="flex justify-between items-center w-full max-w-[980px] h-full mx-auto">
         <Menu />
 
         <Searchbar />
 
-        <div className="flex justify-end items-center gap-4 z-10">
+        <div className="flex justify-end items-center md:gap-4 z-30">
           {session ? (
             <Link
               href="/profile/orders"
-              className="navbar_link flex justify-center items-center px-2"
+              className="navbar_link hidden md:flex justify-center items-center px-2"
             >
               Mi perfil
             </Link>
           ) : (
             <Link
               href="/sign-in"
-              className="navbar_link flex justify-center items-center px-2"
+              className="navbar_link hidden md:flex justify-center items-center px-2"
             >
               Ingresá
             </Link>
           )}
+          <SearchButton />
           <Link
             href={session ? "/bag" : "/sign-in"}
             className="flex justify-center items-center w-10 h-10"
@@ -44,6 +45,9 @@ export default async function Navbar() {
               </div>
             )}
           </Link>
+          <button className="flex md:hidden justify-center items-center w-10 h-10 text-primary-black/80 hover:text-primary-black transition-colors">
+            <i className="fi fi-rr-menu-burger flex justify-center items-center"></i>
+          </button>
         </div>
       </nav>
     </header>
