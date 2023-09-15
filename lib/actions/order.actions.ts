@@ -1,3 +1,5 @@
+"use server";
+
 import { startSession } from "mongoose";
 
 import { connectToDB } from "../database";

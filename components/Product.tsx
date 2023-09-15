@@ -12,7 +12,7 @@ export default function Product({ product }: { product: Product }) {
       <div className="flex flex-contain rounded-2xl-t overflow-hidden">
         <Image src={product.image} alt={product.sku} width={230} height={230} />
       </div>
-      <div className="flex flex-col p-4 gap-2">
+      <div className="flex flex-col p-4 gap-2 text-ellipsis overflow-hidden">
         <div className="text-sm font-semibold line-clamp-2 group-hover:text-tertiary-blue">
           {product.name}
         </div>

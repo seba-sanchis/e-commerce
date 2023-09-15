@@ -1,3 +1,5 @@
+"use server";
+
 import { connectToDB } from "../database";
 import Product from "@/models/product";
 
@@ -19,7 +21,7 @@ export async function getProductsBySales() {
   try {
     await connectToDB();
 
-    const products = await Product.find().sort({ sold: -1 }).limit(4);
+    const products = await Product.find().sort({ sold: -1 }).limit(8);
 
     return products;
   } catch (error: any) {

@@ -17,4 +17,5 @@ export { default as SearchButton } from "./SearchButton";
 export { default as Select } from "./Select";
 export { default as Sidebar } from "./Sidebar";
 export { default as SignInForm } from "./SignInForm";
+export { default as Slider } from "./Slider";
 export { default as UpdateUser } from "./UpdateUser";
