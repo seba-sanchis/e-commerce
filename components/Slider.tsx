@@ -1,36 +1,84 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Product } from "@/common.types";
 import Link from "next/link";
 import Image from "next/image";
 
 export default function Slider({ products }: { products: Product[] }) {
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [groupSize, setGroupSize] = useState(4);
+  const [translateValue, setTranslateValue] = useState(0);
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handleResize = () => {
+      const containerWidth = containerRef.current?.offsetWidth || 0;
+      const numProductsToShow = containerWidth < 768 ? 1 : 4;
+
+      setGroupSize(numProductsToShow);
+
+      if (currentIndex > products.length - numProductsToShow) {
+        setCurrentIndex(products.length - numProductsToShow);
+      }
+    };
+
+    handleResize();
+
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, [currentIndex, products.length]);
+
+  useEffect(() => {
+    const containerWidth = containerRef.current?.offsetWidth || 0;
+    const itemWidth = 230 + 16; // width of each item + margin
+    const newTranslateValue =
+      containerWidth < 768 ? containerWidth : itemWidth * groupSize;
+    setTranslateValue(newTranslateValue);
+  }, [groupSize]);
 
   const prevSlide = () => {
-    setCurrentIndex((prevIndex) => Math.max(prevIndex - 4, 0));
+    const numProductsInPrevGroup = Math.min(groupSize, currentIndex);
+
+    if (numProductsInPrevGroup >= groupSize) {
+      setCurrentIndex((prevIndex) =>
+        Math.max(prevIndex - (window.innerWidth < 768 ? groupSize : 1), 0)
+      );
+    } else {
+      setCurrentIndex((prevIndex) =>
+        Math.max(prevIndex - numProductsInPrevGroup, 0)
+      );
+    }
   };
 
   const nextSlide = () => {
     const remainingProducts = products.length - currentIndex;
-    const numProductsInNextGroup = Math.min(4, remainingProducts);
+    const numProductsInNextGroup = Math.min(groupSize, remainingProducts);
 
-    setCurrentIndex((prevIndex) => prevIndex + numProductsInNextGroup);
+    if (numProductsInNextGroup >= groupSize) {
+      setCurrentIndex(
+        (prevIndex) => prevIndex + (window.innerWidth < 768 ? groupSize : 1)
+      );
+    } else {
+      setCurrentIndex((prevIndex) => prevIndex + numProductsInNextGroup);
+    }
   };
 
   const groupedProducts = [];
 
-  for (let i = 0; i < products.length; i += 4) {
-    groupedProducts.push(products.slice(i, i + 4));
+  for (let i = 0; i < products.length; i += groupSize) {
+    groupedProducts.push(products.slice(i, i + groupSize));
   }
 
   return (
     <div className="max-w-[980px] w-full overflow-hidden relative">
-      <div className="flex w-[calc(230px * 4)]">
+      <div ref={containerRef} className="flex w-full">
         <div
           style={{
-            transform: `translateX(-${currentIndex * (230 + 4 * 4)}px)`,
+            transform: `translateX(-${currentIndex * translateValue}px)`,
             transition: "transform 400ms",
           }}
           className="flex w-full h-full rounded-2xl relative"
@@ -40,7 +88,7 @@ export default function Slider({ products }: { products: Product[] }) {
               {group.map((product, index) => (
                 <Link
                   href={`/product/${product.name.replace(/\s+/g, "-")}`}
-                  className="group flex flex-col min-w-[230px] w-full rounded-2xl bg-primary-gray cursor-pointer mx-2"
+                  className="group flex flex-col min-w-[230px] w-screen md:w-full rounded-2xl bg-primary-gray cursor-pointer md:mx-2"
                   key={index}
                 >
                   <div className="flex flex-contain rounded-2xl-t overflow-hidden">
@@ -82,7 +130,7 @@ export default function Slider({ products }: { products: Product[] }) {
           </div>
         )}
         {/* Right Arrow */}
-        {currentIndex + 4 < products.length && (
+        {(currentIndex + 1) * groupSize < products.length && (
           <div className="flex justify-center items-center absolute top-[50%] -translate-x-0 translate-y-[-50%] right-5 text-2xl rounded-full p-2 bg-[rgba(210,210,215,.64)] text-[rgba(0,0,0,.56)] cursor-pointer">
             <button onClick={nextSlide} className="w-8 h-8">
               <i className="fi fi-rr-angle-right flex justify-center items-center ml-1"></i>
@@ -92,18 +140,20 @@ export default function Slider({ products }: { products: Product[] }) {
       </div>
 
       <ul className="flex top-4 justify-center py-2">
-        {groupedProducts.map((group, groupIndex) => (
-          <li key={groupIndex}>
-            <button
-              onClick={() => setCurrentIndex(groupIndex * 4)}
-              className={`cursor-pointer rounded-full w-2 h-2 mx-2 transition-colors duration-100 ease-linear ${
-                groupIndex * 4 === currentIndex
-                  ? "bg-[rgba(0,0,0,.8)]"
-                  : "bg-[rgba(0,0,0,.42)]"
-              }`}
-            ></button>
-          </li>
-        ))}
+        {Array.from({ length: Math.ceil(products.length / groupSize) }).map(
+          (_, index) => (
+            <li key={index}>
+              <button
+                onClick={() => setCurrentIndex(index)}
+                className={`cursor-pointer rounded-full w-2 h-2 mx-2 transition-colors duration-100 ease-linear ${
+                  index === currentIndex
+                    ? "bg-[rgba(0,0,0,.8)]"
+                    : "bg-[rgba(0,0,0,.42)]"
+                }`}
+              ></button>
+            </li>
+          )
+        )}
       </ul>
     </div>
   );

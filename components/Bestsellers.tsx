@@ -9,7 +9,9 @@ export default async function Bestsellers() {
   return (
     <section className="py-10">
       <div className="flex flex-col w-full max-w-[980px] rounded mx-auto relative overflow-hidden">
-        <div className="text-xl font-semibold mb-4">Productos más vendidos</div>
+        <div className="text-xl font-semibold mb-4 mx-4 md:mx-0">
+          Productos más vendidos
+        </div>
         <Slider products={data} />
       </div>
     </section>
