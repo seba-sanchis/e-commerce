@@ -3,15 +3,18 @@ import { getServerSession } from "next-auth";
 
 import { authOptions } from "@/lib/options";
 import { Sessions } from "@/common.types";
-import { Menu, SearchButton, Searchbar } from ".";
+import { MenuBar, SearchButton, Searchbar } from ".";
+import MenuButton from "./MenuButton";
 
 export default async function Navbar() {
   const session = (await getServerSession(authOptions)) as Sessions;
 
+  const sessionData = await JSON.parse(JSON.stringify(session));
+
   return (
     <header className="w-full h-14 px-4 z-10 bg-[rgba(251,251,253,.8)]">
       <nav className="flex justify-between items-center w-full max-w-[980px] h-full mx-auto">
-        <Menu />
+        <MenuBar />
 
         <Searchbar />
 
@@ -45,9 +48,8 @@ export default async function Navbar() {
               </div>
             )}
           </Link>
-          <button className="flex md:hidden justify-center items-center w-10 h-10 text-primary-black/80 hover:text-primary-black transition-colors">
-            <i className="fi fi-rr-menu-burger flex justify-center items-center"></i>
-          </button>
+
+          <MenuButton session={sessionData} />
         </div>
       </nav>
     </header>

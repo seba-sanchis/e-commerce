@@ -20,7 +20,7 @@ export default function SearchButton() {
   };
 
   return (
-    <>
+    <div className="block md:hidden">
       <div
         className={`absolute pl-2 pr-4 top-2 left-0 right-0 bg-white ${
           toggleBar ? "flex" : "hidden"
@@ -52,6 +52,6 @@ export default function SearchButton() {
       >
         <i className="fi fi-rr-search flex justify-center items-center"></i>
       </button>
-    </>
+    </div>
   );
 }

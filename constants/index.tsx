@@ -15,6 +15,24 @@ export const cards = [
 
 export const menu = ["Tienda"];
 
+export const myprofile = [
+  {
+    name: "Compras",
+    url: "/profile/orders",
+    icon: <i className="fi fi-rr-box-open-full flex items-center text-xl"></i>,
+  },
+  {
+    name: "Favoritos",
+    url: "/profile/favorites",
+    icon: <i className="fi fi-rr-heart flex items-center text-xl"></i>,
+  },
+  {
+    name: "Configuración",
+    url: "/profile/account",
+    icon: <i className="fi fi-rr-settings flex items-center text-xl"></i>,
+  },
+];
+
 export const env = {
   MERCADOPAGO_TOKEN: process.env.MERCADOPAGO_TOKEN,
   MERCADOPAGO_URL: process.env.MERCADOPAGO_URL,
@@ -26,11 +44,11 @@ export const env = {
 export const categories = [
   {
     name: "Calzado",
-    url: "calzado",
+    url: "/category/calzado",
   },
   {
     name: "Ropa",
-    url: "ropa",
+    url: "/category/ropa",
   },
 ];
 
@@ -79,22 +97,4 @@ export const region = [
   "Santiago del Estero",
   "Tierra del Fuego",
   "Tucumán",
-];
-
-export const settings = [
-  {
-    name: "Compras",
-    url: "/profile/orders",
-    icon: <i className="fi fi-rr-box-open-full flex items-center text-xl"></i>,
-  },
-  {
-    name: "Favoritos",
-    url: "/profile/favorites",
-    icon: <i className="fi fi-rr-heart flex items-center text-xl"></i>,
-  },
-  {
-    name: "Configuración",
-    url: "/profile/account",
-    icon: <i className="fi fi-rr-settings flex items-center text-xl"></i>,
-  },
 ];

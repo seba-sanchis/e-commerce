@@ -4,14 +4,14 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { signOut } from "next-auth/react";
 
-import { settings } from "@/constants";
+import { myprofile } from "@/constants";
 
 export default function Sidebar() {
   const pathName = usePathname();
 
   return (
     <ul className="w-full max-w-[245px] border-r border-secondary-gray">
-      {settings.map((setting) => (
+      {myprofile.map((setting) => (
         <li key={setting.name}>
           <Link
             href={setting.url}
