@@ -4,8 +4,8 @@ import Link from "next/link";
 export default function Banner() {
   return (
     <section className="bg-primary-gray">
-      <div className="flex flex-col md:flex-row justify-center items-center w-full h-96 px-4 py-8 md:p-0 max-w-[980px] rounded mx-auto">
-        <div className="flex flex-col justify-center items-center md:items-start md:gap-3.5 md:max-w-[33%]">
+      <div className="flex flex-col md:flex-row justify-center items-center w-full h-96  px-4 py-8 md:p-0 max-w-[980px] rounded mx-auto">
+        <div className="flex flex-col justify-center items-center md:items-start mb-2 md:mb-0 md:gap-3.5 md:max-w-[33%]">
           <h2 className="text-3xl md:text-5xl font-semibold text-center md:text-left">Just do it. 50% OFF</h2>
           <h3 className="text-lg md:text-xl text-center md:text-left">Productos seleccionados de la línea Jordan.</h3>
           <Link
