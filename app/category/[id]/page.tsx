@@ -24,7 +24,7 @@ export default async function Page({ params }: { params: { id: string } }) {
               {category ? category.name : "Resultado de búsqueda"}
             </h1>
           </div>
-          <div className="flex flex-wrap flex-1 gap-4">
+          <div className="flex justify-center flex-wrap flex-1 gap-2 md:gap-4">
             {category
               ? products.map((product) => (
                   <Product key={product.sku} product={product} />
