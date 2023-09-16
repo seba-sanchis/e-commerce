@@ -10,6 +10,7 @@ export default function Slider({ products }: { products: Product[] }) {
   const [groupSize, setGroupSize] = useState(4);
   const [translateValue, setTranslateValue] = useState(0);
   const containerRef = useRef<HTMLDivElement>(null);
+  const touchStartX = useRef<number | null>(null);
 
   useEffect(() => {
     const handleResize = () => {
@@ -73,8 +74,39 @@ export default function Slider({ products }: { products: Product[] }) {
     groupedProducts.push(products.slice(i, i + groupSize));
   }
 
+  const handleTouchStart = (e: React.TouchEvent) => {
+    touchStartX.current = e.touches[0].clientX;
+  };
+
+  const handleTouchMove = (e: React.TouchEvent) => {
+    if (touchStartX.current !== null) {
+      const touchMoveX = e.touches[0].clientX;
+      const deltaX = touchStartX.current - touchMoveX;
+
+      if (Math.abs(deltaX) > 30) {
+        // Threshold for swipe action
+        if (deltaX > 0) {
+          nextSlide();
+        } else {
+          prevSlide();
+        }
+
+        touchStartX.current = null;
+      }
+    }
+  };
+
+  const handleTouchEnd = () => {
+    touchStartX.current = null;
+  };
+
   return (
-    <div className="max-w-[980px] w-full overflow-hidden relative">
+    <div
+      className="max-w-[980px] w-full overflow-hidden relative"
+      onTouchStart={handleTouchStart}
+      onTouchMove={handleTouchMove}
+      onTouchEnd={handleTouchEnd}
+    >
       <div ref={containerRef} className="flex w-full">
         <div
           style={{
@@ -88,7 +120,7 @@ export default function Slider({ products }: { products: Product[] }) {
               {group.map((product, index) => (
                 <Link
                   href={`/product/${product.name.replace(/\s+/g, "-")}`}
-                  className="group flex flex-col min-w-[230px] w-screen md:w-full rounded-2xl bg-primary-gray cursor-pointer md:mx-2"
+                  className="group flex flex-col items-center md:items-start min-w-[230px] w-screen md:w-full md:rounded-2xl bg-primary-gray cursor-pointer md:mx-2"
                   key={index}
                 >
                   <div className="flex flex-contain rounded-2xl-t overflow-hidden">
@@ -99,7 +131,7 @@ export default function Slider({ products }: { products: Product[] }) {
                       height={230}
                     />
                   </div>
-                  <div className="flex flex-col p-4 gap-2 text-ellipsis overflow-hidden">
+                  <div className="flex flex-col items-center md:items-start p-4 gap-2 text-ellipsis overflow-hidden">
                     <div className="text-sm font-semibold line-clamp-2 group-hover:text-tertiary-blue">
                       {product.name}
                     </div>
@@ -120,24 +152,27 @@ export default function Slider({ products }: { products: Product[] }) {
         </div>
       </div>
 
-      <div>
-        {/* Left Arrow */}
-        {currentIndex > 0 && (
-          <div className="flex justify-center items-center absolute top-[50%] -translate-x-0 translate-y-[-50%] left-5 text-2xl rounded-full p-2 bg-[rgba(210,210,215,.64)] text-[rgba(0,0,0,.56)] cursor-pointer">
-            <button onClick={prevSlide} className="w-8 h-8">
-              <i className="fi fi-rr-angle-left flex justify-center items-center mr-1"></i>
-            </button>
+      {!containerRef.current ||
+        (containerRef.current.offsetWidth >= 768 && (
+          <div>
+            {/* Left Arrow */}
+            {currentIndex > 0 && (
+              <div className="flex justify-center items-center absolute top-[50%] -translate-x-0 translate-y-[-50%] left-5 text-2xl rounded-full p-2 bg-[rgba(210,210,215,.64)] text-[rgba(0,0,0,.56)] cursor-pointer">
+                <button onClick={prevSlide} className="w-8 h-8">
+                  <i className="fi fi-rr-angle-left flex justify-center items-center mr-1"></i>
+                </button>
+              </div>
+            )}
+            {/* Right Arrow */}
+            {(currentIndex + 1) * groupSize < products.length && (
+              <div className="flex justify-center items-center absolute top-[50%] -translate-x-0 translate-y-[-50%] right-5 text-2xl rounded-full p-2 bg-[rgba(210,210,215,.64)] text-[rgba(0,0,0,.56)] cursor-pointer">
+                <button onClick={nextSlide} className="w-8 h-8">
+                  <i className="fi fi-rr-angle-right flex justify-center items-center ml-1"></i>
+                </button>
+              </div>
+            )}
           </div>
-        )}
-        {/* Right Arrow */}
-        {(currentIndex + 1) * groupSize < products.length && (
-          <div className="flex justify-center items-center absolute top-[50%] -translate-x-0 translate-y-[-50%] right-5 text-2xl rounded-full p-2 bg-[rgba(210,210,215,.64)] text-[rgba(0,0,0,.56)] cursor-pointer">
-            <button onClick={nextSlide} className="w-8 h-8">
-              <i className="fi fi-rr-angle-right flex justify-center items-center ml-1"></i>
-            </button>
-          </div>
-        )}
-      </div>
+        ))}
 
       <ul className="flex top-4 justify-center py-2">
         {Array.from({ length: Math.ceil(products.length / groupSize) }).map(
