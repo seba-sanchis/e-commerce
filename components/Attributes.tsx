@@ -64,21 +64,38 @@ export default function Attributes({
   };
 
   return (
-    <div className="flex flex-row">
-      <div className="flex flex-wrap flex-1">
+    <div className="flex flex-row p-4 md:p-0">
+      <div className="hidden md:flex flex-wrap flex-1">
         <div className="block sticky top-0 h-fit">
-          <Image
-            src={product?.image!}
-            alt="product"
-            width={410}
-            height={410}
-            className="bg-gree-600"
-          />
+          {product && (
+            <Image
+              src={product.image}
+              alt="product"
+              width={410}
+              height={410}
+              className="bg-gree-600"
+            />
+          )}
         </div>
       </div>
       <div className="flex flex-col flex-wrap flex-1">
-        <h1 className="text-4xl font-semibold">{products[0].name}</h1>
-        <div className="pt-3 mb-8">
+        <h1 className="text-2xl md:text-4xl font-semibold">
+          {products[0].name}
+        </h1>
+        <div className="flex justify-center md:hidden md:justify-start flex-wrap flex-1">
+          <div className="block w-[75%]">
+            {product && (
+              <Image
+                src={product.image}
+                alt="product"
+                width={410}
+                height={410}
+                className="bg-gree-600"
+              />
+            )}
+          </div>
+        </div>
+        <div className="pt-3 mb-4 md:mb-8 text-sm md:text-base">
           <ul className="h-48 gap-3">
             {product &&
               product.features.map((feature) => (
@@ -88,11 +105,12 @@ export default function Attributes({
             <li key={product?.sku}>Estilo: {product?.sku}</li>
           </ul>
         </div>
+
         <form onSubmit={handleSubmit} className="border-t border-[#d2d2d7]">
           <h3 className="mt-4">Color</h3>
-          <div className="flex flex-col flex-wrap gap-3.5 mt-3.5">
+          <div className="flex flex-col flex-wrap gap-2 md:gap-3 mt-3.5">
             {products.map((product) => (
-              <div key={product.colors} className="h-14">
+              <div key={product.colors} className="h-full">
                 <input
                   id={product.colors}
                   value={product.colors}
@@ -101,13 +119,13 @@ export default function Attributes({
                     setSelected({ ...selected, color: e.target.value })
                   }
                   type="checkbox"
-                  className="absolute appearance-none peer w-full max-w-[490px] h-14 p-3.5 rounded-xl cursor-pointer"
+                  className="absolute appearance-none peer w-full max-w-[490px] min-h-[54px] p-3.5 rounded-xl cursor-pointer"
                 />
                 <label
                   htmlFor={product.colors}
                   className="flex flex-wrap p-3.5 cursor-pointer rounded-xl border border-tertiary-gray peer-checked:border-2 peer-checked:border-primary-blue peer-disabled:opacity-40"
                 >
-                  <span>{product.colors}</span>
+                  <span className="text-sm md:text-base">{product.colors}</span>
                 </label>
               </div>
             ))}
@@ -115,7 +133,7 @@ export default function Attributes({
           <h3 className="mt-4">Talle (US)</h3>
           <div className="grid grid-cols-5 gap-3.5 mt-3.5">
             {product?.sizes.map((size, i) => (
-              <div key={size} className="w-[86px] h-14">
+              <div key={size} className="w-full md:w-[86px] h-full">
                 <input
                   id={size}
                   value={size}
@@ -124,14 +142,14 @@ export default function Attributes({
                     setSelected({ ...selected, size: e.target.value })
                   }
                   type="checkbox"
-                  className="absolute appearance-none peer w-[86px] max-w-[490px] h-14 p-3.5 rounded-xl cursor-pointer"
+                  className="absolute appearance-none peer w-full md:w-[86px] max-w-[490px] md:min-h-[54px] p-3.5 rounded-xl cursor-pointer"
                   disabled={product.stock[i] <= 0}
                 />
                 <label
                   htmlFor={size}
                   className="flex justify-center flex-wrap p-3.5 cursor-pointer rounded-xl border border-tertiary-gray peer-checked:border-2 peer-checked:border-primary-blue peer-disabled:opacity-40"
                 >
-                  <span>{size}</span>
+                  <span className="text-sm md:text-base">{size}</span>
                 </label>
               </div>
             ))}
