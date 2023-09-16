@@ -41,13 +41,14 @@ export default function Attributes({
     setItem({ product: found?._id, quantity: quantity, size: selected.size });
   }, [selected]);
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     if (session) {
-      addToBag(item);
+      await addToBag(item);
 
       router.refresh();
+      router.push("/bag");
     } else {
       router.push("/sign-in");
     }

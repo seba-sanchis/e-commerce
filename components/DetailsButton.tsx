@@ -12,7 +12,7 @@ export default function DetailsButton({
   const [toggleFeatures, setToggleFeatures] = useState(false);
 
   return (
-    <>
+    <div className="flex flex-col">
       <button
         onClick={() => setToggleFeatures((state) => !state)}
         className="flex items-center mt-3 text-[17px] text-tertiary-blue"
@@ -33,6 +33,6 @@ export default function DetailsButton({
           <span>Talle (US):</span> <span>{size}</span>
         </li>
       </ul>
-    </>
+    </div>
   );
 }
