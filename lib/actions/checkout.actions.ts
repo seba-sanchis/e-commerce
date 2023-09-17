@@ -16,7 +16,7 @@ export async function newCheckOut(
 ) {
   // Agrega credenciales
   mercadopago.configure({
-    access_token: MERCADOPAGO_TOKEN!,
+    access_token: process.env.MERCADOPAGO_TOKEN!,
   });
 
   try {
