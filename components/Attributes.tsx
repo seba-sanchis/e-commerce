@@ -97,7 +97,7 @@ export default function Attributes({
           </div>
         </div>
         <div className="pt-3 mb-4 md:mb-8 text-sm md:text-base">
-          <ul className="h-48 gap-3">
+          <ul className="h-44 md:h-48 gap-3">
             {product &&
               product.features.map((feature) => (
                 <li key={feature}>{feature}</li>
@@ -111,7 +111,7 @@ export default function Attributes({
           <h3 className="mt-4">Color</h3>
           <div className="flex flex-col flex-wrap gap-2 md:gap-3 mt-3.5">
             {products.map((product) => (
-              <div key={product.colors} className="h-full">
+              <div key={product.colors} className="flex items-center h-14">
                 <input
                   id={product.colors}
                   value={product.colors}
@@ -120,11 +120,11 @@ export default function Attributes({
                     setSelected({ ...selected, color: e.target.value })
                   }
                   type="checkbox"
-                  className="absolute appearance-none peer w-full max-w-[490px] min-h-[54px] p-3.5 rounded-xl cursor-pointer"
+                  className="absolute appearance-none peer"
                 />
                 <label
                   htmlFor={product.colors}
-                  className="flex flex-wrap p-3.5 cursor-pointer rounded-xl border border-tertiary-gray peer-checked:border-2 peer-checked:border-primary-blue peer-disabled:opacity-40"
+                  className="flex flex-wrap p-3.5 w-full cursor-pointer rounded-xl border border-tertiary-gray peer-checked:border-2 peer-checked:border-primary-blue peer-disabled:opacity-40"
                 >
                   <span className="text-sm md:text-base">{product.colors}</span>
                 </label>
@@ -143,7 +143,7 @@ export default function Attributes({
                     setSelected({ ...selected, size: e.target.value })
                   }
                   type="checkbox"
-                  className="absolute appearance-none peer w-full md:w-[86px] max-w-[490px] md:min-h-[54px] p-3.5 rounded-xl cursor-pointer"
+                  className="absolute appearance-none peer"
                   disabled={product.stock[i] <= 0}
                 />
                 <label
