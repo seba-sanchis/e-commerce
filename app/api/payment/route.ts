@@ -6,11 +6,11 @@ import { newOrder } from "@/lib/actions/order.actions";
 
 export const POST = async (request: NextRequest) => {
   const { data, type } = await request.json();
-
+console.log("1st step:", type)
   try {
     if (type === "payment") {
       const { body } = await mercadopago.payment.findById(data.id);
-
+      console.log("2nd step:", body)
       const order = {
         orderId: body.order.id,
         date: body.date_approved,

@@ -60,6 +60,7 @@ export async function newOrder(
       picked: newPicked.map((item: Pickeds) => item._id),
       transaction: newTransaction._id,
     });
+    console.log("3rd step:", newOrder);
     await newOrder.save();
 
     // Find the existing client by ID
