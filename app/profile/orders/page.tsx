@@ -29,7 +29,7 @@ export default async function Page() {
   return (
     <div className="w-full">
       {response.map((order) => (
-        <div key={order._id} className="flex m-4 p-4 rounded-2xl bg-[#f2f2f2]">
+        <div key={order._id} className="flex flex-col md:flex-row m-4 p-4 rounded-2xl bg-[#f2f2f2]">
           <div className="flex flex-col gap-2">
             {order.picked.map((pick: Picked, i: number) => (
               <div key={pick._id?.toString()} className="flex">

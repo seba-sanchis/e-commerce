@@ -10,7 +10,7 @@ export default function Sidebar() {
   const pathName = usePathname();
 
   return (
-    <ul className="w-full max-w-[245px] border-r border-secondary-gray">
+    <ul className="hidden md:block w-full max-w-[245px] border-r border-secondary-gray">
       {myprofile.map((setting) => (
         <li key={setting.name}>
           <Link
