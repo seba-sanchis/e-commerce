@@ -26,7 +26,7 @@ export default function CheckOut({
       title: item.product?.name,
       description: item.size,
       currency_id: "ARS" as Currency,
-      // picture_url: url + item.product?.thumbnail,
+      picture_url: url + item.product?.thumbnail,
       category_id: item.product?.category,
       quantity: item.quantity,
       unit_price: item.product?.price,

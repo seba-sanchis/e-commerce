@@ -9,7 +9,7 @@ export const POST = async (request: NextRequest) => {
   console.log("console - type:", type);
   try {
     if (type === "payment") {
-      console.log("console - data:", data.id);
+      console.log("console - data.id:", data.id);
       const { body } = await mercadopago.payment.findById(data.id);
       console.log("console - body:", body);
 

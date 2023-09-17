@@ -17,11 +17,7 @@ const UserSchema = new Schema({
       "Last name invalid, it should contain 3-20 alphanumeric letters!",
     ],
   },
-  dni: {
-    type: Number,
-    unique: [true, "DNI already exists!"],
-    required: [false, "DNI is required and it should be unique!"],
-  },
+  dni: Number,
   birthday: {
     type: Date,
     required: [false, "Birthday is required!"],
@@ -78,5 +74,6 @@ const UserSchema = new Schema({
     },
   ],
 });
+
 const User = models.User || model("User", UserSchema);
 export default User;
