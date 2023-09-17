@@ -7,6 +7,7 @@ import { authOptions } from "@/lib/options";
 import { getItems } from "@/lib/actions/bag.actions";
 import { CheckOut, DeleteButton, DetailsButton, Select } from "@/components";
 import { Item, Sessions } from "@/common.types";
+import { env } from "@/constants";
 
 export default async function Page() {
   const session = (await getServerSession(authOptions)) as Sessions;
@@ -134,7 +135,7 @@ export default async function Page() {
             </div>
           </div>
         </div>
-        <CheckOut bag={data.bag} session={sessionData} />
+        <CheckOut bag={data.bag} session={sessionData} url={env.MERCADOPAGO_URL!} />
       </div>
     </div>
   );

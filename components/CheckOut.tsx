@@ -11,9 +11,11 @@ import { Item, Sessions } from "@/common.types";
 export default function CheckOut({
   bag,
   session,
+  url,
 }: {
   bag: Item[];
   session: Sessions;
+  url: string;
 }) {
   const router = useRouter();
   const [order, setOrder] = useState<PreferenceItem[]>([]);
@@ -24,8 +26,7 @@ export default function CheckOut({
       title: item.product?.name,
       description: item.size,
       currency_id: "ARS" as Currency,
-      picture_url:
-        "https://main.d2gkme05mz41sv.amplifyapp.com" + item.product?.thumbnail,
+      picture_url: url + item.product?.thumbnail,
       category_id: item.product?.category,
       quantity: item.quantity,
       unit_price: item.product?.price,
