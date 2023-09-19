@@ -21,9 +21,9 @@ export async function newCheckOut(
 ) {
   // Add credentials
   mercadopago.configure({
-    // access_token: MERCADOPAGO_ACCESS_TOKEN!,
-    client_id: MERCADOPAGO_CLIENT_ID!,
-    client_secret: MERCADOPAGO_CLIENT_SECRET!,
+    access_token: MERCADOPAGO_ACCESS_TOKEN!,
+    // client_id: MERCADOPAGO_CLIENT_ID!,
+    // client_secret: MERCADOPAGO_CLIENT_SECRET!,
   });
 
   try {
@@ -41,7 +41,7 @@ export async function newCheckOut(
       },
       external_reference: userId,
     });
-
+    console.log(response.body);
     return response.body;
   } catch (error: any) {
     throw new Error(`Failed to checkout: ${error.message}`);
