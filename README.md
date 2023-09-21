@@ -1,4 +1,4 @@
-# E-commerce - Online Retailers
+# E-commerce - Online retailers.
 
 Web application tailored for e-commerce, offering streamlined operations and enhanced customer experiences. This application harnesses the power of a serverless architecture for seamless scalability and cost-effective performance.
 
