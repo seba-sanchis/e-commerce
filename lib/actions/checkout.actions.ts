@@ -7,9 +7,6 @@ import { env } from "@/constants";
 
 const {
   MERCADOPAGO_ACCESS_TOKEN,
-  // MERCADOPAGO_CLIENT_ID,
-  // MERCADOPAGO_CLIENT_SECRET,
-  MERCADOPAGO_PUBLIC_KEY,
   MERCADOPAGO_URL,
 } = env;
 
@@ -22,8 +19,7 @@ export async function newCheckOut(
 ) {
   // Add credentials
   mercadopago.configure({
-    access_token: MERCADOPAGO_ACCESS_TOKEN!,
-    public_key: MERCADOPAGO_PUBLIC_KEY!,
+    access_token: MERCADOPAGO_ACCESS_TOKEN,
   });
 
   try {

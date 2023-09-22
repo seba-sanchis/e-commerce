@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@mercadopago/sdk-react": "^0.0.14",
     "@types/bcryptjs": "^2.4.2",
     "@types/mercadopago": "^1.5.8",
     "@types/node": "^20.6.0",

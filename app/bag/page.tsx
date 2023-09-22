@@ -18,6 +18,8 @@ export default async function Page() {
 
   const data = await JSON.parse(JSON.stringify(response));
 
+  const { MERCADOPAGO_URL } = env;
+
   return (
     <div className="flex justify-center w-full grow">
       <div className="flex flex-col flex-grow w-full max-w-[980px] pt-12 px-4 md:px-0 mb-8">
@@ -135,7 +137,7 @@ export default async function Page() {
             </div>
           </div>
         </div>
-        <CheckOut bag={data.bag} session={sessionData} url={env.MERCADOPAGO_URL!} />
+        <CheckOut bag={data.bag} session={sessionData} url={MERCADOPAGO_URL!} />
       </div>
     </div>
   );
