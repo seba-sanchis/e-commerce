@@ -134,7 +134,7 @@ export default function Attributes({
           <h3 className="mt-4">Talle (US)</h3>
           <div className="grid grid-cols-5 gap-3.5 mt-3.5">
             {product?.sizes.map((size, i) => (
-              <div key={size} className="w-full md:w-[86px] h-full">
+              <div key={size} className="w-full md:w-[86px] h-14">
                 <input
                   id={size}
                   value={size}
