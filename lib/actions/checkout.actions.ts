@@ -3,12 +3,13 @@
 import mercadopago from "mercadopago";
 
 import { PreferenceItem } from "mercadopago/models/preferences/create-payload.model";
-import { env } from "@/constants";
 
 const {
   MERCADOPAGO_ACCESS_TOKEN,
+  MERCADOPAGO_CLIENT_ID,
+  MERCADOPAGO_CLIENT_SECRET,
   MERCADOPAGO_URL,
-} = env;
+} = process.env;
 
 // Payment gateway integration (Mercado Pago - Checkout Pro)
 export async function newCheckOut(
@@ -19,7 +20,9 @@ export async function newCheckOut(
 ) {
   // Add credentials
   mercadopago.configure({
-    access_token: MERCADOPAGO_ACCESS_TOKEN,
+    // access_token: MERCADOPAGO_ACCESS_TOKEN,
+    client_id: MERCADOPAGO_CLIENT_ID!,
+    client_secret: MERCADOPAGO_CLIENT_SECRET!,
   });
 
   try {
