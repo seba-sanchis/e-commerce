@@ -20,7 +20,7 @@ export async function newCheckOut(
 ) {
   // Add credentials
   mercadopago.configure({
-    // access_token: MERCADOPAGO_ACCESS_TOKEN,
+    access_token: MERCADOPAGO_ACCESS_TOKEN,
     client_id: MERCADOPAGO_CLIENT_ID!,
     client_secret: MERCADOPAGO_CLIENT_SECRET!,
   });
