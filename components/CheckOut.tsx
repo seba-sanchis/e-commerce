@@ -2,13 +2,14 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { PreferenceItem } from "mercadopago/models/preferences/create-payload.model";
+
 import { initMercadoPago } from "@mercadopago/sdk-react";
 
 import { Currency } from "mercadopago/shared/currency";
 import { newCheckOut } from "@/lib/actions/checkout.actions";
 import { Item, Sessions } from "@/common.types";
 import { env } from "@/constants";
+import { Items } from "mercadopago/dist/clients/commonTypes";
 
 export default function CheckOut({
   bag,
@@ -20,7 +21,7 @@ export default function CheckOut({
   url: string;
 }) {
   const router = useRouter();
-  const [order, setOrder] = useState<PreferenceItem[]>([]);
+  const [order, setOrder] = useState<Items[]>([]);
 
   const { MERCADOPAGO_PUBLIC_KEY } = env;
   initMercadoPago(MERCADOPAGO_PUBLIC_KEY);
@@ -49,7 +50,7 @@ export default function CheckOut({
         session.user.dni as number
       );
 
-      router.push(response.init_point);
+      router.push(response);
     } else {
       router.push("/sign-in");
     }

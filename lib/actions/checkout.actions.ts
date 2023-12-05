@@ -1,8 +1,7 @@
 "use server";
 
-import mercadopago from "mercadopago";
-
-import { PreferenceItem } from "mercadopago/models/preferences/create-payload.model";
+import { MercadoPagoConfig, Preference } from "mercadopago";
+import { Items } from "mercadopago/dist/clients/commonTypes";
 
 const {
   MERCADOPAGO_ACCESS_TOKEN,
@@ -13,35 +12,38 @@ const {
 
 // Payment gateway integration (Mercado Pago - Checkout Pro)
 export async function newCheckOut(
-  params: PreferenceItem[],
+  params: Items[],
   userId: string,
   email: string,
   dni: number
 ) {
   // Add credentials
-  mercadopago.configure({
-    // access_token: MERCADOPAGO_ACCESS_TOKEN,
-    client_id: MERCADOPAGO_CLIENT_ID!,
-    client_secret: MERCADOPAGO_CLIENT_SECRET!,
+  const client = new MercadoPagoConfig({
+    accessToken: MERCADOPAGO_ACCESS_TOKEN!,
+    options: { timeout: 5000 },
   });
 
+  const preference = new Preference(client);
+
   try {
-    const response = await mercadopago.preferences.create({
-      items: params,
-      notification_url: `${MERCADOPAGO_URL}/api/payment`,
-      back_urls: {
-        failure: `${MERCADOPAGO_URL}/bag`,
-        pending: `${MERCADOPAGO_URL}/profile/orders`,
-        success: `${MERCADOPAGO_URL}/profile/orders`,
+    const response = await preference.create({
+      body: {
+        items: params,
+        notification_url: `${MERCADOPAGO_URL}/api/payment`,
+        back_urls: {
+          failure: `${MERCADOPAGO_URL}/bag`,
+          pending: `${MERCADOPAGO_URL}/profile/orders`,
+          success: `${MERCADOPAGO_URL}/profile/orders`,
+        },
+        //   payer: {
+        //     email: email,
+        //     identification: { type: "DNI", number: `${dni}` },
+        //   },
+        external_reference: userId,
       },
-      payer: {
-        email: email,
-        identification: { type: "DNI", number: `${dni}` },
-      },
-      external_reference: userId,
     });
-    console.log(response.body);
-    return response.body;
+
+    return response.init_point!;
   } catch (error: any) {
     throw new Error(`Failed to checkout: ${error.message}`);
   }
