@@ -10,16 +10,19 @@ export const POST = async (request: NextRequest) => {
   console.log("type ->", type);
   try {
     if (type === "payment") {
-      const body = await fetch(
+      console.log("data.id ->", data.id);
+
+      const response = await fetch(
         `https://api.mercadopago.com/v1/payments/${data.id}`,
         {
           headers: {
             "Content-type": "application/json",
-            Authorization: `${MERCADOPAGO_ACCESS_TOKEN}`,
+            Authorization: `Bearer ${MERCADOPAGO_ACCESS_TOKEN}`,
           },
         }
       );
-      console.log("data.id ->", data.id);
+
+      const body = await response.json();
 
       console.log("body ->", body);
 
