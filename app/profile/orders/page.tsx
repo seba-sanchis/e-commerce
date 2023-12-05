@@ -35,7 +35,7 @@ export default async function Page() {
               <div key={pick._id?.toString()} className="flex">
                 <div className="flex justfy-center items-center w-24 h-24 p-1 rounded-lg bg-white">
                   <Image
-                    src={pick.thumbnail}
+                    src={pick.thumbnail!}
                     alt="product image"
                     width={96}
                     height={96}
