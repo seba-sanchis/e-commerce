@@ -16,7 +16,7 @@ export interface UserProfile {
   areaCode: number;
   phone: number;
   bag?: Item[];
-  favorite?: Product[],
+  favorite?: Product[];
   purchases?: Order[];
 }
 
@@ -29,45 +29,45 @@ export interface Item {
 
 export interface Order {
   _id?: ObjectId;
-  orderId: string;
-  date: string;
-  status: string;
+  orderId: string | undefined;
+  date: string | undefined;
+  status: string | undefined;
   picked?: Picked[];
   payment?: Payment;
   payer?: Payer;
   transaction?: Transaction;
-  installments: number;
-  reference: string;
+  installments: number | undefined;
+  reference: string | undefined;
 }
 
 export interface Payment {
   _id?: ObjectId;
-  company: string;
-  type: string;
+  company: string | undefined;
+  type: string | undefined;
 }
 
 export interface Payer {
   _id?: ObjectId;
-  firstName: string;
-  lastName: string;
-  email: string;
-  identification: string;
+  firstName: string | undefined;
+  lastName: string | undefined;
+  email: string | undefined;
+  identification: string | undefined;
   phone?: Phone;
 }
 
 export interface Phone {
   _id?: ObjectId;
-  areaCode: string;
-  number: string;
+  areaCode: string | undefined;
+  number: string | undefined;
   extension?: string | undefined;
 }
 
 export interface Picked {
   _id?: ObjectId;
-  category: string;
-  description: string;
+  category: string | undefined;
+  description: string | undefined;
   sku: string;
-  thumbnail: string;
+  thumbnail: string | undefined;
   quantity: number;
   name: string;
   price: number;
@@ -75,11 +75,11 @@ export interface Picked {
 
 export interface Transaction {
   _id?: ObjectId;
-  bank: string;
-  installment: number;
-  paid: number;
-  received: number;
-  overpaid: number;
+  bank: string | undefined;
+  installment: number | undefined;
+  paid: number | undefined;
+  received: number | undefined;
+  overpaid: number | undefined;
 }
 
 export interface Product {
