@@ -71,7 +71,7 @@ export const POST = async (request: NextRequest) => {
       console.log("picked ->", picked);
       console.log("transaction ->", transaction);
 
-      // await newOrder(order, payer, paymentMethod, phone, picked, transaction);
+      await newOrder(order, payer, paymentMethod, phone, picked, transaction);
     }
 
     return NextResponse.json({ status: 201 });

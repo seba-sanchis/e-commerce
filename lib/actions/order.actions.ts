@@ -37,22 +37,21 @@ export async function newOrder(
   try {
     await connectToDB();
 
-    // Create payer, payment, picked, and transaction subdocuments
-    const newPayer = new Payer({
-      ...payer,
-      phone: phone ? new Phone(payer.phone) : undefined,
-    });
-    await newPayer.save();
+    const [newPayer, newPayment, newPicked, newTransaction] = await Promise.all(
+      [
+        new Payer({
+          ...payer,
+          phone: phone ? new Phone(payer.phone) : undefined,
+        }).save(),
 
-    const newPayment = new Payment(payment);
-    await newPayment.save();
+        new Payment(payment).save(),
 
-    const newPicked = await Picked.create(picked);
+        Picked.create(picked),
 
-    const newTransaction = new Transaction(transaction);
-    await newTransaction.save();
+        new Transaction(transaction).save(),
+      ]
+    );
 
-    // Create and save the new order with associated subdocuments
     const newOrder = new Order({
       ...order,
       payer: newPayer._id,
@@ -60,58 +59,52 @@ export async function newOrder(
       picked: newPicked.map((item: Pickeds) => item._id),
       transaction: newTransaction._id,
     });
+
     console.log("3rd step:", newOrder);
+
     await newOrder.save();
 
-    // Find the existing client by ID
     const currentSession = await User.findById(order.reference);
 
-    // Update user's purchases
     currentSession.purchases.push(newOrder);
 
-    // Update the sold count for each product in the picked array
-    for (const pickedItem of newPicked) {
-      const product = await Product.findOne({ sku: pickedItem.sku }); // Using 'sku' as a unique identifier for products
-      if (product) {
-        if (product.sizes && product.sizes.length > 0) {
-          // If the product has sizes, update stock and sold count for the selected size
-          const sizeIndex = product.sizes.indexOf(pickedItem.description);
-          if (sizeIndex !== -1) {
-            if (product.stock[sizeIndex] >= pickedItem.quantity) {
-              product.stock[sizeIndex] -= pickedItem.quantity;
-              product.sold[sizeIndex] += pickedItem.quantity;
-            } else {
-              throw new Error(
-                `Not enough stock for size ${pickedItem.description}`
-              );
-            }
-          } else {
-            throw new Error(
-              `Size ${pickedItem.description} not found for product ${product.name}`
-            );
-          }
-        } else {
-          // If the product doesn't have sizes, update stock at index 0 and sold count at index 0
-          if (product.stock[0] >= pickedItem.quantity) {
-            product.stock[0] -= pickedItem.quantity;
-            product.sold[0] += pickedItem.quantity;
-          } else {
-            throw new Error(`Not enough stock for product ${product.name}`);
-          }
-        }
+    const updateProductPromises = newPicked.map(async (pickedItem) => {
+      const product = await Product.findOne({ sku: pickedItem.sku });
 
-        await product.save();
+      if (!product) {
+        throw new Error(`Product with SKU ${pickedItem.sku} not found`);
       }
-    }
 
-    // Delete items from the 'Item' collection
+      if (product.sizes && product.sizes.length > 0) {
+        const sizeIndex = product.sizes.indexOf(pickedItem.description);
+        if (
+          sizeIndex !== -1 &&
+          product.stock[sizeIndex] >= pickedItem.quantity
+        ) {
+          product.stock[sizeIndex] -= pickedItem.quantity;
+          product.sold[sizeIndex] += pickedItem.quantity;
+        } else {
+          throw new Error(
+            `Not enough stock for size ${pickedItem.description}`
+          );
+        }
+      } else if (product.stock[0] >= pickedItem.quantity) {
+        product.stock[0] -= pickedItem.quantity;
+        product.sold[0] += pickedItem.quantity;
+      } else {
+        throw new Error(`Not enough stock for product ${product.name}`);
+      }
+
+      await product.save();
+    });
+
+    await Promise.all(updateProductPromises);
+
     const itemsToRemove = currentSession.bag.map((item: Items) => item._id);
     await Item.deleteMany({ _id: { $in: itemsToRemove } });
 
-    // Clear user's bag
     currentSession.bag = [];
 
-    // Save user session
     await currentSession.save();
 
     await session.commitTransaction();
