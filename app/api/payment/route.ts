@@ -17,6 +17,7 @@ export const POST = async (request: NextRequest) => {
 
       const client = new MercadoPagoConfig({
         accessToken: `${MERCADOPAGO_ACCESS_TOKEN}`,
+        options: { timeout: 5000 },
       });
 
       const payment = new Payment(client);
