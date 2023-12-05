@@ -9,12 +9,8 @@ const { MERCADOPAGO_ACCESS_TOKEN } = process.env;
 export const POST = async (request: NextRequest) => {
   const { data, type } = await request.json();
 
-  console.log("type ->", type);
-
   try {
     if (type === "payment") {
-      console.log("data.id ->", data.id);
-
       const client = new MercadoPagoConfig({
         accessToken: `${MERCADOPAGO_ACCESS_TOKEN}`,
         options: { timeout: 5000 },
@@ -23,8 +19,6 @@ export const POST = async (request: NextRequest) => {
       const payment = new Payment(client);
 
       const body = await payment.get({ id: data.id });
-
-      console.log("body ->", body);
 
       const order = {
         orderId: body.order?.id?.toString(),
@@ -70,7 +64,14 @@ export const POST = async (request: NextRequest) => {
         overpaid: body.transaction_details?.overpaid_amount,
       };
 
-      await newOrder(order, payer, paymentMethod, phone, picked, transaction);
+      console.log("order ->", order);
+      console.log("payer ->", payer);
+      console.log("paymentMethod ->", paymentMethod);
+      console.log("phone ->", phone);
+      console.log("picked ->", picked);
+      console.log("transaction ->", transaction);
+
+      // await newOrder(order, payer, paymentMethod, phone, picked, transaction);
     }
 
     return NextResponse.json({ status: 201 });
