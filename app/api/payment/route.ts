@@ -3,12 +3,22 @@ import { PreferenceItem } from "mercadopago/models/preferences/create-payload.mo
 
 import { newOrder } from "@/lib/actions/order.actions";
 
+const { MERCADOPAGO_ACCESS_TOKEN } = process.env;
+
 export const POST = async (request: NextRequest) => {
   const { data, type } = await request.json();
   console.log("type ->", type);
   try {
     if (type === "payment") {
-      const body = await fetch(`https://api.mercadopago.com/v1/payments/${data.id}`)
+      const body = await fetch(
+        `https://api.mercadopago.com/v1/payments/${data.id}`,
+        {
+          headers: {
+            "Content-type": "application/json",
+            Authorization: `${MERCADOPAGO_ACCESS_TOKEN}`,
+          },
+        }
+      );
       console.log("data.id ->", data.id);
 
       console.log("body ->", body);
