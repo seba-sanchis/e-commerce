@@ -120,7 +120,17 @@ export async function removeItem(itemId: ObjectId, userId: string) {
     await connectToDB();
 
     // Find the item to be deleted
-    const deletedItem = await Item.findByIdAndRemove(itemId);
+    const itemToDelete = await Item.findById(itemId);
+
+    if (!itemToDelete) {
+      throw new Error("Item not found");
+    }
+
+    // Capture the item's ID before deleting
+    const itemIdToDelete = itemToDelete._id;
+
+    // Delete the item
+    const deletedItem = await Item.findByIdAndDelete(itemId);
 
     if (!deletedItem) {
       throw new Error("Item not found");
@@ -134,7 +144,7 @@ export async function removeItem(itemId: ObjectId, userId: string) {
     }
 
     // Update the user's bag by removing the deleted item
-    user.bag.pull(deletedItem._id); // Use Mongoose's pull method to remove the item from the bag array
+    user.bag.pull(itemIdToDelete); // Use Mongoose's pull method to remove the item from the bag array
     await user.save();
   } catch (error: any) {
     throw new Error(
