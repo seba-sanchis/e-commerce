@@ -64,13 +64,6 @@ export const POST = async (request: NextRequest) => {
         overpaid: body.transaction_details?.overpaid_amount,
       };
 
-      console.log("order ->", order);
-      console.log("payer ->", payer);
-      console.log("paymentMethod ->", paymentMethod);
-      console.log("phone ->", phone);
-      console.log("picked ->", picked);
-      console.log("transaction ->", transaction);
-
       await newOrder(order, payer, paymentMethod, phone, picked, transaction);
     }
 
