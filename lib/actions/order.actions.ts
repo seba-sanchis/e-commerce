@@ -26,7 +26,7 @@ import {
 export async function newOrder(
   order: Orders,
   payer: Payers,
-  payment: Payments,
+  paymentMethod: Payments,
   phone: Phones,
   picked: Pickeds[],
   transaction: Transactions
@@ -44,7 +44,7 @@ export async function newOrder(
           phone: phone ? new Phone(payer.phone) : undefined,
         }).save(),
 
-        new Payment(payment).save(),
+        new Payment(paymentMethod).save(),
 
         Picked.create(picked),
 
@@ -59,8 +59,6 @@ export async function newOrder(
       picked: newPicked.map((item: Pickeds) => item._id),
       transaction: newTransaction._id,
     });
-
-    console.log("3rd step:", newOrder);
 
     await newOrder.save();
 
