@@ -1,11 +1,11 @@
 import Link from "next/link";
 import { getProviders } from "next-auth/react";
-
-import { OAuth, SignInForm } from "@/components";
+import { redirect } from "next/navigation";
 import { getServerSession } from "next-auth";
+
+import { OAuth, SignIn } from "@/components";
 import { authOptions } from "@/lib/options";
 import { Sessions } from "@/common.types";
-import { redirect } from "next/navigation";
 
 export default async function Page() {
   const session = (await getServerSession(authOptions)) as Sessions;
@@ -22,7 +22,7 @@ export default async function Page() {
       <div className="flex flex-col items-center grow w-[480px] mt-[72px] mx-auto text-[#494949]">
         <h2 className="text-2xl font-semibold mb-10">Ingresá a la tienda</h2>
 
-        <SignInForm />
+        <SignIn />
 
         <div className="flex flex-col items-center text-sm gap-2 my-4">
           <div>

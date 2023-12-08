@@ -1,10 +1,10 @@
 "use client";
 
-import { useState, useTransition } from "react";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { signIn } from "next-auth/react";
 
-export default function SignInForm() {
+export default function SignIn() {
   const router = useRouter();
 
   const [user, setUser] = useState<{ email: string; password: string }>({
@@ -13,8 +13,6 @@ export default function SignInForm() {
   });
   const [toggleInput, setToggleInput] = useState(true);
   const [error, setError] = useState(false);
-
-  const [isPending, startTransition] = useTransition();
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -34,10 +32,7 @@ export default function SignInForm() {
       }
 
       if (response?.ok) {
-        startTransition(() => {
-          router.refresh();
-          router.push("/");
-        });
+        router.refresh();
       }
     } catch (error) {
       console.log(error);
@@ -89,8 +84,6 @@ export default function SignInForm() {
           <span>Ingresá un email y contraseña válidos.</span>
         </div>
       )}
-
-      <button></button>
     </form>
   );
 }

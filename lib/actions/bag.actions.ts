@@ -1,5 +1,6 @@
 "use server";
 
+import { revalidatePath } from "next/cache";
 import { getServerSession } from "next-auth";
 import { ObjectId } from "mongodb";
 
@@ -48,6 +49,8 @@ export async function addToBag(params: Items) {
 
     await currentSession.save();
   }
+
+  revalidatePath("/bag");
 }
 
 //Get bag items

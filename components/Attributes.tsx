@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 
@@ -16,6 +16,8 @@ export default function Attributes({
   session: Sessions;
 }) {
   const router = useRouter();
+
+  const [isPending, startTransition] = useTransition();
 
   const [product, setProduct] = useState<Product>();
   const [quantity, setQuantity] = useState(1);
@@ -47,7 +49,6 @@ export default function Attributes({
     if (session) {
       await addToBag(item);
 
-      router.refresh();
       router.push("/bag");
     } else {
       router.push("/sign-in");

@@ -16,6 +16,7 @@ export { default as Searchbar } from "./Searchbar";
 export { default as SearchButton } from "./SearchButton";
 export { default as Select } from "./Select";
 export { default as Sidebar } from "./Sidebar";
-export { default as SignInForm } from "./SignInForm";
+export { default as SignIn } from "./SignIn";
+export { default as SignUp } from "./SignUp";
 export { default as Slider } from "./Slider";
 export { default as UpdateUser } from "./UpdateUser";
