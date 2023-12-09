@@ -47,7 +47,7 @@ export default async function Page() {
                   href={`/product/${item.product.name.replace(/\s+/g, "-")}`}
                 >
                   <Image
-                    src={item.product?.thumbnail}
+                    src={item.product?.image}
                     alt={item.product?.name}
                     width={128}
                     height={128}

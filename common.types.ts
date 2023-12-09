@@ -87,7 +87,6 @@ export interface Product {
   sku: string;
   category: string;
   name: string;
-  thumbnail: string;
   image: string;
   description: string;
   features: string[];

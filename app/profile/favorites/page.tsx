@@ -43,7 +43,7 @@ export default async function Page() {
             </div>
             <div>
               <Image
-                src={favorite.thumbnail}
+                src={favorite.image}
                 alt="favorite image"
                 width={128}
                 height={128}
