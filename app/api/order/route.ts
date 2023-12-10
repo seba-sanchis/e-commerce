@@ -4,10 +4,6 @@ import { NextResponse } from "next/server";
 import Transaction from "@/models/transaction";
 import Payer from "@/models/payer";
 
-export const dynamic = "force-dynamic";
-export const dynamicParams = true;
-export const revalidate = 0;
-
 export const GET = async () => {
   try {
     await connectToDB();
