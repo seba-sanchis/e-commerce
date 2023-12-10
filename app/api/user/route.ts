@@ -3,12 +3,23 @@ import { connectToDB } from "@/lib/database";
 import User from "@/models/user";
 import Order from "@/models/order";
 import Transaction from "@/models/transaction";
-import { getUsers } from "@/lib/actions/user.actions";
+import { revalidatePath } from "next/cache";
 
 // GET (read)
 export const GET = async () => {
   try {
-    const users = await getUsers();
+    await connectToDB();
+
+    const users = await User.find({}).populate({
+      path: "purchases",
+      model: Order,
+      populate: {
+        path: "transaction", // Populate the "transaction" field in purchases
+        model: Transaction,
+      },
+    });
+
+    revalidatePath("/api/user");
 
     return NextResponse.json(users, { status: 200 });
   } catch (error) {
