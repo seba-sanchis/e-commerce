@@ -26,7 +26,7 @@ export const GET = async () => {
       },
     });
 
-    revalidatePath("/api/user");
+    revalidatePath("/users");
 
     return NextResponse.json(users, { status: 200, headers });
   } catch (error) {
