@@ -3,7 +3,10 @@ import { connectToDB } from "@/lib/database";
 import User from "@/models/user";
 import Order from "@/models/order";
 import Transaction from "@/models/transaction";
-import { revalidatePath } from "next/cache";
+
+export const dynamic = "force-dynamic";
+export const dynamicParams = true;
+export const revalidate = 0;
 
 // GET (read)
 export const GET = async () => {
@@ -25,8 +28,6 @@ export const GET = async () => {
         model: Transaction,
       },
     });
-
-    revalidatePath("/users");
 
     return NextResponse.json(users, { status: 200, headers });
   } catch (error) {
