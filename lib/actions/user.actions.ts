@@ -6,6 +6,8 @@ import { connectToDB } from "../database";
 import User from "@/models/user";
 import { Item as Items, UserProfile } from "@/common.types";
 import Item from "@/models/item";
+import Order from "@/models/order";
+import Transaction from "@/models/transaction";
 
 // Create a new user
 export async function newUser(params: UserProfile) {
@@ -141,5 +143,26 @@ export async function updateUser(params: UserProfile) {
     await existingUser.save();
   } catch (error: any) {
     throw new Error(`Failed to update user: ${error.message}`);
+  }
+}
+
+// Get all users
+export async function getUsers() {
+  try {
+    await connectToDB();
+
+    // store the user id from MongoDB to session
+    const users = await User.find({}).populate({
+      path: "purchases",
+      model: Order,
+      populate: {
+        path: "transaction", // Populate the "transaction" field in purchases
+        model: Transaction,
+      },
+    });
+
+    return users;
+  } catch (error: any) {
+    throw new Error(`Failed to get user: ${error.message}`); // Handle any errors
   }
 }
