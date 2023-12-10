@@ -2,6 +2,10 @@ import Product from "@/models/product";
 import { connectToDB } from "@/lib/database";
 import { NextResponse } from "next/server";
 
+export const dynamic = "force-dynamic";
+export const dynamicParams = true;
+export const revalidate = 0;
+
 export const GET = async () => {
   try {
     await connectToDB();
