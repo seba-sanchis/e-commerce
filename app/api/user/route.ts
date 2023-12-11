@@ -4,9 +4,9 @@ import User from "@/models/user";
 import Order from "@/models/order";
 import Transaction from "@/models/transaction";
 
-export const dynamic = "force-dynamic";
-export const dynamicParams = true;
-export const revalidate = 0;
+// export const dynamic = "force-dynamic";
+// export const dynamicParams = true;
+// export const revalidate = 0;
 
 // GET (read)
 export const GET = async () => {
