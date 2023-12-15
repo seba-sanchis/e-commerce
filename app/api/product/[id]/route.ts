@@ -3,9 +3,7 @@ import { connectToDB } from "@/lib/database";
 import Product from "@/models/product";
 import { ObjectId } from "mongodb";
 
-export const dynamic = "force-dynamic";
-export const dynamicParams = true;
-export const revalidate = 0;
+export const dynamic = "force-dynamic"; // defaults to force-static
 
 // GET (read)
 export const GET = async (
@@ -21,7 +19,7 @@ export const GET = async (
     return NextResponse.json(product, {
       status: 200,
       headers: {
-        "Access-Control-Allow-Origin": "https://dashboard.sebastiansanchis.com",
+        "Access-Control-Allow-Origin": "*",
         "Access-Control-Allow-Methods": "GET",
         "Access-Control-Allow-Headers": "Content-Type, Authorization",
       },

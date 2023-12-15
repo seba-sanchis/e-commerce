@@ -2,6 +2,8 @@ import Product from "@/models/product";
 import { connectToDB } from "@/lib/database";
 import { NextResponse } from "next/server";
 
+export const dynamic = "force-dynamic"; // defaults to force-static
+
 export const GET = async () => {
   try {
     await connectToDB();
@@ -11,7 +13,7 @@ export const GET = async () => {
     return NextResponse.json(products, {
       status: 200,
       headers: {
-        "Access-Control-Allow-Origin": "https://dashboard.sebastiansanchis.com",
+        "Access-Control-Allow-Origin": "*",
         "Access-Control-Allow-Methods": "GET",
         "Access-Control-Allow-Headers": "Content-Type, Authorization",
       },

@@ -4,10 +4,6 @@ import User from "@/models/user";
 import Order from "@/models/order";
 import Transaction from "@/models/transaction";
 
-// export const dynamic = "force-dynamic";
-// export const dynamicParams = true;
-// export const revalidate = 0;
-
 export const dynamic = "force-dynamic"; // defaults to force-static
 
 // GET (read)
@@ -27,7 +23,7 @@ export const GET = async () => {
     return NextResponse.json(users, {
       status: 200,
       headers: {
-        "Access-Control-Allow-Origin": "https://dashboard.sebastiansanchis.com",
+        "Access-Control-Allow-Origin": "*",
         "Access-Control-Allow-Methods": "GET",
         "Access-Control-Allow-Headers": "Content-Type, Authorization",
       },
