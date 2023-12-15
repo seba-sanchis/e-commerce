@@ -18,7 +18,14 @@ export const GET = async (
     const product = await Product.findById(params.id);
     if (!product) return new Response("Product not found", { status: 404 });
 
-    return NextResponse.json(product, { status: 200 });
+    return NextResponse.json(product, {
+      status: 200,
+      headers: {
+        "Access-Control-Allow-Origin": "https://dashboard.sebastiansanchis.com",
+        "Access-Control-Allow-Methods": "GET",
+        "Access-Control-Allow-Headers": "Content-Type, Authorization",
+      },
+    });
   } catch (error) {
     return NextResponse.json(
       { message: "Failed to fetch all products." },
@@ -39,7 +46,7 @@ export const PATCH = async (
     image,
     description,
     features,
-    colors,
+    color,
     sizes,
     stock,
     sold,
@@ -65,7 +72,7 @@ export const PATCH = async (
     existingProduct.image = image;
     existingProduct.description = description;
     existingProduct.features = features;
-    existingProduct.colors = colors;
+    existingProduct.color = color;
     existingProduct.sizes = sizes;
     existingProduct.stock = stock;
     existingProduct.sold = sold;

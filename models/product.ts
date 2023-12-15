@@ -28,9 +28,9 @@ const ProductSchema = new Schema({
       required: [true, "Features is required!"],
     },
   ],
-  colors: {
+  color: {
     type: String,
-    required: [true, "Colors is required!"],
+    required: [true, "Color is required!"],
   },
   sizes: [
     {

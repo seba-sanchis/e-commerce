@@ -28,14 +28,14 @@ export default function Attributes({
   });
 
   const [selected, setSelected] = useState({
-    color: products[0].colors, // Default-check the first attribute
+    color: products[0].color, // Default-check the first attribute
     size: products[0].sizes[0], // Default-check the first attribute
   });
 
   useEffect(() => {
     const found = products.find(
       (product) =>
-        product.colors.includes(selected.color) &&
+        product.color.includes(selected.color) &&
         product.sizes.includes(selected.size)
     );
 
@@ -103,7 +103,7 @@ export default function Attributes({
               product.features.map((feature) => (
                 <li key={feature}>{feature}</li>
               ))}
-            <li key={product?.colors}>Mostrado en: {product?.colors}</li>
+            <li key={product?.color}>Mostrado en: {product?.color}</li>
             <li key={product?.sku}>Estilo: {product?.sku}</li>
           </ul>
         </div>
@@ -112,11 +112,11 @@ export default function Attributes({
           <h3 className="mt-4">Color</h3>
           <div className="flex flex-col flex-wrap gap-2 md:gap-3 mt-3.5">
             {products.map((product) => (
-              <div key={product.colors} className="flex items-center h-14">
+              <div key={product.color} className="flex items-center h-14">
                 <input
-                  id={product.colors}
-                  value={product.colors}
-                  checked={selected.color === product.colors} // Check if this color is selected
+                  id={product.color}
+                  value={product.color}
+                  checked={selected.color === product.color} // Check if this color is selected
                   onChange={(e) =>
                     setSelected({ ...selected, color: e.target.value })
                   }
@@ -124,10 +124,10 @@ export default function Attributes({
                   className="absolute appearance-none peer"
                 />
                 <label
-                  htmlFor={product.colors}
+                  htmlFor={product.color}
                   className="flex flex-wrap p-3.5 w-full cursor-pointer rounded-xl border border-tertiary-gray peer-checked:border-2 peer-checked:border-primary-blue peer-disabled:opacity-40"
                 >
-                  <span className="text-sm md:text-base">{product.colors}</span>
+                  <span className="text-sm md:text-base">{product.color}</span>
                 </label>
               </div>
             ))}

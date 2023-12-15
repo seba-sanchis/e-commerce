@@ -90,7 +90,7 @@ export interface Product {
   image: string;
   description: string;
   features: string[];
-  colors: string;
+  color: string;
   sizes: string[];
   stock: number[];
   sold: number[];

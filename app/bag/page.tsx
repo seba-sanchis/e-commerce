@@ -87,7 +87,7 @@ export default async function Page() {
 
                 <div className="flex justify-between items-start w-full">
                   <DetailsButton
-                    color={item.product?.colors}
+                    color={item.product?.color}
                     size={item.size as string}
                   />
 
