@@ -16,14 +16,7 @@ export const GET = async (
     const user = await User.findById(params.id);
     if (!user) return new Response("User not found", { status: 404 });
 
-    return NextResponse.json(user, {
-      status: 200,
-      headers: {
-        "Access-Control-Allow-Origin": "*",
-        "Access-Control-Allow-Methods": "GET",
-        "Access-Control-Allow-Headers": "Content-Type, Authorization",
-      },
-    });
+    return NextResponse.json(user, { status: 200 });
   } catch (error) {
     return NextResponse.json(
       { message: "Failed to fetch all users." },
@@ -53,9 +46,6 @@ export const PATCH = async (
 
   try {
     await connectToDB();
-
-    console.log("request ->", request);
-    console.log("params ->", params);
 
     // Find the existing user by ID
     const existingUser = await User.findById(params.id);

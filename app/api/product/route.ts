@@ -10,14 +10,7 @@ export const GET = async () => {
 
     const products = await Product.find({});
 
-    return NextResponse.json(products, {
-      status: 200,
-      headers: {
-        "Access-Control-Allow-Origin": "*",
-        "Access-Control-Allow-Methods": "GET",
-        "Access-Control-Allow-Headers": "Content-Type, Authorization",
-      },
-    });
+    return NextResponse.json(products, { status: 200 });
   } catch (error) {
     return NextResponse.json(
       { message: "Failed to fetch all products." },

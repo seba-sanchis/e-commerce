@@ -16,14 +16,7 @@ export const GET = async (
     const product = await Product.findById(params.id);
     if (!product) return new Response("Product not found", { status: 404 });
 
-    return NextResponse.json(product, {
-      status: 200,
-      headers: {
-        "Access-Control-Allow-Origin": "*",
-        "Access-Control-Allow-Methods": "GET",
-        "Access-Control-Allow-Headers": "Content-Type, Authorization",
-      },
-    });
+    return NextResponse.json(product, { status: 200 });
   } catch (error) {
     return NextResponse.json(
       { message: "Failed to fetch all products." },
