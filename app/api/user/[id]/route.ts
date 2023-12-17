@@ -82,7 +82,7 @@ export const PATCH = async (
       status: 200,
       headers: {
         "Access-Control-Allow-Origin": "*",
-        "Access-Control-Allow-Methods": "POST, PUT, OPTIONS",
+        "Access-Control-Allow-Methods": "GET, POST, PUT, PATCH, DELETE, OPTIONS",
         "Access-Control-Allow-Headers": "Content-Type, Authorization",
       },
     });
