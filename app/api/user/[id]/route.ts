@@ -54,6 +54,9 @@ export const PATCH = async (
   try {
     await connectToDB();
 
+    console.log("request ->", request);
+    console.log("params ->", params);
+
     // Find the existing user by ID
     const existingUser = await User.findById(params.id);
 
@@ -75,12 +78,14 @@ export const PATCH = async (
 
     await existingUser.save();
 
-    return NextResponse.json(existingUser, { status: 200,
+    return NextResponse.json(existingUser, {
+      status: 200,
       headers: {
         "Access-Control-Allow-Origin": "*",
         "Access-Control-Allow-Methods": "POST, PUT, OPTIONS",
         "Access-Control-Allow-Headers": "Content-Type, Authorization",
-      }, });
+      },
+    });
   } catch (error) {
     return NextResponse.json(
       { message: "Failed to update user" },
