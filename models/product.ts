@@ -46,7 +46,7 @@ const ProductSchema = new Schema({
   sold: [
     {
       type: Number,
-      required: [true, "Sold is required!"],
+      required: [false, "Sold is required!"],
     },
   ],
   price: {
