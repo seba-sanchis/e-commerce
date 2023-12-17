@@ -13,6 +13,10 @@ const nextConfig = {
             value: "*",
           },
           {
+            key: "Access-Control-Allow-Methods",
+            value: "GET, POST, PUT, PATCH, DELETE, OPTIONS",
+          },
+          {
             key: "Access-Control-Allow-Headers",
             value:
               "X-Requested-With, Access-Control-Allow-Origin, X-HTTP-Method-Override, Content-Type, Authorization, Accept",
