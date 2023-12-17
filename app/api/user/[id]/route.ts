@@ -78,7 +78,7 @@ export const PATCH = async (
     return NextResponse.json(existingUser, { status: 200,
       headers: {
         "Access-Control-Allow-Origin": "*",
-        "Access-Control-Allow-Methods": "PATCH",
+        "Access-Control-Allow-Methods": "POST, PUT, OPTIONS",
         "Access-Control-Allow-Headers": "Content-Type, Authorization",
       }, });
   } catch (error) {
