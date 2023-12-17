@@ -20,7 +20,14 @@ export const GET = async () => {
       },
     });
 
-    return NextResponse.json(users, { status: 200 });
+    return NextResponse.json(users, {
+      status: 200,
+      headers: {
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Methods": "GET",
+        "Access-Control-Allow-Headers": "Content-Type, Authorization",
+      },
+    });
   } catch (error) {
     return NextResponse.json(
       { message: "Failed to fetch all users." },
