@@ -78,14 +78,7 @@ export const PATCH = async (
 
     await existingUser.save();
 
-    return NextResponse.json(existingUser, {
-      status: 200,
-      headers: {
-        "Access-Control-Allow-Origin": "*",
-        "Access-Control-Allow-Methods": "GET, POST, PUT, PATCH, DELETE, OPTIONS",
-        "Access-Control-Allow-Headers": "Content-Type, Authorization",
-      },
-    });
+    return NextResponse.json(existingUser, { status: 200 });
   } catch (error) {
     return NextResponse.json(
       { message: "Failed to update user" },
