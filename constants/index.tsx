@@ -33,15 +33,6 @@ export const myprofile = [
   },
 ];
 
-export const env = {
-  MERCADOPAGO_ACCESS_TOKEN: process.env.MERCADOPAGO_ACCESS_TOKEN!,
-  MERCADOPAGO_PUBLIC_KEY: process.env.MERCADOPAGO_PUBLIC_KEY!,
-  MERCADOPAGO_URL: process.env.MERCADOPAGO_URL,
-  MONGODB_URI: process.env.MONGODB_URI,
-  NEXTAUTH_SECRET: process.env.NEXTAUTH_SECRET,
-  NEXTAUTH_URL: process.env.NEXTAUTH_URL,
-};
-
 export const categories = [
   {
     name: "Calzado",

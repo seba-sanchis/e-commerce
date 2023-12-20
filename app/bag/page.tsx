@@ -7,7 +7,6 @@ import { authOptions } from "@/lib/options";
 import { getItems } from "@/lib/actions/bag.actions";
 import { CheckOut, DeleteButton, DetailsButton, Select } from "@/components";
 import { Item, Sessions } from "@/common.types";
-import { env } from "@/constants";
 
 export default async function Page() {
   const session = (await getServerSession(authOptions)) as Sessions;
@@ -18,7 +17,7 @@ export default async function Page() {
 
   const data = await JSON.parse(JSON.stringify(response));
 
-  const { MERCADOPAGO_URL } = env;
+  const { MERCADOPAGO_URL } = process.env;
 
   return (
     <div className="flex justify-center w-full grow">

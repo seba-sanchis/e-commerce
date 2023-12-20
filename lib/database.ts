@@ -1,12 +1,11 @@
 import mongoose from "mongoose";
-import { env } from "@/constants";
 
 let isConnected = false; // track the connection
 
 export const connectToDB = async () => {
   mongoose.set("strictQuery", true);
 
-  const { MONGODB_URI } = env;
+  const { MONGODB_URI } = process.env;
 
   if (isConnected) {
     console.log("MongoDB is already connected");

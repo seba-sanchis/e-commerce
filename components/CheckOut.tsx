@@ -8,7 +8,6 @@ import { initMercadoPago } from "@mercadopago/sdk-react";
 import { Currency } from "mercadopago/shared/currency";
 import { newCheckOut } from "@/lib/actions/checkout.actions";
 import { Item, Sessions } from "@/common.types";
-import { env } from "@/constants";
 import { Items } from "mercadopago/dist/clients/commonTypes";
 
 export default function CheckOut({
@@ -23,8 +22,9 @@ export default function CheckOut({
   const router = useRouter();
   const [order, setOrder] = useState<Items[]>([]);
 
-  const { MERCADOPAGO_PUBLIC_KEY } = env;
-  initMercadoPago(MERCADOPAGO_PUBLIC_KEY);
+  const { MERCADOPAGO_PUBLIC_KEY } = process.env;
+
+  initMercadoPago(MERCADOPAGO_PUBLIC_KEY!);
 
   useEffect(() => {
     const items = bag.map((item) => ({
