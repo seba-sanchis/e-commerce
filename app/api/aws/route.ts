@@ -1,8 +1,12 @@
 import { NextRequest, NextResponse } from "next/server";
 import { S3Client, PutObjectCommand } from "@aws-sdk/client-s3";
 
-const { AWS_S3_ACCESS_KEY, AWS_S3_BUCKET_NAME, AWS_S3_SECRET_ACCESS_KEY, AWS_S3_REGION } =
-  process.env;
+const {
+  AWS_S3_ACCESS_KEY,
+  AWS_S3_BUCKET_NAME,
+  AWS_S3_SECRET_ACCESS_KEY,
+  AWS_S3_REGION,
+} = process.env;
 
 const s3Client = new S3Client({
   region: AWS_S3_REGION!,
@@ -17,7 +21,7 @@ async function uploadFileToS3(file: Buffer, fileName: string) {
 
   const params = {
     Bucket: AWS_S3_BUCKET_NAME,
-    Key: `${fileName}-${Date.now()}`,
+    Key: fileName,
     Body: fileBuffer,
     ContentType: "image/jpeg, image/png",
   };
@@ -29,7 +33,10 @@ async function uploadFileToS3(file: Buffer, fileName: string) {
   return fileName;
 }
 
-export async function POST(request: NextRequest) {
+export async function POST(
+  request: NextRequest,
+  { params }: { params: { id: string } }
+) {
   try {
     const formData = await request.formData();
     const file = formData.get("file") as File;
@@ -40,7 +47,7 @@ export async function POST(request: NextRequest) {
 
     const buffer = Buffer.from(await (file as Blob).arrayBuffer());
 
-    const fileName = await uploadFileToS3(buffer, file.name);
+    const fileName = await uploadFileToS3(buffer, params.id);
 
     return NextResponse.json(fileName, { status: 200 });
   } catch (error) {
