@@ -17,8 +17,10 @@ const s3Client = new S3Client({
 });
 
 async function uploadFileToS3(file: Buffer, fileName: string) {
-
   const fileBuffer = file;
+
+  console.log("fileName", fileName);
+  console.log("typeof", typeof fileName);
 
   const params = {
     Bucket: AWS_S3_BUCKET_NAME,
@@ -41,6 +43,9 @@ export async function POST(
   try {
     const formData = await request.formData();
     const file = formData.get("file") as File;
+
+    console.log("params.id ->", params.id);
+    console.log("file.name ->", file.name);
 
     if (!file) {
       return NextResponse.json({ error: "File is required." }, { status: 400 });
