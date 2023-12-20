@@ -17,13 +17,14 @@ const s3Client = new S3Client({
 });
 
 async function uploadFileToS3(file: Buffer, fileName: string) {
+
   const fileBuffer = file;
 
   const params = {
     Bucket: AWS_S3_BUCKET_NAME,
     Key: fileName,
     Body: fileBuffer,
-    ContentType: "image/jpeg, image/png",
+    ContentType: "image/png",
   };
 
   const command = new PutObjectCommand(params);
