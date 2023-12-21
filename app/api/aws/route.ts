@@ -36,13 +36,14 @@ async function uploadFileToS3(file: Buffer, fileName: string) {
 export async function POST(request: NextRequest) {
   try {
     const formData = await request.formData();
+
     const file = formData.get("file") as File;
 
     if (!file) {
       return NextResponse.json({ error: "File is required." }, { status: 400 });
     }
 
-    const buffer = Buffer.from(await (file as Blob).arrayBuffer());
+    const buffer = Buffer.from(await file.arrayBuffer());
 
     const fileName = await uploadFileToS3(buffer, file.name);
 
