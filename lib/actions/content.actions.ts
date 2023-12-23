@@ -31,12 +31,12 @@ export async function getContentById(params: ObjectId) {
   }
 }
 
-// Get content by type
-export async function getContentByType(params: string) {
+// Get content by tag
+export async function getContentByTag(params: string) {
   try {
     await connectToDB();
 
-    const data = await Content.find({ type: params });
+    const data = await Content.find({ tag: params });
 
     return data;
   } catch (error: any) {
@@ -46,7 +46,7 @@ export async function getContentByType(params: string) {
 
 // Update content
 export async function updateContent(params: Contents) {
-  const { _id, title, subtitle, image, url, type } = params;
+  const { _id, title, subtitle, image, url, tag } = params;
 
   try {
     await connectToDB();
@@ -61,7 +61,7 @@ export async function updateContent(params: Contents) {
     existingContent.subtitle = subtitle;
     existingContent.image = image;
     existingContent.url = url;
-    existingContent.type = type;
+    existingContent.tag = tag;
     existingContent.lastUpdated = new Date();
 
     await existingContent.save();

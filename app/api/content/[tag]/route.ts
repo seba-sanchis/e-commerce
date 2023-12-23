@@ -1,15 +1,15 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getContentByType } from "@/lib/actions/content.actions";
+import { getContentByTag } from "@/lib/actions/content.actions";
 
 export const dynamic = "force-dynamic"; // defaults to force-static
 
 // GET (read)
 export const GET = async (
   request: NextRequest,
-  { params }: { params: { type: string } }
+  { params }: { params: { tag: string } }
 ) => {
   try {
-    const content = await getContentByType(params.type);
+    const content = await getContentByTag(params.tag);
 
     return NextResponse.json(content, {
       status: 200,
@@ -21,7 +21,7 @@ export const GET = async (
     });
   } catch (error) {
     return NextResponse.json(
-      { message: "Failed to get content by type." },
+      { message: "Failed to get content by tag." },
       { status: 500 }
     );
   }

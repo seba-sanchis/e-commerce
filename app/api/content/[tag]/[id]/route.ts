@@ -33,7 +33,7 @@ export const PATCH = async (
   request: NextRequest,
   { params }: { params: { id: ObjectId } }
 ) => {
-  const { title, subtitle, image, url, type } = await request.json();
+  const { title, subtitle, image, url, tag } = await request.json();
 
   try {
     // Update content with new data
@@ -43,7 +43,7 @@ export const PATCH = async (
       subtitle,
       image,
       url,
-      type,
+      tag,
     });
 
     return NextResponse.json(content, { status: 200 });

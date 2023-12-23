@@ -5,7 +5,7 @@ const ContentSchema = new Schema({
   subtitle: String,
   image: String,
   url: String,
-  type: String,
+  tag: String,
   lastUpdated: Date,
 });
 

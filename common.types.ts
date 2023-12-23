@@ -7,7 +7,7 @@ export interface Content {
   subtitle: String;
   image: String;
   url: String;
-  type: String;
+  tag: String;
 }
 
 export interface Item {
