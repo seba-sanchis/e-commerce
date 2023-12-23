@@ -23,9 +23,9 @@ export async function getContentById(params: ObjectId) {
   try {
     await connectToDB();
 
-    const data = await Content.find({ _id: params });
+    const content = await Content.find({ _id: params });
 
-    return data;
+    return content;
   } catch (error: any) {
     throw new Error(`Failed to get content by ID: ${error.message}`); // Handle any errors
   }
@@ -62,6 +62,7 @@ export async function updateContent(params: Contents) {
     existingContent.image = image;
     existingContent.url = url;
     existingContent.type = type;
+    existingContent.lastUpdated = new Date();
 
     await existingContent.save();
   } catch (error: any) {

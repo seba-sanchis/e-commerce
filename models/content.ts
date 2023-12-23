@@ -6,6 +6,7 @@ const ContentSchema = new Schema({
   image: String,
   url: String,
   type: String,
+  lastUpdated: Date,
 });
 
 const Content = models.Content || model("Content", ContentSchema);
