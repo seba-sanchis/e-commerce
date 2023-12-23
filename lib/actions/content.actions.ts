@@ -23,7 +23,7 @@ export async function getContentById(params: ObjectId) {
   try {
     await connectToDB();
 
-    const content = await Content.find({ _id: params });
+    const content = await Content.findOne({ _id: params });
 
     return content;
   } catch (error: any) {
