@@ -1,23 +1,13 @@
 import type { ObjectId } from "mongodb";
 import type { Session } from "next-auth";
 
-export interface UserProfile {
+export interface Content {
   _id?: ObjectId;
-  firstName: string;
-  lastName: string;
-  dni: number;
-  birthday: string;
-  region: string;
-  location: string;
-  address: string;
-  postcode: number;
-  email: string;
-  password: string;
-  areaCode: number;
-  phone: number;
-  bag?: Item[];
-  favorite?: Product[];
-  purchases?: Order[];
+  title: String;
+  subtitle: String;
+  image: String;
+  url: String;
+  type: String;
 }
 
 export interface Item {
@@ -108,4 +98,23 @@ export interface Sessions extends Session {
     items?: number | null;
     favorite?: Product[] | null;
   };
+}
+
+export interface UserProfile {
+  _id?: ObjectId;
+  firstName: string;
+  lastName: string;
+  dni: number;
+  birthday: string;
+  region: string;
+  location: string;
+  address: string;
+  postcode: number;
+  email: string;
+  password: string;
+  areaCode: number;
+  phone: number;
+  bag?: Item[];
+  favorite?: Product[];
+  purchases?: Order[];
 }
