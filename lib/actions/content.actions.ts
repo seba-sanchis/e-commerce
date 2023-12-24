@@ -65,6 +65,8 @@ export async function updateContent(params: Contents) {
     existingContent.lastUpdated = new Date();
 
     await existingContent.save();
+
+    return existingContent;
   } catch (error: any) {
     throw new Error(`Failed to update content: ${error.message}`);
   }
