@@ -1,18 +1,3 @@
-export const cards = [
-  {
-    name: "Ropa",
-    description: "Comprá la nueva línea.",
-    link: "/category/ropa",
-    url: "/assets/category-01.jpg",
-  },
-  {
-    name: "Calzados",
-    description: "¿Por qué esperar? Date el gusto.",
-    link: "/category/calzado",
-    url: "/assets/category-02.jpg",
-  },
-];
-
 export const menu = ["Tienda"];
 
 export const myprofile = [

@@ -2,19 +2,22 @@ import Link from "next/link";
 import { getServerSession } from "next-auth";
 
 import { authOptions } from "@/lib/options";
-import { Sessions } from "@/common.types";
+import { Content, Sessions } from "@/common.types";
 import { MenuBar, SearchButton, Searchbar } from ".";
 import MenuButton from "./MenuButton";
+import { getContentByTag } from "@/lib/actions/content.actions";
 
 export default async function Navbar() {
   const session = (await getServerSession(authOptions)) as Sessions;
-
   const sessionData = await JSON.parse(JSON.stringify(session));
+
+  const organization = await getContentByTag("organization");
+  const organizationData = await JSON.parse(JSON.stringify(organization));
 
   return (
     <header className="w-full h-14 px-4 z-10 bg-[rgba(251,251,253,.8)]">
       <nav className="flex justify-between items-center w-full max-w-[980px] h-full mx-auto">
-        <MenuBar />
+        <MenuBar organization={organizationData} />
 
         <Searchbar />
 

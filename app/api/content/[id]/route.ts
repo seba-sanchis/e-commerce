@@ -48,7 +48,6 @@ export const PATCH = async (
 
     return NextResponse.json(content, { status: 200 });
   } catch (error) {
-    console.log("error ->", error)
     return NextResponse.json(
       { message: "Failed to update content" },
       { status: 500 }

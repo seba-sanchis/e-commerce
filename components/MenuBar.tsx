@@ -5,23 +5,19 @@ import { useState } from "react";
 import { menu, categories } from "@/constants";
 import Link from "next/link";
 import Image from "next/image";
+import { Content } from "@/common.types";
 
-export default function MenuBar() {
+export default function MenuBar({ organization }: { organization: Content }) {
   const [toggleMenu, setToggleMenu] = useState(false);
 
   return (
     <div className="flex items-center gap-5">
       <Link
-        href="/"
+        href={organization.url}
         className="navbar_link z-30"
         onClick={() => setToggleMenu(false)}
       >
-        <Image
-          src="/assets/brand-01.png"
-          alt="brand iso"
-          width={40}
-          height={40}
-        />
+        <Image src={organization.image} alt="logo" width={40} height={40} />
       </Link>
 
       {/* Menu options */}

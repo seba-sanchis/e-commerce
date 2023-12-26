@@ -38,9 +38,15 @@ export async function getContentByTag(params: string) {
 
     const data = await Content.find({ tag: params });
 
-    return data;
+    if (data.length === 1) {
+      // If there's only one item, return it as an object
+      return data[0];
+    } else {
+      // If there are more than one items, return the array
+      return data;
+    }
   } catch (error: any) {
-    throw new Error(`Failed to get content by type: ${error.message}`); // Handle any errors
+    throw new Error(`Failed to get content by type: ${error.message}`);
   }
 }
 

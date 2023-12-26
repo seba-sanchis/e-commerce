@@ -3,11 +3,12 @@ import type { Session } from "next-auth";
 
 export interface Content {
   _id?: ObjectId;
-  title: String;
-  subtitle: String;
-  image: String;
-  url: String;
-  tag: String;
+  title: string;
+  subtitle: string;
+  image: string;
+  url: string;
+  tag: string;
+  lastUpdated: Date;
 }
 
 export interface Item {
