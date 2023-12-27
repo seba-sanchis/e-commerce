@@ -1,9 +1,10 @@
 "use server";
 
-import { Content as Contents } from "@/common.types";
+import { ObjectId } from "mongodb";
+
 import { connectToDB } from "../database";
 import Content from "@/models/content";
-import { ObjectId } from "mongodb";
+import { Content as Contents } from "@/common.types";
 
 // Get all content
 export async function getContent() {
