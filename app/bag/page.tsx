@@ -5,8 +5,13 @@ import { ObjectId } from "mongodb";
 
 import { authOptions } from "@/lib/options";
 import { getItems } from "@/lib/actions/bag.actions";
-import { CheckOut, DeleteButton, DetailsButton, Select } from "@/components";
-import { Item, Sessions } from "@/common.types";
+import {
+  CheckOut,
+  ProductDetails,
+  RemoveProduct,
+  SelectQuantity,
+} from "@/components";
+import { Item, Sessions } from "@/types";
 
 export default async function Page() {
   const session = (await getServerSession(authOptions)) as Sessions;
@@ -67,7 +72,7 @@ export default async function Page() {
                     </Link>
                   </h2>
                   <div className="flex justify-between w-full">
-                    <Select
+                    <SelectQuantity
                       itemId={item._id as ObjectId}
                       quantity={item.quantity}
                       size={item.size as string}
@@ -85,12 +90,12 @@ export default async function Page() {
                 </div>
 
                 <div className="flex justify-between items-start w-full">
-                  <DetailsButton
+                  <ProductDetails
                     color={item.product?.color}
                     size={item.size as string}
                   />
 
-                  <DeleteButton
+                  <RemoveProduct
                     itemId={item._id as ObjectId}
                     userId={session.user?.id as string}
                   />

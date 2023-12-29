@@ -18,14 +18,14 @@ export const myprofile = [
   },
 ];
 
-export const categories = [
+export const collections = [
   {
     name: "Calzado",
-    url: "/category/calzado",
+    url: "/shop/calzado",
   },
   {
     name: "Ropa",
-    url: "/category/ropa",
+    url: "/shop/ropa",
   },
 ];
 
@@ -50,7 +50,7 @@ export const payments = [
 
 export const quantities = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
-export const region = [
+export const regions = [
   "Buenos Aires",
   "Catamarca",
   "Chaco",

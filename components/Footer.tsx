@@ -1,4 +1,4 @@
-import { Content } from "@/common.types";
+import { Content } from "@/types";
 import { getContentByTag } from "@/lib/actions/content.actions";
 import Image from "next/image";
 import Link from "next/link";

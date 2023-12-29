@@ -1,7 +1,7 @@
 import { getProductsBySales } from "@/lib/actions/product.actions";
-import { Slider } from ".";
+import { Scroller } from ".";
 
-export default async function Bestsellers() {
+export default async function CardsShelf() {
   const response = await getProductsBySales();
 
   const data = await JSON.parse(JSON.stringify(response));
@@ -12,7 +12,7 @@ export default async function Bestsellers() {
         <div className="text-xl font-semibold mb-4 mx-4 md:mx-0">
           Productos más vendidos
         </div>
-        <Slider products={data} />
+        <Scroller products={data} />
       </div>
     </section>
   );

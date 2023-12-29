@@ -14,8 +14,8 @@ const {
 export async function newCheckOut(
   params: Items[],
   userId: string,
-  email: string,
-  dni: number
+  // email: string,
+  // dni: number
 ) {
   // Add credentials
   const client = new MercadoPagoConfig({

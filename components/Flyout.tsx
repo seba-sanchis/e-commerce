@@ -2,12 +2,12 @@
 
 import { useState } from "react";
 
-import { menu, categories } from "@/constants";
+import { menu, collections } from "@/constants";
 import Link from "next/link";
 import Image from "next/image";
-import { Content } from "@/common.types";
+import { Content } from "@/types";
 
-export default function MenuBar({ organization }: { organization: Content }) {
+export default function Flyout({ organization }: { organization: Content }) {
   const [toggleMenu, setToggleMenu] = useState(false);
 
   return (
@@ -34,7 +34,7 @@ export default function MenuBar({ organization }: { organization: Content }) {
         ))}
       </ul>
 
-      {/* Categories */}
+      {/* Collections */}
       <div
         className={`fixed flex flex-wrap w-full p-1.5 top-0 left-0 transition-all duration-[240ms] ease-[cubic-bezier(.4,0,.6,1)] delay-100 z-10 bg-primary-white ${
           toggleMenu ? "visible h-[286px]" : "h-14 invisible"
@@ -53,16 +53,16 @@ export default function MenuBar({ organization }: { organization: Content }) {
               toggleMenu ? "text-secondary-black" : "text-[rgba(0,0,0,0)]"
             }`}
           >
-            {categories.map((feature) => (
-              <li key={feature.name}>
+            {collections.map((collection) => (
+              <li key={collection.name}>
                 <Link
-                  href={`${feature.url}`}
+                  href={`${collection.url}`}
                   className={`px-3 py-2 transition-all duration-[320ms] ease-[cubic-bezier(.4,0,.6,1)] ${
                     toggleMenu ? "hover:text-black" : "cursor-auto"
                   }`}
                   onClick={() => setToggleMenu(false)}
                 >
-                  {feature.name}
+                  {collection.name}
                 </Link>
               </li>
             ))}

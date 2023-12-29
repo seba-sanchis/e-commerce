@@ -14,7 +14,7 @@ export default function Searchbar() {
     if (search === "") {
       return null;
     } else {
-      router.push(`/category/${search}`);
+      router.push(`/shop/${search}`);
     }
   };
 

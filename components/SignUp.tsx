@@ -4,44 +4,35 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { signIn } from "next-auth/react";
 
-import { region } from "@/constants";
-import { UserProfile } from "@/common.types";
+import { regions } from "@/constants";
+import { UserProfile, Validation } from "@/types";
 import { newUser } from "@/lib/actions/user.actions";
-
-type Validation = {
-  firstName?: string;
-  lastName?: string;
-  dni?: string;
-  birthday?: string;
-  region?: string;
-  location?: string;
-  address?: string;
-  postcode?: string;
-  email?: string;
-  password?: string;
-  areaCode?: string;
-  phone?: string;
-};
+import { signUpValidation } from "@/lib/validations";
 
 export default function SignUp() {
   const router = useRouter();
 
   const [user, setUser] = useState<UserProfile>({
-    firstName: "",
-    lastName: "",
-    dni: 0,
-    birthday: "",
-    region: region[0],
-    location: "",
-    address: "",
-    postcode: 0,
-    email: "",
-    password: "",
-    areaCode: 0,
-    phone: 0,
+    account: {
+      email: "",
+      password: "",
+      confirmPassword: "",
+    },
+    privacy: {
+      firstName: "",
+      lastName: "",
+      dni: "",
+      birthday: "",
+    },
+    shipping: {
+      region: "Buenos Aires",
+      location: "",
+      address: "",
+      zip: "",
+      areaCode: "",
+      phone: "",
+    },
   });
-
-  const [confirmPassword, setConfirmPassword] = useState("");
 
   const [error, setError] = useState<Validation>({
     firstName: "",
@@ -51,7 +42,7 @@ export default function SignUp() {
     region: "",
     location: "",
     address: "",
-    postcode: "",
+    zip: "",
     email: "",
     password: "",
     areaCode: "",
@@ -61,110 +52,27 @@ export default function SignUp() {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    const isValidEmail = (email: string) => {
-      // Regular expression pattern for a valid email address
-      const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
-      // Test the provided email against the pattern
-      return emailPattern.test(email);
-    };
-
     // Validate the form fields
-    const validation: Validation = {};
+    const validation = signUpValidation(user);
+    console.log("validation ->", validation);
+    // All validations passed, create account
+    if (Object.keys(validation).length === 0) {
+      // All validations passed, create a new user
+      await newUser(user);
 
-    // Validate first name
-    if (!user.firstName) {
-      validation.firstName = "Ingresá un nombre.";
+      // Sign in the user
+      await signIn("credentials", {
+        email: user.account.email,
+        password: user.account.password,
+        redirect: false,
+      });
+
+      router.refresh();
+      router.push("/profile/account");
+    } else {
+      // Form has error
+      setError(validation);
     }
-
-    // Validate last name
-    if (!user.lastName) {
-      validation.lastName = "Ingresá un apellido.";
-    }
-
-    // Validate DNI
-    if (user.dni === 0 || isNaN(user.dni) || user.dni.toString().length !== 8) {
-      validation.dni = "Ingresá un DNI válido.";
-    }
-
-    // Validate birthday
-    if (!user.birthday) {
-      validation.birthday = "Ingresá una fecha válida.";
-    }
-
-    // Validate location
-    if (!user.location) {
-      validation.location = "Ingresá una ciudad.";
-    }
-
-    // Validate address
-    if (!user.address) {
-      validation.address = "Ingresá una dirección.";
-    }
-
-    // Validate postcode
-    if (
-      user.postcode === 0 ||
-      isNaN(user.postcode) ||
-      user.postcode.toString().length !== 4
-    ) {
-      validation.postcode = "Código inválido.";
-    }
-
-    // Validate email
-    if (!user.email || !isValidEmail(user.email)) {
-      validation.email = "Ingresá un email válido.";
-    }
-
-    // Validate password
-    if (!user.password || user.password.length < 6) {
-      validation.password = "Ingresá una contraseña válida.";
-    }
-
-    // Validate password confirmation
-    if (user.password !== confirmPassword) {
-      validation.password = "Confirmá tu contraseña.";
-    }
-
-    // Validate area code
-    if (
-      user.areaCode === 0 ||
-      isNaN(user.areaCode) ||
-      user.areaCode.toString().length < 2 ||
-      user.areaCode.toString().length > 3
-    ) {
-      validation.areaCode = "Código inválido.";
-    }
-
-    // Validate phone
-    if (
-      user.phone === 0 ||
-      isNaN(user.phone) ||
-      user.phone.toString().length < 7 ||
-      user.phone.toString().length > 8
-    ) {
-      validation.phone = "Ingresá un teléfono válido.";
-    }
-
-    // Set the validation errors
-    setError(validation);
-
-    // If there are validation errors, do not proceed with user creation
-    if (Object.keys(validation).length > 0) {
-      return;
-    }
-
-    // All validations passed, create a new user
-    await newUser(user);
-
-    // Sign in the user
-    await signIn("credentials", {
-      email: user.email,
-      password: user.password,
-      redirect: false,
-    });
-
-    router.refresh();
   };
   return (
     <form
@@ -176,9 +84,12 @@ export default function SignUp() {
           <div className="flex gap-4">
             <div>
               <input
-                value={user.firstName}
+                value={user.privacy.firstName}
                 onChange={(e) =>
-                  setUser({ ...user, firstName: e.target.value })
+                  setUser({
+                    ...user,
+                    privacy: { ...user.privacy, firstName: e.target.value },
+                  })
                 }
                 type="text"
                 placeholder="Nombre"
@@ -198,8 +109,13 @@ export default function SignUp() {
 
             <div>
               <input
-                value={user.lastName}
-                onChange={(e) => setUser({ ...user, lastName: e.target.value })}
+                value={user.privacy.lastName}
+                onChange={(e) =>
+                  setUser({
+                    ...user,
+                    privacy: { ...user.privacy, lastName: e.target.value },
+                  })
+                }
                 type="text"
                 placeholder="Apellido"
                 className={`input ${
@@ -220,11 +136,14 @@ export default function SignUp() {
           <div className="flex gap-4">
             <div className="w-1/2">
               <input
-                value={user.dni === 0 ? "" : user.dni}
+                value={user.privacy.dni}
                 onChange={(e) =>
-                  setUser({ ...user, dni: Number(e.target.value) })
+                  setUser({
+                    ...user,
+                    privacy: { ...user.privacy, dni: e.target.value },
+                  })
                 }
-                type="number"
+                type="text"
                 placeholder="DNI"
                 className={`input ${
                   error.dni
@@ -248,13 +167,16 @@ export default function SignUp() {
                 }`}
               >
                 <input
-                  value={user?.birthday?.slice(0, 10)}
+                  value={user.privacy.birthday.slice(0, 10)}
                   onChange={(e) =>
-                    setUser({ ...user, birthday: e.target.value })
+                    setUser({
+                      ...user,
+                      privacy: { ...user.privacy, birthday: e.target.value },
+                    })
                   }
                   type="date"
                   className={`w-full h-full px-4 z-10 focus:opacity-100 ${
-                    user?.birthday ? "opacity-100" : "opacity-0"
+                    user.privacy.birthday ? "opacity-100" : "opacity-0"
                   }`}
                 />
 
@@ -283,10 +205,16 @@ export default function SignUp() {
         <div className="flex flex-col gap-4 w-full py-8 max-w-[460px] mx-auto">
           <div className="flex items-center border border-[#d6d6d6] rounded w-full h-14 justify-between">
             <select
-              onChange={(e) => setUser({ ...user, region: e.target.value })}
+              value={user.shipping.region}
+              onChange={(e) =>
+                setUser({
+                  ...user,
+                  shipping: { ...user.shipping, region: e.target.value },
+                })
+              }
               className="appearance-none bg-transparent w-full h-full px-4 cursor-pointer z-10"
             >
-              {region.map((region) => (
+              {regions.map((region) => (
                 <option key={region} value={region}>
                   {region}
                 </option>
@@ -299,8 +227,13 @@ export default function SignUp() {
 
           <div>
             <input
-              value={user.location}
-              onChange={(e) => setUser({ ...user, location: e.target.value })}
+              value={user.shipping.location}
+              onChange={(e) =>
+                setUser({
+                  ...user,
+                  shipping: { ...user.shipping, location: e.target.value },
+                })
+              }
               type="text"
               placeholder="Ciudad"
               className={`input ${
@@ -320,8 +253,13 @@ export default function SignUp() {
           <div className="flex gap-4">
             <div className="w-2/3">
               <input
-                value={user.address}
-                onChange={(e) => setUser({ ...user, address: e.target.value })}
+                value={user.shipping.address}
+                onChange={(e) =>
+                  setUser({
+                    ...user,
+                    shipping: { ...user.shipping, address: e.target.value },
+                  })
+                }
                 type="text"
                 placeholder="Dirección"
                 className={`input ${
@@ -339,22 +277,25 @@ export default function SignUp() {
             </div>
             <div className="w-1/3">
               <input
-                value={user.postcode === 0 ? "" : user.postcode}
+                value={user.shipping.zip}
                 onChange={(e) =>
-                  setUser({ ...user, postcode: Number(e.target.value) })
+                  setUser({
+                    ...user,
+                    shipping: { ...user.shipping, zip: e.target.value },
+                  })
                 }
-                type="number"
+                type="text"
                 placeholder="Código postal"
                 className={`input ${
-                  error.postcode
+                  error.zip
                     ? "input_error"
                     : "border-[#d6d6d6] bg-[hsla(0,0%,100%,.8)]"
                 }`}
               />
-              {error.postcode && (
+              {error.zip && (
                 <div className="flex items-center mt-2 text-xs text-primary-red">
                   <i className="fi fi-rr-exclamation flex items-center mx-1"></i>
-                  <span>{error.postcode}</span>
+                  <span>{error.zip}</span>
                 </div>
               )}
             </div>
@@ -366,8 +307,13 @@ export default function SignUp() {
         <div className="flex flex-col gap-4 w-full py-8 max-w-[460px] mx-auto">
           <div>
             <input
-              value={user.email}
-              onChange={(e) => setUser({ ...user, email: e.target.value })}
+              value={user.account.email}
+              onChange={(e) =>
+                setUser({
+                  ...user,
+                  account: { ...user.account, email: e.target.value },
+                })
+              }
               type="email"
               placeholder="Email"
               className={`input ${
@@ -384,8 +330,13 @@ export default function SignUp() {
             )}
           </div>
           <input
-            value={user.password}
-            onChange={(e) => setUser({ ...user, password: e.target.value })}
+            value={user.account.password}
+            onChange={(e) =>
+              setUser({
+                ...user,
+                account: { ...user.account, password: e.target.value },
+              })
+            }
             type="password"
             placeholder="Contraseña"
             className={`input ${
@@ -396,8 +347,13 @@ export default function SignUp() {
           />
           <div>
             <input
-              value={confirmPassword}
-              onChange={(e) => setConfirmPassword(e.target.value)}
+              value={user.account.confirmPassword}
+              onChange={(e) =>
+                setUser({
+                  ...user,
+                  account: { ...user.account, confirmPassword: e.target.value },
+                })
+              }
               type="password"
               placeholder="Confirmar contraseña"
               className={`input ${
@@ -420,11 +376,14 @@ export default function SignUp() {
         <div className="flex gap-4 w-full py-8 max-w-[460px] mx-auto">
           <div className="w-1/3">
             <input
-              value={user.areaCode === 0 ? "" : user.areaCode}
+              value={user.shipping.areaCode}
               onChange={(e) =>
-                setUser({ ...user, areaCode: Number(e.target.value) })
+                setUser({
+                  ...user,
+                  shipping: { ...user.shipping, areaCode: e.target.value },
+                })
               }
-              type="number"
+              type="text"
               placeholder="Código de área"
               className={`input ${
                 error.areaCode
@@ -441,11 +400,14 @@ export default function SignUp() {
           </div>
           <div className="w-2/3">
             <input
-              value={user.phone === 0 ? "" : user.phone}
+              value={user.shipping.phone}
               onChange={(e) =>
-                setUser({ ...user, phone: Number(e.target.value) })
+                setUser({
+                  ...user,
+                  shipping: { ...user.shipping, phone: e.target.value },
+                })
               }
-              type="number"
+              type="text"
               placeholder="Teléfono"
               className={`input ${
                 error.phone

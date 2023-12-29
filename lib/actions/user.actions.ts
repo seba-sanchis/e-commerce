@@ -1,92 +1,107 @@
 "use server";
 
+import mongoose from "mongoose";
 import bcrypt from "bcryptjs";
 
 import { connectToDB } from "../database";
-import User from "@/models/user";
-import { Item as Items, UserProfile } from "@/common.types";
-import Item from "@/models/item";
-import Order from "@/models/order";
-import Transaction from "@/models/transaction";
+import { Item, UserProfile } from "@/types";
+import AccountModel from "@/models/account";
+import ItemModel from "@/models/item";
+import OrderModel from "@/models/order";
+import PrivacyModel from "@/models/privacy";
+import ShippingModel from "@/models/shipping";
+import TransactionModel from "@/models/transaction";
+import UserModel from "@/models/user";
 
 // Create a new user
 export async function newUser(params: UserProfile) {
-  const {
-    firstName,
-    lastName,
-    dni,
-    birthday,
-    region,
-    location,
-    address,
-    postcode,
-    email,
-    password,
-    areaCode,
-    phone,
-  } = params;
+  const { account, privacy, shipping } = params;
+
+  const session = await mongoose.startSession();
+  session.startTransaction();
 
   try {
     await connectToDB();
 
-    //Validations
-    if (password.length < 6)
+    // Validations
+    if (account.password.length < 6)
       throw new Error("Password must be at least 6 characters.");
 
-    const userExists = await User.findOne({ email });
-
+    const userExists = await AccountModel.findOne({ email: account.email });
     if (userExists) throw new Error("Email already exists.");
 
-    const hashedPassword = await bcrypt.hash(password, 12);
+    // Hash the password
+    const hashedPassword = await bcrypt.hash(account.password, 12);
 
-    const newUser = new User({
-      firstName,
-      lastName,
-      dni,
-      birthday,
-      region,
-      location,
-      address,
-      postcode,
-      email,
+    // Create and save Account, Privacy, and Shipping documents within the same session
+    const savedAccount = await new AccountModel({
+      email: account.email,
       password: hashedPassword,
-      areaCode,
-      phone,
+    }).save({ session });
+    const savedPrivacy = await new PrivacyModel(privacy).save({ session });
+    const savedShipping = await new ShippingModel(shipping).save({ session });
+
+    // Create and save User document with references to Account, Privacy, and Shipping
+    const newUser = new UserModel({
+      account: savedAccount._id,
+      privacy: savedPrivacy._id,
+      shipping: savedShipping._id,
     });
 
-    await newUser.save();
+    await newUser.save({ session });
+
+    // Commit the transaction if all operations were successful
+    await session.commitTransaction();
   } catch (error: any) {
+    // If an error occurs, abort the transaction
+    await session.abortTransaction();
     throw new Error(`Failed to create a new user: ${error.message}`);
+  } finally {
+    // End the session
+    session.endSession();
   }
 }
 
 // Get user by email
-export async function getUser(user: UserProfile) {
+export async function getUser(email: string) {
   try {
     await connectToDB();
 
-    // store the user id from MongoDB to session
-    const sessionUser = await User.findOne({
-      email: user.email as string,
-    }).populate({
-      path: "bag",
-      model: Item,
-    }); // Populate the items in the user's bag
+    // Find the account with the given email
+    const account = await AccountModel.findOne({ email });
 
-    if (!sessionUser) {
-      throw new Error("User not found"); // Handle case when user is not found
-    }
+    if (!account) throw new Error("Account not found"); // Handle case when account is not found
+
+    // store the user id from MongoDB to session
+    const sessionUser = await UserModel.findOne({
+      account: account._id,
+    })
+      .populate({
+        path: "privacy",
+        model: PrivacyModel,
+      })
+      .populate({
+        path: "shipping",
+        model: ShippingModel,
+      })
+      .populate({
+        path: "bag",
+        model: ItemModel,
+      });
+
+    if (!sessionUser) throw new Error("User not found"); // Handle case when user is not found
 
     // Calculate the total quantity of products in the bag
     const items = sessionUser.bag.reduce(
-      (acc: number, item: Items) => acc + item.quantity,
+      (acc: number, item: Item) => acc + item.quantity,
       0
     );
 
     const session = {
       id: sessionUser._id.toString(),
-      email: sessionUser.email,
-      dni: sessionUser.dni,
+      account: account,
+      privacy: sessionUser.privacy,
+      shipping: sessionUser.shipping,
       bag: sessionUser.bag,
       items: items,
       favorite: sessionUser.favorite,
@@ -98,66 +113,18 @@ export async function getUser(user: UserProfile) {
   }
 }
 
-// Update an user
-export async function updateUser(params: UserProfile) {
-  const {
-    _id,
-    firstName,
-    lastName,
-    dni,
-    birthday,
-    region,
-    location,
-    address,
-    postcode,
-    email,
-    password,
-    areaCode,
-    phone,
-  } = params;
-
-  try {
-    await connectToDB();
-
-    // Find the existing client by ID
-    const existingUser = await User.findById(_id);
-
-    if (!existingUser) throw new Error("User not found");
-
-    const hashedPassword = await bcrypt.hash(password, 12);
-
-    // Update the product with new data
-    existingUser.firstName = firstName;
-    existingUser.lastName = lastName;
-    existingUser.dni = dni;
-    existingUser.birthday = birthday;
-    existingUser.region = region;
-    existingUser.location = location;
-    existingUser.address = address;
-    existingUser.postcode = postcode;
-    existingUser.email = email;
-    existingUser.password = hashedPassword;
-    existingUser.areaCode = areaCode;
-    existingUser.phone = phone;
-
-    await existingUser.save();
-  } catch (error: any) {
-    throw new Error(`Failed to update user: ${error.message}`);
-  }
-}
-
 // Get all users
 export async function getUsers() {
   try {
     await connectToDB();
 
     // store the user id from MongoDB to session
-    const users = await User.find({}).populate({
+    const users = await UserModel.find({}).populate({
       path: "purchases",
-      model: Order,
+      model: OrderModel,
       populate: {
         path: "transaction", // Populate the "transaction" field in purchases
-        model: Transaction,
+        model: TransactionModel,
       },
     });
 

@@ -1,11 +1,11 @@
-import type { NextAuthOptions, User as Users } from "next-auth";
+import type { NextAuthOptions, User } from "next-auth";
 import bcrypt from "bcryptjs";
 import CredentialsProvider from "next-auth/providers/credentials";
 import GoogleProvider from "next-auth/providers/google";
 
-import User from "@/models/user";
+import UserModel from "@/models/user";
 import { connectToDB } from "@/lib/database";
-import { Sessions, UserProfile } from "@/common.types";
+import { Sessions, UserProfile } from "@/types";
 import { getUser } from "./actions/user.actions";
 import { AdapterUser } from "next-auth/adapters";
 
@@ -23,27 +23,25 @@ export const authOptions: NextAuthOptions = {
       },
       async authorize(credentials, req) {
         try {
-          await connectToDB();
-
+          if (!credentials?.email) throw new Error("Invalid email");
+          console.log("authorize check");
           // check if user already exists
-          const credentialUser = (await User.findOne({
-            email: credentials?.email as string,
-          })) as UserProfile;
-
+          const credentialUser = await getUser(credentials.email);
+          console.log("credentialUser ->", credentialUser);
           // if not, throw an error
           if (!credentialUser) throw new Error("Invalid credentials");
 
           // check if password is correct
-          const passwordMatch = await bcrypt.compare(
-            credentials!.password,
-            credentialUser.password
-          );
+          // const passwordMatch = await bcrypt.compare(
+          //   credentials!.password,
+          //   credentialUser.password
+          // );
 
-          if (!passwordMatch) throw new Error("Invalid credentials");
+          // if (!passwordMatch) throw new Error("Invalid credentials");
 
           const user = {
-            id: credentialUser._id!.toString(),
-            email: credentialUser.email,
+            id: credentialUser.id.toString(),
+            email: credentialUser.account.email,
           };
 
           return user;
@@ -61,24 +59,30 @@ export const authOptions: NextAuthOptions = {
     //   return token;
     // },
     async session({ session }: { session: Sessions }) {
-      const response = await getUser(session.user as UserProfile);
-
-      session.user = response;
-
-      return session;
-    },
-    async signIn({ user }: { user: AdapterUser | Users }) {
       try {
-        await connectToDB();
+        if (!session.user?.email) throw new Error("Invalid email");
 
+        // store the user in session
+        const response = await getUser(session.user.email);
+
+        session.user = response;
+
+        return session;
+      } catch (error: any) {
+        console.log("Error storing the user in session: ", error.message);
+        return session;
+      }
+    },
+    async signIn({ user }: { user: AdapterUser | User }) {
+      try {
+        if (!user.email) throw new Error("Invalid email");
+        console.log("signIn check");
         // check if user already exists
-        const userExists = (await User.findOne({
-          email: user.email as string,
-        })) as { user?: UserProfile };
-
+        const userExists = await getUser(user.email);
+        console.log("userExists ->", userExists);
         // if not, create a new document and save user in MongoDB
         if (!userExists) {
-          await User.create({
+          await UserModel.create({
             email: user.email as string,
             // name: user.name as string,
             // image: user.image as string,

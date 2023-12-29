@@ -5,7 +5,7 @@ import { getServerSession } from "next-auth";
 
 import { OAuth, SignIn } from "@/components";
 import { authOptions } from "@/lib/options";
-import { Sessions } from "@/common.types";
+import { Sessions } from "@/types";
 
 export default async function Page() {
   const session = (await getServerSession(authOptions)) as Sessions;
@@ -26,7 +26,7 @@ export default async function Page() {
 
         <div className="flex flex-col items-center text-sm gap-2 my-4">
           <div>
-            <Link href="/forgotten-password" className="text-tertiary-blue">
+            <Link href="/forgot" className="text-tertiary-blue">
               ¿Olvidaste tu contraseña?
             </Link>
           </div>

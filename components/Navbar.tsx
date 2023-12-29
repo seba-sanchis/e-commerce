@@ -2,9 +2,8 @@ import Link from "next/link";
 import { getServerSession } from "next-auth";
 
 import { authOptions } from "@/lib/options";
-import { Content, Sessions } from "@/common.types";
-import { MenuBar, SearchButton, Searchbar } from ".";
-import MenuButton from "./MenuButton";
+import { Sessions } from "@/types";
+import { Flyout, Menu, Searchbar, SearchField } from ".";
 import { getContentByTag } from "@/lib/actions/content.actions";
 
 export default async function Navbar() {
@@ -17,7 +16,7 @@ export default async function Navbar() {
   return (
     <header className="w-full h-14 px-4 z-10 bg-[rgba(251,251,253,.8)]">
       <nav className="flex justify-between items-center w-full max-w-[980px] h-full mx-auto">
-        <MenuBar organization={organizationData} />
+        <Flyout organization={organizationData} />
 
         <Searchbar />
 
@@ -37,7 +36,7 @@ export default async function Navbar() {
               Ingresá
             </Link>
           )}
-          <SearchButton />
+          <SearchField />
           <Link
             href={session ? "/bag" : "/sign-in"}
             className="flex justify-center items-center w-10 h-10"
@@ -52,7 +51,7 @@ export default async function Navbar() {
             )}
           </Link>
 
-          <MenuButton session={sessionData} />
+          <Menu session={sessionData} />
         </div>
       </nav>
     </header>

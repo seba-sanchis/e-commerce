@@ -1,34 +1,18 @@
 import { getServerSession } from "next-auth";
+import { redirect } from "next/navigation";
 
-import { Sessions } from "@/common.types";
-import { UpdateUser } from "@/components";
 import { authOptions } from "@/lib/options";
-import User from "@/models/user";
+import { Sessions } from "@/types";
+import { EditAccount, EditPrivacy, EditShipping } from "@/components";
 
 export default async function Page() {
   const session = (await getServerSession(authOptions)) as Sessions;
 
-  const response = await User.findOne({
-    _id: session.user?.id,
-  });
+  if (!session?.user) redirect("/");
 
-  const data = await JSON.parse(JSON.stringify(response));
-
-  // Function to format a date string to "dd de MMMM" format with or without the year
-  function formatDate(orderDate: string) {
-    const date = new Date(orderDate);
-    const currentDate = new Date();
-
-    const day = date.toLocaleDateString("es-ES", { day: "2-digit" });
-    const month = date.toLocaleDateString("es-ES", { month: "long" });
-    const year = date.getFullYear();
-
-    if (year === currentDate.getFullYear()) {
-      return `${day} de ${month}`;
-    } else {
-      return `${day} de ${month} de ${year}`;
-    }
-  }
+  const { account, privacy, shipping } = await JSON.parse(
+    JSON.stringify(session.user)
+  );
 
   return (
     <div className="flex flex-col gap-8 w-full m-4">
@@ -38,39 +22,41 @@ export default async function Page() {
           <div>
             <h4 className="font-semibold">Dirección de envío</h4>
             <div>
-              <span>{response.address}</span>, <span>{response.location}</span>
+              <span>{shipping?.address}</span>,{" "}
+              <span>{shipping?.location}</span>
             </div>
-            <div>{response.region}</div>
-            <div>{response.postcode}</div>
+            <div>{shipping?.zip}</div>
+            <div>{shipping?.region}</div>
           </div>
           <div>
             <h4 className="font-semibold">Información de contacto</h4>
-            <div>{response.email}</div>
             <div>
-              <span>{response.areaCode}</span> <span>{response.phone}</span>
+              <span>{shipping?.areaCode}</span> <span>{shipping?.phone}</span>
             </div>
           </div>
         </div>
+        <EditShipping shipping={shipping!} />
       </div>
+
       <div>
         <h3 className="text-2xl font-semibold mb-1.5">Privacidad</h3>
         <div>
           <h4 className="font-semibold">Información personal</h4>
           <div>
-            <span>{response.firstName}</span> <span>{response.lastName}</span>
+            Estás en control de tu información personal y puedes gestionar tus
+            datos o eliminar tu cuenta en cualquier momento. Nos comprometemos a
+            proteger tu privacidad.
           </div>
-          <div>{formatDate(response.birthday)}</div>
-          <div>{response.dni}</div>
         </div>
+        <EditPrivacy privacy={privacy!} />
       </div>
       <div>
         <h3 className="text-2xl font-semibold mb-1.5">Cuenta</h3>
         <div>
-          <div>{response.email}</div>
-          <div>******</div>
+          <div>{account?.email}</div>
         </div>
+        <EditAccount account={account!} />
       </div>
-      <UpdateUser session={data} />
     </div>
   );
 }

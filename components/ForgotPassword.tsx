@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 
-export default function ForgotForm() {
+export default function ForgotPassword() {
   const [userEmail, setUserEmail] = useState("");
   const [emailSent, setEmailSent] = useState("");
 

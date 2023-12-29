@@ -4,7 +4,7 @@ import { Inter } from "next/font/google";
 
 import { Footer, Navbar } from "@/components";
 import { getContentByTag } from "@/lib/actions/content.actions";
-import { Content } from "@/common.types";
+import { Content } from "@/types";
 
 const inter = Inter({ subsets: ["latin"] });
 

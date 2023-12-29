@@ -1,8 +1,8 @@
 import { NextResponse } from "next/server";
 import { connectToDB } from "@/lib/database";
-import User from "@/models/user";
-import Order from "@/models/order";
-import Transaction from "@/models/transaction";
+import UserModel from "@/models/user";
+import OrderModel from "@/models/order";
+import TransactionModel from "@/models/transaction";
 
 export const dynamic = "force-dynamic"; // defaults to force-static
 
@@ -11,12 +11,12 @@ export const GET = async () => {
   try {
     await connectToDB();
 
-    const users = await User.find({}).populate({
+    const users = await UserModel.find({}).populate({
       path: "purchases",
-      model: Order,
+      model: OrderModel,
       populate: {
         path: "transaction", // Populate the "transaction" field in purchases
-        model: Transaction,
+        model: TransactionModel,
       },
     });
 

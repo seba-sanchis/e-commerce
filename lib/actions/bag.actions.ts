@@ -6,28 +6,28 @@ import { ObjectId } from "mongodb";
 
 import { connectToDB } from "../database";
 import { authOptions } from "../options";
-import User from "@/models/user";
-import Item from "@/models/item";
-import Product from "@/models/product";
-import { Item as Items, Sessions } from "@/common.types";
+import UserModel from "@/models/user";
+import ItemModel from "@/models/item";
+import ProductModel from "@/models/product";
+import { Item, Sessions } from "@/types";
 
 // Add product to bag
-export async function addToBag(params: Items) {
+export async function addToBag(params: Item) {
   const session = (await getServerSession(authOptions)) as Sessions;
 
   await connectToDB();
 
   // Find the existing client by ID
-  const currentSession = await User.findById(session.user?.id).populate({
+  const currentSession = await UserModel.findById(session.user?.id).populate({
     path: "bag",
     populate: {
       path: "product", // Populate the product field within bag
-      model: Product,
+      model: ProductModel,
     },
   });
 
   const alreadyInBag = currentSession.bag.find(
-    (bagItem: Items) =>
+    (bagItem: Item) =>
       bagItem.product._id?.toString() === params.product.toString() &&
       bagItem.size === params.size
   );
@@ -36,12 +36,12 @@ export async function addToBag(params: Items) {
     // Product already in bag, update the quantity
     alreadyInBag.quantity += params.quantity;
 
-    await Item.findByIdAndUpdate(alreadyInBag._id, {
+    await ItemModel.findByIdAndUpdate(alreadyInBag._id, {
       quantity: alreadyInBag.quantity,
     });
   } else {
     // Product not in bag, add as a new item
-    const newItem = new Item(params);
+    const newItem = new ItemModel(params);
 
     await newItem.save();
 
@@ -58,11 +58,11 @@ export async function getItems(params: string) {
   await connectToDB();
 
   // Find the existing client by ID
-  const currentSession = await User.findById(params).populate({
+  const currentSession = await UserModel.findById(params).populate({
     path: "bag",
     populate: {
       path: "product", // Populate the product field within bag
-      model: Product,
+      model: ProductModel,
       // select: "_id name parentId image", // Select only _id and username fields of the author
     },
   });
@@ -80,14 +80,14 @@ export async function updateItem(
     await connectToDB();
 
     // Find the item to be updated
-    const itemToUpdate = await Item.findById(itemId);
+    const itemToUpdate = await ItemModel.findById(itemId);
 
     if (!itemToUpdate) {
       throw new Error(`Item with ID ${itemId} not found.`);
     }
 
     // Check if there is enough stock for the requested quantity
-    const product = await Product.findById(itemToUpdate.product);
+    const product = await ProductModel.findById(itemToUpdate.product);
     if (product) {
       // If the product has sizes, find the stock for the selected size
       if (product.sizes && product.sizes.length > 0) {
@@ -123,7 +123,7 @@ export async function removeItem(itemId: ObjectId, userId: string) {
     await connectToDB();
 
     // Find the item to be deleted
-    const itemToDelete = await Item.findById(itemId);
+    const itemToDelete = await ItemModel.findById(itemId);
 
     if (!itemToDelete) {
       throw new Error("Item not found");
@@ -133,14 +133,14 @@ export async function removeItem(itemId: ObjectId, userId: string) {
     const itemIdToDelete = itemToDelete._id;
 
     // Delete the item
-    const deletedItem = await Item.findByIdAndDelete(itemId);
+    const deletedItem = await ItemModel.findByIdAndDelete(itemId);
 
     if (!deletedItem) {
       throw new Error("Item not found");
     }
 
     // Find the user associated with the item
-    const user = await User.findById(userId);
+    const user = await UserModel.findById(userId);
 
     if (!user) {
       throw new Error("User not found");

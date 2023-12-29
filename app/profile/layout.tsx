@@ -3,7 +3,7 @@ import { redirect } from "next/navigation";
 
 import { authOptions } from "@/lib/options";
 import { Sidebar } from "@/components";
-import { Sessions } from "@/common.types";
+import { Sessions } from "@/types";
 
 export default async function Layout({ children }: { children: React.ReactNode }) {
   const session = (await getServerSession(authOptions)) as Sessions;

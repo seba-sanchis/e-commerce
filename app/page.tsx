@@ -1,15 +1,15 @@
-import { Banner, Bestsellers, Categories, PaymentData } from "@/components";
+import { CardsShelf, Collections, Hero, PaymentMethods } from "@/components";
 
 export default function Home() {
   return (
     <main className="w-full flex-1 flex flex-col gap-3">
-      <Banner />
+      <Hero />
 
-      <PaymentData />
+      <PaymentMethods />
 
-      <Categories />
+      <Collections />
 
-      <Bestsellers />
+      <CardsShelf />
     </main>
   );
 }

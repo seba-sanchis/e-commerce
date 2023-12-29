@@ -1,4 +1,4 @@
-import { ForgotForm } from "@/components";
+import { ForgotPassword } from "@/components";
 
 export default function Page() {
   return (
@@ -13,7 +13,7 @@ export default function Page() {
             continuar.
           </p>
 
-          <ForgotForm />
+          <ForgotPassword />
         </div>
         <div className="flex w-1/3 pl-10 text-[#6e6e73]">
           <i className="fi fi-rr-circle-user text-6xl"></i>

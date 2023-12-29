@@ -2,7 +2,7 @@ import { getServerSession } from "next-auth";
 import Image from "next/image";
 
 import { authOptions } from "@/lib/options";
-import { Picked, Sessions } from "@/common.types";
+import { Picked, Sessions } from "@/types";
 import { getOrders } from "@/lib/actions/order.actions";
 
 export default async function Page() {

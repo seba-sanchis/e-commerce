@@ -1,6 +1,13 @@
 import type { ObjectId } from "mongodb";
 import type { Session } from "next-auth";
 
+export interface Account {
+  _id?: ObjectId;
+  email: string;
+  password: string;
+  confirmPassword?: string;
+}
+
 export interface Content {
   _id?: ObjectId;
   title: string;
@@ -64,13 +71,12 @@ export interface Picked {
   price: number;
 }
 
-export interface Transaction {
+export interface Privacy {
   _id?: ObjectId;
-  bank: string | undefined;
-  installment: number | undefined;
-  paid: number | undefined;
-  received: number | undefined;
-  overpaid: number | undefined;
+  firstName: string;
+  lastName: string;
+  dni: string;
+  birthday: string;
 }
 
 export interface Product {
@@ -94,28 +100,56 @@ export interface Sessions extends Session {
     name?: string | null;
     email?: string | null;
     image?: string | null;
-    dni?: number | null;
+    account?: Account | null;
+    privacy?: Privacy | null;
+    shipping?: Shipping | null;
     bag?: Item[] | null;
     items?: number | null;
     favorite?: Product[] | null;
   };
 }
 
-export interface UserProfile {
+export interface Shipping {
   _id?: ObjectId;
-  firstName: string;
-  lastName: string;
-  dni: number;
-  birthday: string;
   region: string;
   location: string;
   address: string;
-  postcode: number;
-  email: string;
-  password: string;
-  areaCode: number;
-  phone: number;
+  zip: string;
+  areaCode: string;
+  phone: string;
+}
+
+export interface Transaction {
+  _id?: ObjectId;
+  bank: string | undefined;
+  installment: number | undefined;
+  paid: number | undefined;
+  received: number | undefined;
+  overpaid: number | undefined;
+}
+
+export interface UserProfile {
+  _id?: ObjectId;
+  account: Account;
+  privacy: Privacy;
+  shipping: Shipping;
   bag?: Item[];
   favorite?: Product[];
   purchases?: Order[];
+}
+
+export interface Validation {
+  email?: string;
+  password?: string;
+  confirmPassword?: string;
+  firstName?: string;
+  lastName?: string;
+  dni?: string;
+  birthday?: string;
+  region?: string;
+  location?: string;
+  address?: string;
+  zip?: string;
+  areaCode?: string;
+  phone?: string;
 }

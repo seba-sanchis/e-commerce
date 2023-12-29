@@ -1,12 +1,12 @@
 "use client";
 
-import { Sessions } from "@/common.types";
-import { categories, myprofile } from "@/constants";
+import { Sessions } from "@/types";
+import { collections, myprofile } from "@/constants";
 import { signOut } from "next-auth/react";
 import Link from "next/link";
 import { useState } from "react";
 
-export default function MenuButton({ session }: { session: Sessions }) {
+export default function Menu({ session }: { session: Sessions }) {
   const [toggleMenu, setToggleMenu] = useState(false);
 
   return (
@@ -22,7 +22,7 @@ export default function MenuButton({ session }: { session: Sessions }) {
         )}
       </button>
 
-      {/* Categories */}
+      {/* Collections */}
       <div
         className={`fixed flex flex-wrap w-full p-1.5 top-0 left-0 transition-all duration-[240ms] ease-[cubic-bezier(.4,0,.6,1)] delay-100 z-10 bg-primary-white ${
           toggleMenu ? "visible h-full" : "h-14 invisible"
@@ -41,16 +41,16 @@ export default function MenuButton({ session }: { session: Sessions }) {
               toggleMenu ? "text-secondary-black" : "text-[rgba(0,0,0,0)]"
             }`}
           >
-            {categories.map((feature) => (
-              <li key={feature.name}>
+            {collections.map((collection) => (
+              <li key={collection.name}>
                 <Link
-                  href={`${feature.url}`}
+                  href={`${collection.url}`}
                   className={`px-3 py-2 transition-all duration-[320ms] ease-[cubic-bezier(.4,0,.6,1)] ${
                     toggleMenu ? "hover:text-black" : "cursor-auto"
                   }`}
                   onClick={() => setToggleMenu(false)}
                 >
-                  {feature.name}
+                  {collection.name}
                 </Link>
               </li>
             ))}

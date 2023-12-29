@@ -3,15 +3,15 @@
 import { ObjectId } from "mongodb";
 
 import { connectToDB } from "../database";
-import Content from "@/models/content";
-import { Content as Contents } from "@/common.types";
+import ContentModel from "@/models/content";
+import { Content } from "@/types";
 
 // Get all content
 export async function getContent() {
   try {
     await connectToDB();
 
-    const content = await Content.find({});
+    const content = await ContentModel.find({});
 
     return content;
   } catch (error: any) {
@@ -24,7 +24,7 @@ export async function getContentById(params: ObjectId) {
   try {
     await connectToDB();
 
-    const content = await Content.findOne({ _id: params });
+    const content = await ContentModel.findOne({ _id: params });
 
     return content;
   } catch (error: any) {
@@ -37,7 +37,7 @@ export async function getContentByTag(params: string) {
   try {
     await connectToDB();
 
-    const data = await Content.find({ tag: params });
+    const data = await ContentModel.find({ tag: params });
 
     if (data.length === 1) {
       // If there's only one item, return it as an object
@@ -52,14 +52,14 @@ export async function getContentByTag(params: string) {
 }
 
 // Update content
-export async function updateContent(params: Contents) {
+export async function updateContent(params: Content) {
   const { _id, title, subtitle, image, url, tag } = params;
 
   try {
     await connectToDB();
 
     // Find the existing client by ID
-    const existingContent = await Content.findById(_id);
+    const existingContent = await ContentModel.findById(_id);
 
     if (!existingContent) throw new Error("Content not found");
 

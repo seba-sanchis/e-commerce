@@ -1,14 +1,14 @@
 "use server";
 
 import { connectToDB } from "../database";
-import Product from "@/models/product";
+import ProductModel from "@/models/product";
 
 // Get products by name
 export async function getProductsByName(params: string) {
   try {
     await connectToDB();
 
-    const data = await Product.find({ name: params });
+    const data = await ProductModel.find({ name: params });
 
     return data;
   } catch (error: any) {
@@ -21,7 +21,7 @@ export async function getProductsBySales() {
   try {
     await connectToDB();
 
-    const products = await Product.find().sort({ sold: -1 }).limit(8);
+    const products = await ProductModel.find().sort({ sold: -1 }).limit(8);
 
     return products;
   } catch (error: any) {
@@ -41,17 +41,17 @@ export async function getProductsBySearch(params: string) {
     // Create an array of regular expression patterns for each word
     const searchPatterns = searchWords.map((word) => new RegExp(word, "i"));
 
-    const data = await Product.find({
+    const data = await ProductModel.find({
       $and: [
         {
           $or: [
-            { category: { $in: searchPatterns } }, // Match categories containing any word
+            { category: { $in: searchPatterns } }, // Match collections containing any word
             { name: { $in: searchPatterns } }, // Match names containing any word
           ],
         },
         {
           $or: [
-            { category: { $all: searchPatterns } }, // Match all categories
+            { category: { $all: searchPatterns } }, // Match all collections
             { name: { $all: searchPatterns } }, // Match all names
           ],
         },

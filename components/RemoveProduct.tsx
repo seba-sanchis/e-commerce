@@ -5,7 +5,7 @@ import { ObjectId } from "mongodb";
 
 import { removeItem } from "@/lib/actions/bag.actions";
 
-export default function DeleteButton({
+export default function RemoveProduct({
   itemId,
   userId,
 }: {

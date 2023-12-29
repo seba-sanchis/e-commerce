@@ -3,9 +3,9 @@
 import { ObjectId } from "mongodb";
 
 import { connectToDB } from "../database";
-import User from "@/models/user";
-import Product from "@/models/product";
-import { Product as Products } from "@/common.types";
+import UserModel from "@/models/user";
+import ProductModel from "@/models/product";
+import { Product } from "@/types";
 
 // Add products to favorite
 export async function addToFavorite(userId: string, productId: ObjectId) {
@@ -13,7 +13,7 @@ export async function addToFavorite(userId: string, productId: ObjectId) {
 
   try {
     // Find the existing user by ID
-    const currentUser = await User.findById(userId);
+    const currentUser = await UserModel.findById(userId);
 
     if (!currentUser) {
       throw new Error("User not found");
@@ -21,19 +21,19 @@ export async function addToFavorite(userId: string, productId: ObjectId) {
 
     // Check if the product is already in the user's favorite list
     const alreadyInFavorite = currentUser.favorite.some(
-      (favoriteProduct: Products) =>
+      (favoriteProduct: Product) =>
         favoriteProduct.toString() === productId.toString()
     );
 
     if (alreadyInFavorite) {
       // Product already in favorites, remove it
       currentUser.favorite = currentUser.favorite.filter(
-        (favoriteProduct: Products) =>
+        (favoriteProduct: Product) =>
           favoriteProduct.toString() !== productId.toString()
       );
     } else {
       // Product not in favorites, add it
-      const productToAdd = await Product.findById(productId);
+      const productToAdd = await ProductModel.findById(productId);
 
       if (!productToAdd) {
         throw new Error("Product not found");
@@ -55,7 +55,7 @@ export async function getFavorites(userId: string) {
     await connectToDB();
 
     // Find the user based on the provided userId
-    const currentSession = await User.findById(userId).populate("favorite"); // Populate favorites
+    const currentSession = await UserModel.findById(userId).populate("favorite"); // Populate favorites
 
     if (!currentSession) {
       throw new Error(`User not found with id: ${userId}`);

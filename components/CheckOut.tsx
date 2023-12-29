@@ -7,7 +7,7 @@ import { initMercadoPago } from "@mercadopago/sdk-react";
 
 import { Currency } from "mercadopago/shared/currency";
 import { newCheckOut } from "@/lib/actions/checkout.actions";
-import { Item, Sessions } from "@/common.types";
+import { Item, Sessions } from "@/types";
 import { Items } from "mercadopago/dist/clients/commonTypes";
 
 export default function CheckOut({
@@ -46,8 +46,8 @@ export default function CheckOut({
       const response = await newCheckOut(
         order,
         session.user.id as string,
-        session.user.email as string,
-        session.user.dni as number
+        // session.user.email as string,
+        // session.user.dni as number
       );
 
       router.push(response);

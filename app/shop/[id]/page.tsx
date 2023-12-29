@@ -1,5 +1,5 @@
-import { Product } from "@/components";
-import { categories } from "@/constants";
+import { ProductCard } from "@/components";
+import { collections } from "@/constants";
 import { getProductsBySearch } from "@/lib/actions/product.actions";
 
 export default async function Page({ params }: { params: { id: string } }) {
@@ -10,9 +10,10 @@ export default async function Page({ params }: { params: { id: string } }) {
       index === self.findIndex((p) => p.name === product.name)
   );
 
-  const category = categories.find(
-    (category) =>
-      category.url.substring(category.url.lastIndexOf("/") + 1) === params.id
+  const collection = collections.find(
+    (collection) =>
+      collection.url.substring(collection.url.lastIndexOf("/") + 1) ===
+      params.id
   );
 
   return (
@@ -21,16 +22,16 @@ export default async function Page({ params }: { params: { id: string } }) {
         <section className="flex flex-col">
           <div className="pt-14 pb-5">
             <h1 className="text-center text-5xl leading-[1.05] font-semibold">
-              {category ? category.name : "Resultado de búsqueda"}
+              {collection ? collection.name : "Resultado de búsqueda"}
             </h1>
           </div>
           <div className="flex justify-center flex-wrap flex-1 gap-2 md:gap-4">
-            {category
+            {collection
               ? products.map((product) => (
-                  <Product key={product.sku} product={product} />
+                  <ProductCard key={product.sku} product={product} />
                 ))
               : response.map((product) => (
-                  <Product key={product.sku} product={product} />
+                  <ProductCard key={product.sku} product={product} />
                 ))}
           </div>
         </section>

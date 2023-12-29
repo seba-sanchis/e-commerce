@@ -1,9 +1,9 @@
 import { getServerSession } from "next-auth";
 
-import { Attributes } from "@/components";
+import { Product } from "@/components";
 import { authOptions } from "@/lib/options";
 import { getProductsByName } from "@/lib/actions/product.actions";
-import { Sessions } from "@/common.types";
+import { Sessions } from "@/types";
 
 export default async function Page({ params }: { params: { id: string } }) {
   const { id } = params;
@@ -18,7 +18,7 @@ export default async function Page({ params }: { params: { id: string } }) {
 
   return (
     <div className="flex flex-col flex-grow w-full max-w-[980px] my-8">
-      <Attributes products={data} session={sessionData} />
+      <Product products={data} session={sessionData} />
     </div>
   );
 }

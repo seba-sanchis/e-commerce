@@ -4,7 +4,7 @@ import Link from "next/link";
 
 import { authOptions } from "@/lib/options";
 import { getFavorites } from "@/lib/actions/favorite.actions";
-import { Product, Sessions } from "@/common.types";
+import { Product, Sessions } from "@/types";
 
 export default async function Page() {
   const session = (await getServerSession(authOptions)) as Sessions;

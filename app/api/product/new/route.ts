@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { connectToDB } from "@/lib/database";
-import Product from "@/models/product";
+import ProductModel from "@/models/product";
 
 export const POST = async (request: NextRequest) => {
   const {
@@ -19,7 +19,7 @@ export const POST = async (request: NextRequest) => {
 
   try {
     await connectToDB();
-    const newProduct = new Product({
+    const newProduct = new ProductModel({
       sku,
       category,
       name,

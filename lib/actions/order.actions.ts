@@ -3,33 +3,33 @@
 import { startSession } from "mongoose";
 
 import { connectToDB } from "../database";
-import Item from "@/models/item";
-import Order from "@/models/order";
-import Payer from "@/models/payer";
-import Payment from "@/models/payment";
-import Phone from "@/models/phone";
-import Picked from "@/models/picked";
-import Product from "@/models/product";
-import Transaction from "@/models/transaction";
-import User from "@/models/user";
+import ItemModel from "@/models/item";
+import OrderModel from "@/models/order";
+import PayerModel from "@/models/payer";
+import PaymentModel from "@/models/payment";
+import PhoneModel from "@/models/phone";
+import PickedModel from "@/models/picked";
+import ProductModel from "@/models/product";
+import TransactionModel from "@/models/transaction";
+import UserModel from "@/models/user";
 import {
-  Item as Items,
-  Order as Orders,
-  Payer as Payers,
-  Payment as Payments,
-  Phone as Phones,
-  Picked as Pickeds,
-  Transaction as Transactions,
-} from "@/common.types";
+  Item,
+  Order,
+  Payer,
+  Payment,
+  Phone,
+  Picked,
+  Transaction,
+} from "@/types";
 
 // Create a new order
 export async function newOrder(
-  order: Orders,
-  payer: Payers,
-  paymentMethod: Payments,
-  phone: Phones,
-  picked: Pickeds[],
-  transaction: Transactions
+  order: Order,
+  payer: Payer,
+  paymentMethod: Payment,
+  phone: Phone,
+  picked: Picked[],
+  transaction: Transaction
 ) {
   const session = await startSession();
   session.startTransaction();
@@ -39,35 +39,35 @@ export async function newOrder(
 
     const [newPayer, newPayment, newPicked, newTransaction] = await Promise.all(
       [
-        new Payer({
+        new PayerModel({
           ...payer,
-          phone: phone ? new Phone(payer.phone) : undefined,
+          phone: phone ? new PhoneModel(payer.phone) : undefined,
         }).save(),
 
-        new Payment(paymentMethod).save(),
+        new PaymentModel(paymentMethod).save(),
 
-        Picked.create(picked),
+        PickedModel.create(picked),
 
-        new Transaction(transaction).save(),
+        new TransactionModel(transaction).save(),
       ]
     );
 
-    const newOrder = new Order({
+    const newOrder = new OrderModel({
       ...order,
       payer: newPayer._id,
       payment: newPayment._id,
-      picked: newPicked.map((item: Pickeds) => item._id),
+      picked: newPicked.map((item: Picked) => item._id),
       transaction: newTransaction._id,
     });
 
     await newOrder.save();
 
-    const currentSession = await User.findById(order.reference);
+    const currentSession = await UserModel.findById(order.reference);
 
     currentSession.purchases.push(newOrder);
 
     const updateProductPromises = newPicked.map(async (pickedItem) => {
-      const product = await Product.findOne({ sku: pickedItem.sku });
+      const product = await ProductModel.findOne({ sku: pickedItem.sku });
 
       if (!product) {
         throw new Error(`Product with SKU ${pickedItem.sku} not found`);
@@ -98,8 +98,8 @@ export async function newOrder(
 
     await Promise.all(updateProductPromises);
 
-    const itemsToRemove = currentSession.bag.map((item: Items) => item._id);
-    await Item.deleteMany({ _id: { $in: itemsToRemove } });
+    const itemsToRemove = currentSession.bag.map((item: Item) => item._id);
+    await ItemModel.deleteMany({ _id: { $in: itemsToRemove } });
 
     currentSession.bag = [];
 
@@ -120,14 +120,14 @@ export async function getOrders(params: string) {
     await connectToDB();
 
     // Find the user based on the provided userId
-    const currentSession = await User.findById(params);
+    const currentSession = await UserModel.findById(params);
 
     if (!currentSession) {
       throw new Error(`User not found with id: ${params}`);
     }
 
     // Fetch orders associated with the user
-    const orders = await Order.find({ reference: params })
+    const orders = await OrderModel.find({ reference: params })
       .populate("payer") // Populate the payer subdocument
       .populate("payment") // Populate the payment subdocument
       .populate("picked") // Populate the picked subdocuments

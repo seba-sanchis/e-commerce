@@ -1,4 +1,4 @@
-import Product from "@/models/product";
+import ProductModel from "@/models/product";
 import { connectToDB } from "@/lib/database";
 import { NextResponse } from "next/server";
 
@@ -8,7 +8,7 @@ export const GET = async () => {
   try {
     await connectToDB();
 
-    const products = await Product.find({});
+    const products = await ProductModel.find({});
 
     return NextResponse.json(products, {
       status: 200,

@@ -7,7 +7,7 @@ import { ObjectId } from "mongodb";
 import { quantities } from "@/constants";
 import { updateItem } from "@/lib/actions/bag.actions";
 
-export default function Select({
+export default function SelectQuantity({
   itemId,
   quantity,
   size,

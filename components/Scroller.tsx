@@ -1,11 +1,11 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { Product } from "@/common.types";
+import { Product } from "@/types";
 import Link from "next/link";
 import Image from "next/image";
 
-export default function Slider({ products }: { products: Product[] }) {
+export default function Scroller({ products }: { products: Product[] }) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [groupSize, setGroupSize] = useState(4);
   const [translateValue, setTranslateValue] = useState(0);

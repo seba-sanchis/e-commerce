@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { connectToDB } from "@/lib/database";
-import Product from "@/models/product";
+import ProductModel from "@/models/product";
 import { ObjectId } from "mongodb";
 
 export const dynamic = "force-dynamic"; // defaults to force-static
@@ -13,7 +13,7 @@ export const GET = async (
   try {
     await connectToDB();
 
-    const product = await Product.findById(params.id);
+    const product = await ProductModel.findById(params.id);
     if (!product) return new Response("Product not found", { status: 404 });
 
     return NextResponse.json(product, {
@@ -55,7 +55,7 @@ export const PATCH = async (
     await connectToDB();
 
     // Find the existing product by ID
-    const existingProduct = await Product.findById(params.id);
+    const existingProduct = await ProductModel.findById(params.id);
 
     if (!existingProduct)
       return NextResponse.json(
@@ -95,7 +95,7 @@ export const DELETE = async (
   try {
     await connectToDB();
 
-    await Product.findByIdAndDelete(params.id);
+    await ProductModel.findByIdAndDelete(params.id);
 
     return NextResponse.json("Product deleted successfully", { status: 200 });
   } catch (error) {

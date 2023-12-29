@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { connectToDB } from "@/lib/database";
-import User from "@/models/user";
+import UserModel from "@/models/user";
 import { ObjectId } from "mongodb";
 
 export const dynamic = "force-dynamic"; // defaults to force-static
@@ -13,7 +13,7 @@ export const GET = async (
   try {
     await connectToDB();
 
-    const user = await User.findById(params.id);
+    const user = await UserModel.findById(params.id);
     if (!user) return new Response("User not found", { status: 404 });
 
     return NextResponse.json(user, {
@@ -45,7 +45,7 @@ export const PATCH = async (
     region,
     location,
     address,
-    postcode,
+    zip,
     email,
     areaCode,
     phone,
@@ -55,7 +55,7 @@ export const PATCH = async (
     await connectToDB();
 
     // Find the existing user by ID
-    const existingUser = await User.findById(params.id);
+    const existingUser = await UserModel.findById(params.id);
 
     if (!existingUser)
       return NextResponse.json({ message: "User not found" }, { status: 404 });
@@ -68,7 +68,7 @@ export const PATCH = async (
     existingUser.region = region;
     existingUser.location = location;
     existingUser.address = address;
-    existingUser.postcode = postcode;
+    existingUser.zip = zip;
     existingUser.email = email;
     existingUser.areaCode = areaCode;
     existingUser.phone = phone;
@@ -92,7 +92,7 @@ export const DELETE = async (
   try {
     await connectToDB();
 
-    await User.findByIdAndDelete(params.id);
+    await UserModel.findByIdAndDelete(params.id);
 
     return NextResponse.json("User deleted successfully", { status: 200 });
   } catch (error) {

@@ -1,7 +1,7 @@
 import { payments } from "@/constants";
 import Image from "next/image";
 
-export default function PaymentData() {
+export default function PaymentMethods() {
   return (
     <section className="flex flex-col gap-4 p-4 md:py-0">
       <div className="flex justify-center items-center mx-auto gap-4 max-w-[980px]">

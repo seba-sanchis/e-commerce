@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 
-export default function DetailsButton({
+export default function ProductDetails({
   color,
   size,
 }: {
