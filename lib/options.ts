@@ -24,20 +24,20 @@ export const authOptions: NextAuthOptions = {
       async authorize(credentials, req) {
         try {
           if (!credentials?.email) throw new Error("Invalid email");
-          console.log("authorize check");
+
           // check if user already exists
           const credentialUser = await getUser(credentials.email);
-          console.log("credentialUser ->", credentialUser);
+
           // if not, throw an error
           if (!credentialUser) throw new Error("Invalid credentials");
 
           // check if password is correct
-          // const passwordMatch = await bcrypt.compare(
-          //   credentials!.password,
-          //   credentialUser.password
-          // );
+          const passwordMatch = await bcrypt.compare(
+            credentials.password,
+            credentialUser.account.password
+          );
 
-          // if (!passwordMatch) throw new Error("Invalid credentials");
+          if (!passwordMatch) throw new Error("Invalid credentials");
 
           const user = {
             id: credentialUser.id.toString(),
@@ -76,10 +76,10 @@ export const authOptions: NextAuthOptions = {
     async signIn({ user }: { user: AdapterUser | User }) {
       try {
         if (!user.email) throw new Error("Invalid email");
-        console.log("signIn check");
+
         // check if user already exists
         const userExists = await getUser(user.email);
-        console.log("userExists ->", userExists);
+
         // if not, create a new document and save user in MongoDB
         if (!userExists) {
           await UserModel.create({

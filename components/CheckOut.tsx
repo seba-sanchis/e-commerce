@@ -42,12 +42,19 @@ export default function CheckOut({
   }, [bag]);
 
   const handleCheckOut = async () => {
-    if (session.user) {
+    if (
+      session.user &&
+      session.user.id &&
+      session.user.account &&
+      session.user.privacy
+    ) {
       const response = await newCheckOut(
         order,
-        session.user.id as string,
-        // session.user.email as string,
-        // session.user.dni as number
+        session.user.id,
+        session.user.account.email,
+        session.user.privacy.dni,
+        session.user.privacy.firstName,
+        session.user.privacy.lastName
       );
 
       router.push(response);

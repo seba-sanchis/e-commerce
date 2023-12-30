@@ -16,7 +16,9 @@ import UserModel from "@/models/user";
 // Create a new user
 export async function newUser(params: UserProfile) {
   const { account, privacy, shipping } = params;
-
+  console.log("account ->", account);
+  console.log("privacy ->", privacy);
+  console.log("shipping ->", shipping);
   const session = await mongoose.startSession();
   session.startTransaction();
 
@@ -32,6 +34,8 @@ export async function newUser(params: UserProfile) {
 
     // Hash the password
     const hashedPassword = await bcrypt.hash(account.password, 12);
+    console.log("account.email ->", account.email);
+    console.log("hashedPassword ->", hashedPassword);
 
     // Create and save Account, Privacy, and Shipping documents within the same session
     const savedAccount = await new AccountModel({
@@ -40,14 +44,16 @@ export async function newUser(params: UserProfile) {
     }).save({ session });
     const savedPrivacy = await new PrivacyModel(privacy).save({ session });
     const savedShipping = await new ShippingModel(shipping).save({ session });
-
+    console.log("savedAccount ->", savedAccount);
+    console.log("savedPrivacy ->", savedPrivacy);
+    console.log("savedShipping ->", savedShipping);
     // Create and save User document with references to Account, Privacy, and Shipping
     const newUser = new UserModel({
       account: savedAccount._id,
       privacy: savedPrivacy._id,
       shipping: savedShipping._id,
     });
-
+    console.log("newUser ->", newUser);
     await newUser.save({ session });
 
     // Commit the transaction if all operations were successful

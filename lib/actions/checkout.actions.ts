@@ -3,19 +3,16 @@
 import { MercadoPagoConfig, Preference } from "mercadopago";
 import { Items } from "mercadopago/dist/clients/commonTypes";
 
-const {
-  MERCADOPAGO_ACCESS_TOKEN,
-  MERCADOPAGO_CLIENT_ID,
-  MERCADOPAGO_CLIENT_SECRET,
-  MERCADOPAGO_URL,
-} = process.env;
+const { MERCADOPAGO_ACCESS_TOKEN, MERCADOPAGO_URL } = process.env;
 
 // Payment gateway integration (Mercado Pago - Checkout Pro)
 export async function newCheckOut(
   params: Items[],
   userId: string,
-  // email: string,
-  // dni: number
+  email: string,
+  dni: string,
+  firstName: string,
+  lastName: string
 ) {
   // Add credentials
   const client = new MercadoPagoConfig({
@@ -35,10 +32,12 @@ export async function newCheckOut(
           pending: `${MERCADOPAGO_URL}/profile/orders`,
           success: `${MERCADOPAGO_URL}/profile/orders`,
         },
-        //   payer: {
-        //     email: email,
-        //     identification: { type: "DNI", number: `${dni}` },
-        //   },
+        payer: {
+          email: email,
+          identification: { type: "DNI", number: `${dni}` },
+          name: firstName,
+          surname: lastName,
+        },
         external_reference: userId,
       },
     });

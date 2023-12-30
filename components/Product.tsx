@@ -125,7 +125,7 @@ export default function Product({
                 />
                 <label
                   htmlFor={product.color}
-                  className="flex flex-wrap p-3.5 w-full cursor-pointer rounded-xl border border-tertiary-gray peer-checked:border-2 peer-checked:border-primary-blue peer-disabled:opacity-40"
+                  className="flex flex-wrap p-3.5 w-full cursor-pointer rounded-xl border border-tertiary-gray peer-checked:border-2 peer-checked:border-primary-blue peer-checked:p-[13px] peer-disabled:opacity-40"
                 >
                   <span className="text-sm md:text-base">{product.color}</span>
                 </label>
@@ -149,7 +149,7 @@ export default function Product({
                 />
                 <label
                   htmlFor={size}
-                  className="flex justify-center flex-wrap p-3.5 cursor-pointer rounded-xl border border-tertiary-gray peer-checked:border-2 peer-checked:border-primary-blue peer-disabled:opacity-40"
+                  className="flex justify-center flex-wrap p-3.5 cursor-pointer rounded-xl border border-tertiary-gray peer-checked:border-2 peer-checked:border-primary-blue peer-checked:p-[13px] peer-disabled:opacity-40"
                 >
                   <span className="text-sm md:text-base">{size}</span>
                 </label>

@@ -54,7 +54,7 @@ export default function SignUp() {
 
     // Validate the form fields
     const validation = signUpValidation(user);
-    console.log("validation ->", validation);
+
     // All validations passed, create account
     if (Object.keys(validation).length === 0) {
       // All validations passed, create a new user
