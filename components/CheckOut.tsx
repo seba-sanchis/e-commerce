@@ -13,11 +13,9 @@ import { Items } from "mercadopago/dist/clients/commonTypes";
 export default function CheckOut({
   bag,
   session,
-  url,
 }: {
   bag: Item[];
   session: Sessions;
-  url: string;
 }) {
   const router = useRouter();
   const [order, setOrder] = useState<Items[]>([]);
@@ -28,14 +26,14 @@ export default function CheckOut({
 
   useEffect(() => {
     const items = bag.map((item) => ({
-      id: item.product?.sku,
-      title: item.product?.name,
+      id: item.product.sku,
+      title: item.product.name,
       description: item.size,
       currency_id: "ARS" as Currency,
-      picture_url: url + item.product?.image,
-      category_id: item.product?.category,
+      picture_url: item.product.image,
+      category_id: item.product.category,
       quantity: item.quantity,
-      unit_price: item.product?.price,
+      unit_price: item.product.price,
     }));
 
     setOrder(items);
@@ -62,7 +60,7 @@ export default function CheckOut({
       router.push("/sign-in");
     }
   };
-
+  console.log("order ->", order);
   return (
     <div className="flex justify-end py-8">
       <button

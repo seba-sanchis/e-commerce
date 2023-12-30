@@ -41,7 +41,7 @@ export async function newCheckOut(
         external_reference: userId,
       },
     });
-
+    console.log("response ->", response);
     return response.init_point!;
   } catch (error: any) {
     throw new Error(`Failed to checkout: ${error.message}`);
