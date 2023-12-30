@@ -2,17 +2,17 @@ import { NextRequest, NextResponse } from "next/server";
 import { S3Client, PutObjectCommand } from "@aws-sdk/client-s3";
 
 const {
-  AWS_S3_ACCESS_KEY,
-  AWS_S3_BUCKET_NAME,
-  AWS_S3_SECRET_ACCESS_KEY,
-  AWS_S3_REGION,
+  S3_ACCESS_KEY,
+  S3_BUCKET_NAME,
+  S3_SECRET_ACCESS_KEY,
+  S3_REGION,
 } = process.env;
 
 const s3Client = new S3Client({
-  region: AWS_S3_REGION!,
+  region: S3_REGION!,
   credentials: {
-    accessKeyId: AWS_S3_ACCESS_KEY!,
-    secretAccessKey: AWS_S3_SECRET_ACCESS_KEY!,
+    accessKeyId: S3_ACCESS_KEY!,
+    secretAccessKey: S3_SECRET_ACCESS_KEY!,
   },
 });
 
@@ -20,7 +20,7 @@ async function uploadFileToS3(file: Buffer, fileName: string) {
   const fileBuffer = file;
 
   const params = {
-    Bucket: AWS_S3_BUCKET_NAME,
+    Bucket: S3_BUCKET_NAME,
     Key: fileName,
     Body: fileBuffer,
     ContentType: "image/png",
