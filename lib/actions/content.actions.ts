@@ -52,7 +52,7 @@ export async function getContentByTag(params: string) {
 }
 
 // Update content
-export async function updateContent(params: Content) {
+export async function editContent(params: Content) {
   const { _id, title, subtitle, image, url, tag } = params;
 
   try {

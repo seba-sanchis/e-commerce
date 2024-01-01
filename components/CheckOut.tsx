@@ -60,7 +60,7 @@ export default function CheckOut({
       router.push("/sign-in");
     }
   };
-  console.log("order ->", order);
+
   return (
     <div className="flex justify-end py-8">
       <button

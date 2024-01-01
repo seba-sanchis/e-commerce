@@ -1,14 +1,12 @@
-import ProductModel from "@/models/product";
-import { connectToDB } from "@/lib/database";
 import { NextResponse } from "next/server";
+
+import { getProducts } from "@/lib/actions/product.actions";
 
 export const dynamic = "force-dynamic"; // defaults to force-static
 
 export const GET = async () => {
   try {
-    await connectToDB();
-
-    const products = await ProductModel.find({});
+    const products = await getProducts();
 
     return NextResponse.json(products, {
       status: 200,

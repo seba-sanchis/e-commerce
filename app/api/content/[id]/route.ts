@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getContentById, updateContent } from "@/lib/actions/content.actions";
+
+import { getContentById, editContent } from "@/lib/actions/content.actions";
 import { ObjectId } from "mongodb";
 
 export const dynamic = "force-dynamic"; // defaults to force-static
@@ -33,20 +34,11 @@ export const PATCH = async (
   request: NextRequest,
   { params }: { params: { id: ObjectId } }
 ) => {
-  const { title, subtitle, image, url, tag, lastUpdated } =
-    await request.json();
+  const data = await request.json();
 
   try {
     // Update content with new data
-    const content = await updateContent({
-      _id: params.id,
-      title,
-      subtitle,
-      image,
-      url,
-      tag,
-      lastUpdated,
-    });
+    const content = await editContent(data);
 
     return NextResponse.json(content, { status: 200 });
   } catch (error) {

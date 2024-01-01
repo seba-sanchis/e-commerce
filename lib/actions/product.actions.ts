@@ -1,7 +1,37 @@
 "use server";
 
+import { ObjectId } from "mongodb";
+
 import { connectToDB } from "../database";
 import ProductModel from "@/models/product";
+import { Product } from "@/types";
+import { NextResponse } from "next/server";
+
+// Get products by name
+export async function getProducts() {
+  try {
+    await connectToDB();
+
+    const data = await ProductModel.find({});
+
+    return data;
+  } catch (error: any) {
+    throw new Error(`Failed to get products by name: ${error.message}`); // Handle any errors
+  }
+}
+
+// Get products by ID
+export async function getProductsById(_id: ObjectId) {
+  try {
+    await connectToDB();
+
+    const data = await ProductModel.findById(_id);
+
+    return data;
+  } catch (error: any) {
+    throw new Error(`Failed to get products by name: ${error.message}`); // Handle any errors
+  }
+}
 
 // Get products by name
 export async function getProductsByName(params: string) {
@@ -61,5 +91,55 @@ export async function getProductsBySearch(params: string) {
     return data;
   } catch (error: any) {
     throw new Error(`Failed to get products by search: ${error.message}`); // Handle any errors
+  }
+}
+
+// Update product
+export async function editProduct(params: Product) {
+  const {
+    _id,
+    sku,
+    category,
+    name,
+    image,
+    description,
+    features,
+    color,
+    sizes,
+    stock,
+    sold,
+    price,
+  } = params;
+
+  try {
+    await connectToDB();
+
+    // Find the existing product by ID
+    const existingProduct = await ProductModel.findById(_id);
+
+    if (!existingProduct)
+      return NextResponse.json(
+        { message: "Product not found" },
+        { status: 404 }
+      );
+
+    // Update the product with new data
+    existingProduct.sku = sku;
+    existingProduct.category = category;
+    existingProduct.name = name;
+    existingProduct.image = image;
+    existingProduct.description = description;
+    existingProduct.features = features;
+    existingProduct.color = color;
+    existingProduct.sizes = sizes;
+    existingProduct.stock = stock;
+    existingProduct.sold = sold;
+    existingProduct.price = price;
+
+    await existingProduct.save();
+
+    return existingProduct;
+  } catch (error: any) {
+    throw new Error(`Failed to update product: ${error.message}`);
   }
 }

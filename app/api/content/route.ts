@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+
 import { getContent } from "@/lib/actions/content.actions";
 
 export const dynamic = "force-dynamic"; // defaults to force-static

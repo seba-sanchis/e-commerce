@@ -4,9 +4,8 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import GoogleProvider from "next-auth/providers/google";
 
 import UserModel from "@/models/user";
-import { connectToDB } from "@/lib/database";
-import { Sessions, UserProfile } from "@/types";
-import { getUser } from "./actions/user.actions";
+import { Sessions } from "@/types";
+import { getUserByEmail } from "./actions/user.actions";
 import { AdapterUser } from "next-auth/adapters";
 
 export const authOptions: NextAuthOptions = {
@@ -26,7 +25,7 @@ export const authOptions: NextAuthOptions = {
           if (!credentials?.email) throw new Error("Invalid email");
 
           // check if user already exists
-          const credentialUser = await getUser(credentials.email);
+          const credentialUser = await getUserByEmail(credentials.email);
 
           // if not, throw an error
           if (!credentialUser) throw new Error("Invalid credentials");
@@ -63,7 +62,7 @@ export const authOptions: NextAuthOptions = {
         if (!session.user?.email) throw new Error("Invalid email");
 
         // store the user in session
-        const response = await getUser(session.user.email);
+        const response = await getUserByEmail(session.user.email);
 
         session.user = response;
 
@@ -78,7 +77,7 @@ export const authOptions: NextAuthOptions = {
         if (!user.email) throw new Error("Invalid email");
 
         // check if user already exists
-        const userExists = await getUser(user.email);
+        const userExists = await getUserByEmail(user.email);
 
         // if not, create a new document and save user in MongoDB
         if (!userExists) {

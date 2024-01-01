@@ -1,8 +1,7 @@
-import OrderModel from "@/models/order";
-import { connectToDB } from "@/lib/database";
 import { NextResponse } from "next/server";
-import TransactionModel from "@/models/transaction";
-import PayerModel from "@/models/payer";
+
+import { connectToDB } from "@/lib/database";
+import { getOrders } from "@/lib/actions/order.actions";
 
 export const dynamic = "force-dynamic"; // defaults to force-static
 
@@ -10,15 +9,7 @@ export const GET = async () => {
   try {
     await connectToDB();
 
-    const orders = await OrderModel.find({})
-      .populate({
-        path: "transaction",
-        model: TransactionModel,
-      })
-      .populate({
-        path: "payer",
-        model: PayerModel,
-      });
+    const orders = await getOrders();
 
     return NextResponse.json(orders, {
       status: 200,

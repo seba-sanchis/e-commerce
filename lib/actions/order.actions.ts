@@ -114,8 +114,31 @@ export async function newOrder(
   }
 }
 
-//Get orders
-export async function getOrders(params: string) {
+//Get all orders
+export async function getOrders() {
+  try {
+    await connectToDB();
+
+    // Fetch orders associated with the user
+    const orders = await OrderModel.find()
+      .populate({
+        path: "transaction",
+        model: TransactionModel,
+      })
+      .populate({
+        path: "payer",
+        model: PayerModel,
+      })
+      .sort({ date: -1 }); // Sort by date
+
+    return orders;
+  } catch (error: any) {
+    throw new Error(`Failed to fetch orders: ${error.message}`);
+  }
+}
+
+//Get orders from a user
+export async function getUserOrders(params: string) {
   try {
     await connectToDB();
 

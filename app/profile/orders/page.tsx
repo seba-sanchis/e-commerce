@@ -3,12 +3,12 @@ import Image from "next/image";
 
 import { authOptions } from "@/lib/options";
 import { Picked, Sessions } from "@/types";
-import { getOrders } from "@/lib/actions/order.actions";
+import { getUserOrders } from "@/lib/actions/order.actions";
 
 export default async function Page() {
   const session = (await getServerSession(authOptions)) as Sessions;
 
-  const response = await getOrders(session.user?.id as string);
+  const response = await getUserOrders(session.user?.id as string);
 
   // Function to format a date string to "dd de MMMM" format with or without the year
   function formatDate(orderDate: string) {
