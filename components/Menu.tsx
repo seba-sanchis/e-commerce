@@ -12,8 +12,9 @@ export default function Menu({ session }: { session: Sessions }) {
   return (
     <div className="block md:hidden">
       <button
-        onClick={() => setToggleMenu((state) => !state)}
+        aria-label={toggleMenu ? "Cerrar" : "Menú"}
         className="flex relative justify-center items-center w-10 h-10 z-20 text-primary-black/80 hover:text-primary-black transition-colors"
+        onClick={() => setToggleMenu((state) => !state)}
       >
         {toggleMenu ? (
           <i className="fi fi-rr-cross flex justify-center items-center"></i>
@@ -84,11 +85,11 @@ export default function Menu({ session }: { session: Sessions }) {
             {session ? (
               <li key="Cerrar sesión">
                 <button
-                  type="button"
-                  onClick={() => signOut()}
                   className={`flex items-center gap-2 px-3 py-2 transition-all duration-[320ms] ease-[cubic-bezier(.4,0,.6,1)] ${
                     toggleMenu ? "hover:text-black" : "cursor-auto"
                   }`}
+                  onClick={() => signOut()}
+                  type="button"
                 >
                   <i className="fi fi-rr-exit flex items-center text-xl"></i>
                   <span>Cerrar sesión</span>
@@ -97,10 +98,10 @@ export default function Menu({ session }: { session: Sessions }) {
             ) : (
               <li key="Ingresar">
                 <Link
-                  href="/sign-in"
                   className={`flex items-center gap-2 px-3 py-2 transition-all duration-[320ms] ease-[cubic-bezier(.4,0,.6,1)] ${
-                    toggleMenu ? "hover:text-black" : "cursor-auto"
+                    toggleMenu && "hover:text-black"
                   }`}
+                  href="/sign-in"
                   onClick={() => setToggleMenu(false)}
                 >
                   <span>

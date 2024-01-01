@@ -9,11 +9,12 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        "primary-black": "#1d1d1f",
+        "primary-black": "#1d1d1f", // main text
         "secondary-black": "#333336",
-        "primary-blue": "#0071e3",
-        "secondary-blue": "#0077ed",
-        "tertiary-blue": "#06c",
+        "primary-blue": "#0071e3", // bg button and borders
+        "secondary-blue": "#0077ed", // hover
+        "tertiary-blue": "#06c", // text link
+        "quaternary-blue": "#006edb", // active
         "primary-gray": "#f5f5f7",
         "secondary-gray": "#d2d2d7",
         "tertiary-gray": "#86868b",

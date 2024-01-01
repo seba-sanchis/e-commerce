@@ -17,7 +17,7 @@ export default async function Hero() {
           </h3>
           <Link
             href={hero?.url}
-            className="group flex justify-center items-center text-lg md:text-xl text-primary-blue"
+            className="group flex justify-center items-center text-lg md:text-xl text-tertiary-blue"
           >
             <span className="group-hover:underline">Ver más</span>{" "}
             <i className="fi fi-rr-angle-small-right icon"></i>

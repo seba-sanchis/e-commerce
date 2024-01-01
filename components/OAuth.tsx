@@ -6,12 +6,12 @@ import Image from "next/image";
 export default function OAuth({ id, name }: { id: string; name: string }) {
   return (
     <button
-      type="button"
+      className="flex items-center gap-4 p-4 rounded-lg"
       key={name}
       onClick={() => {
         signIn(id);
       }}
-      className="flex items-center gap-4 p-4 rounded-lg"
+      type="button"
     >
       <Image
         src={`/assets/brand-${id}.png`}
@@ -19,7 +19,7 @@ export default function OAuth({ id, name }: { id: string; name: string }) {
         width={24}
         height={24}
       />{" "}
-      <span>Ingresar con {name}</span>
+      <span>Ingresá con {name}</span>
     </button>
   );
 }

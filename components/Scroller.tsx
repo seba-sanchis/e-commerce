@@ -141,7 +141,7 @@ export default function Scroller({ products }: { products: Product[] }) {
                         currency: "ARS",
                       })}
                     </div>
-                    <div className="text-sm text-primary-blue group-hover:text-secondary-blue transition-colors">
+                    <div className="text-sm text-tertiary-blue group-hover:text-secondary-blue transition-colors">
                       Ver producto
                     </div>
                   </div>
@@ -158,7 +158,11 @@ export default function Scroller({ products }: { products: Product[] }) {
             {/* Left Arrow */}
             {currentIndex > 0 && (
               <div className="flex justify-center items-center absolute top-[50%] -translate-x-0 translate-y-[-50%] left-5 text-2xl rounded-full p-2 bg-[rgba(210,210,215,.64)] text-[rgba(0,0,0,.56)] cursor-pointer">
-                <button onClick={prevSlide} className="w-8 h-8">
+                <button
+                  aria-label="Productos anteriores"
+                  className="w-8 h-8"
+                  onClick={prevSlide}
+                >
                   <i className="fi fi-rr-angle-left flex justify-center items-center mr-1"></i>
                 </button>
               </div>
@@ -166,7 +170,11 @@ export default function Scroller({ products }: { products: Product[] }) {
             {/* Right Arrow */}
             {(currentIndex + 1) * groupSize < products.length && (
               <div className="flex justify-center items-center absolute top-[50%] -translate-x-0 translate-y-[-50%] right-5 text-2xl rounded-full p-2 bg-[rgba(210,210,215,.64)] text-[rgba(0,0,0,.56)] cursor-pointer">
-                <button onClick={nextSlide} className="w-8 h-8">
+                <button
+                  aria-label="Productos siguientes"
+                  className="w-8 h-8"
+                  onClick={nextSlide}
+                >
                   <i className="fi fi-rr-angle-right flex justify-center items-center ml-1"></i>
                 </button>
               </div>
@@ -179,12 +187,13 @@ export default function Scroller({ products }: { products: Product[] }) {
           (_, index) => (
             <li key={index}>
               <button
-                onClick={() => setCurrentIndex(index)}
+                aria-label={`Item ${index + 1}`}
                 className={`cursor-pointer rounded-full w-2 h-2 mx-2 transition-colors duration-100 ease-linear ${
                   index === currentIndex
                     ? "bg-[rgba(0,0,0,.8)]"
                     : "bg-[rgba(0,0,0,.42)]"
                 }`}
+                onClick={() => setCurrentIndex(index)}
               ></button>
             </li>
           )

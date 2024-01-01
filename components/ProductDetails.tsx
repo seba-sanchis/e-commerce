@@ -14,8 +14,8 @@ export default function ProductDetails({
   return (
     <div className="flex flex-col">
       <button
-        onClick={() => setToggleFeatures((state) => !state)}
         className="flex items-center mt-3 text-[17px] text-tertiary-blue"
+        onClick={() => setToggleFeatures((state) => !state)}
       >
         <span>Ver detalle de producto</span>
         <i className="fi fi-rr-angle-small-down flex items-center ml-1"></i>

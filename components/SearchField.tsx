@@ -27,8 +27,9 @@ export default function SearchField() {
         }`}
       >
         <button
-          onClick={() => setToggleBar(false)}
+          aria-label="Cerrar"
           className="justify-center items-center w-10 h-10 text-primary-black/80 hover:text-primary-black transition-colors"
+          onClick={() => setToggleBar(false)}
         >
           <i className="fi fi-rr-arrow-small-left flex justify-center items-center text-2xl"></i>
         </button>
@@ -40,15 +41,19 @@ export default function SearchField() {
             placeholder="Buscar"
             className="flex w-full h-10 pr-1 pl-4 rounded-l-full text-sm outline-none border focus:border-tertiary-gray bg-primary-gray"
           />
-          <button className="flex items-center justify-center w-16 h-10 rounded-r-full bg-primary-gray">
+          <button
+            aria-label="Buscar"
+            className="flex items-center justify-center w-16 h-10 rounded-r-full bg-primary-gray"
+          >
             <i className="fi fi-rr-search flex justify-center items-center"></i>
           </button>
         </form>
       </div>
 
       <button
-        onClick={() => setToggleBar(true)}
+        aria-label="Buscar productos"
         className="flex justify-center items-center w-10 h-10 text-primary-black/80 hover:text-primary-black transition-colors"
+        onClick={() => setToggleBar(true)}
       >
         <i className="fi fi-rr-search flex justify-center items-center"></i>
       </button>

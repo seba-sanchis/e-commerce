@@ -22,8 +22,8 @@ export default function RemoveProduct({
 
   return (
     <button
-      onClick={handleDelete}
       className="mt-3 text-[17px] text-tertiary-blue"
+      onClick={handleDelete}
     >
       Quitar
     </button>

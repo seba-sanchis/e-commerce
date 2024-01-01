@@ -14,21 +14,22 @@ export default function Flyout({ organization }: { organization: Content }) {
     <div className="flex items-center gap-5">
       <Link
         href={organization.url}
+        aria-label={organization.title}
         className="navbar_link z-30"
         onClick={() => setToggleMenu(false)}
       >
         <Image src={organization.image} alt="logo" width={40} height={40} />
       </Link>
 
-      {/* Menu options */}
+      {/* Menu */}
       <ul className="hidden md:flex gap-4 z-30">
-        {menu.map((option) => (
-          <li key={option}>
+        {menu.map((item) => (
+          <li key={item}>
             <button
-              onClick={() => setToggleMenu((state) => !state)}
               className="navbar_link h-10 px-2 sticky"
+              onClick={() => setToggleMenu((state) => !state)}
             >
-              {option}
+              {item}
             </button>
           </li>
         ))}

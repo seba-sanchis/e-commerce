@@ -39,6 +39,7 @@ export default async function Navbar() {
           <SearchField />
           <Link
             href={session ? "/bag" : "/sign-in"}
+            aria-label="Carrito de compras"
             className="flex justify-center items-center w-10 h-10"
           >
             <i className="fi fi-rr-shopping-bag flex justify-center items-center text-primary-black/80 hover:text-primary-black transition-colors"></i>

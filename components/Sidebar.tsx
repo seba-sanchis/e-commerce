@@ -28,9 +28,9 @@ export default function Sidebar() {
       ))}
       <li key="Cerrar sesión">
         <button
-          type="button"
-          onClick={() => signOut()}
           className="flex items-center gap-2 p-4 relative right-[-1px] text-[#6e6e73] hover:text-[#424245]"
+          onClick={() => signOut()}
+          type="button"
         >
           <i className="fi fi-rr-exit flex items-center text-xl"></i>
           <span>Cerrar sesión</span>

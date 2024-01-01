@@ -175,20 +175,28 @@ export default function Product({
 
             <button className="button">Agregar al carrito</button>
 
-            <button
-              type="button"
-              onClick={handleFavorite}
-              className="text-tertiary-blue"
-            >
-              {session?.user?.favorite?.some(
-                (favoriteProduct) =>
-                  favoriteProduct.toString() === product?._id?.toString()
-              ) ? (
+            {session?.user?.favorite?.some(
+              (favoriteProduct) =>
+                favoriteProduct.toString() === product?._id?.toString()
+            ) ? (
+              <button
+                aria-label="Quitar de favoritos"
+                className="text-tertiary-blue"
+                onClick={handleFavorite}
+                type="button"
+              >
                 <i className="fi fi-sr-heart icon"></i>
-              ) : (
+              </button>
+            ) : (
+              <button
+                aria-label="Agregar a favoritos"
+                className="text-tertiary-blue"
+                onClick={handleFavorite}
+                type="button"
+              >
                 <i className="fi fi-rr-heart icon"></i>
-              )}
-            </button>
+              </button>
+            )}
           </div>
         </form>
       </div>

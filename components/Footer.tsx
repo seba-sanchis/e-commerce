@@ -12,7 +12,7 @@ export default async function Footer() {
     <footer className="w-full bg-primary-gray">
       <div className="flex flex-col md:flex-row justify-between items-center w-full max-w-[980px] my-3 mx-auto px-4 gap-4 text-sm">
         <div className="flex flex-col md:flex-row items-center md:gap-4">
-          <Link href={organization.url} className="navbar_link">
+          <Link href={organization.url} aria-label={organization.title} className="navbar_link">
             <Image src={organization.image} alt="logo" width={40} height={40} />{" "}
           </Link>
           <Link href="/" className="navbar_link">
@@ -27,7 +27,7 @@ export default async function Footer() {
         </div>
         <div className="flex gap-4">
           {socialMedia.map((social: Content) => (
-            <Link href={social?.url} key={social?.title}>
+            <Link href={social?.url} aria-label={social?.title} key={social?.title}>
               <i
                 className={`fi fi-brands-${social?.title} icon cursor-pointer text-primary-black/80 hover:text-primary-black`}
               ></i>

@@ -55,8 +55,8 @@ export default function EditShipping({ shipping }: { shipping: Shipping }) {
   return (
     <>
       <button
-        onClick={() => setToggleForm(true)}
         className="group flex items-center mt-1.5 text-tertiary-blue"
+        onClick={() => setToggleForm(true)}
       >
         <span className="group-hover:underline">Editar</span>
         <i className="fi fi-rr-angle-small-right flex items-center"></i>
@@ -242,8 +242,8 @@ export default function EditShipping({ shipping }: { shipping: Shipping }) {
               <div className="flex flex-col gap-4 justify-center items-center pt-8 w-full max-w-[75%] mx-auto">
                 <button className="button w-full">Guardar</button>
                 <button
-                  onClick={() => setToggleForm(false)}
                   className="text-tertiary-blue hover:underline"
+                  onClick={() => setToggleForm(false)}
                 >
                   Cancelar
                 </button>

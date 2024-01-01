@@ -46,6 +46,7 @@ export default async function Page() {
             >
               <div className="flex h-full justify-center flex-1 md:max-w-[25%]">
                 <Link
+                  aria-label={`Más información sobre ${item.product?.name}`}
                   href={`/product/${item.product.name.replace(/\s+/g, "-")}`}
                 >
                   <Image
@@ -59,7 +60,7 @@ export default async function Page() {
 
               <div className="flex flex-col items-center md:items-stretch flex-1 w-full md:max-w-[75%]">
                 <div className="flex flex-col md:flex-row justify-between items-center w-full gap-1 md:gap-0">
-                  <h2 className="text-2xl font-semibold hover:text-primary-blue w-full text-center md:text-start">
+                  <h2 className="text-2xl font-semibold hover:text-tertiary-blue w-full text-center md:text-start">
                     <Link
                       href={`/product/${item.product.name.replace(
                         /\s+/g,

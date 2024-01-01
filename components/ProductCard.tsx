@@ -22,7 +22,7 @@ export default function ProductCard({ product }: { product: Product }) {
             currency: "ARS",
           })}
         </div>
-        <div className="text-sm text-primary-blue group-hover:text-secondary-blue transition-colors">
+        <div className="text-sm text-tertiary-blue group-hover:text-secondary-blue transition-colors">
           Ver producto
         </div>
       </div>

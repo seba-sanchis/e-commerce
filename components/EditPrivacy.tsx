@@ -50,8 +50,8 @@ export default function EditPrivacy({ privacy }: { privacy: Privacy }) {
   return (
     <div>
       <button
-        onClick={() => setToggleForm(true)}
         className="group flex items-center mt-1.5 text-tertiary-blue"
+        onClick={() => setToggleForm(true)}
       >
         <span className="group-hover:underline">
           Administrar mi información personal
@@ -179,9 +179,7 @@ export default function EditPrivacy({ privacy }: { privacy: Privacy }) {
                           }
                           type="date"
                           className={`w-full h-full px-4 z-10 focus:opacity-100 ${
-                            user?.birthday
-                              ? "opacity-100"
-                              : "opacity-0"
+                            user?.birthday ? "opacity-100" : "opacity-0"
                           }`}
                         />
 
@@ -209,8 +207,8 @@ export default function EditPrivacy({ privacy }: { privacy: Privacy }) {
               <div className="flex flex-col gap-4 justify-center items-center pt-8 w-full max-w-[75%] mx-auto">
                 <button className="button w-full">Guardar</button>
                 <button
-                  onClick={() => setToggleForm(false)}
                   className="text-tertiary-blue hover:underline"
+                  onClick={() => setToggleForm(false)}
                 >
                   Cancelar
                 </button>
