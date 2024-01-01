@@ -43,7 +43,7 @@ export default async function Page() {
         <div>
           <h4 className="font-semibold">Información personal</h4>
           <div>
-            Estás en control de tu información personal y puedes gestionar tus
+            Estás en control de tu información personal y podés gestionar tus
             datos o eliminar tu cuenta en cualquier momento. Nos comprometemos a
             proteger tu privacidad.
           </div>

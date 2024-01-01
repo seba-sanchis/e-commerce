@@ -29,7 +29,10 @@ export default async function Page() {
   return (
     <div className="w-full">
       {response.map((order) => (
-        <div key={order._id} className="flex flex-col md:flex-row m-4 p-4 rounded-2xl bg-[#f2f2f2]">
+        <div
+          key={order._id}
+          className="flex flex-col md:flex-row m-4 p-4 rounded-2xl bg-[#f2f2f2]"
+        >
           <div className="flex flex-col gap-2">
             {order.picked.map((pick: Picked, i: number) => (
               <div key={pick._id?.toString()} className="flex">
@@ -71,9 +74,18 @@ export default async function Page() {
               </span>
             </div>
             <div className="text-sm">
-              {order.payment.company.charAt(0).toUpperCase() +
-                order.payment.company.slice(1)}{" "}
-              {order.payment.type === "credit_card" ? "Crédito" : "Débito"}
+              {order.payment.company === "visa"
+                ? "Visa"
+                : order.payment.company === "master"
+                ? "Mastercard"
+                : ""}{" "}
+              {order.payment.type === "credit_card"
+                ? "Crédito"
+                : order.payment.type === "debit_card"
+                ? "Débito"
+                : order.payment.type === "account_money"
+                ? "Mercado Pago"
+                : ""}
             </div>
             <div className="text-sm">
               <span>{formatDate(order.date)}</span>
