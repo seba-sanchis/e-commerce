@@ -1,9 +1,9 @@
 import Image from "next/image";
 import Link from "next/link";
 
-// import { cards } from "@/constants";
 import { getContentByTag } from "@/lib/actions/content.actions";
 import { Content } from "@/types";
+import { FaAngleRight } from "react-icons/fa";
 
 export default async function Collections() {
   const engagement = await getContentByTag("category");
@@ -26,7 +26,7 @@ export default async function Collections() {
               <Link href={item.url}>
                 <div className="group flex items-center mt-3.5">
                   <span className="group-hover:underline">Ver más</span>
-                  <i className="fi fi-rr-angle-small-right flex"></i>
+                  <FaAngleRight size={16} />
                 </div>
               </Link>
             </div>

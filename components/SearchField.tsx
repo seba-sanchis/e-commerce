@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { FaArrowLeft, FaSearch } from "react-icons/fa";
 
 export default function SearchField() {
   const router = useRouter();
@@ -28,10 +29,10 @@ export default function SearchField() {
       >
         <button
           aria-label="Cerrar"
-          className="justify-center items-center w-10 h-10 text-primary-black/80 hover:text-primary-black transition-colors"
+          className="flex justify-center items-center w-10 h-10 text-primary-black/80 hover:text-primary-black transition-colors"
           onClick={() => setToggleBar(false)}
         >
-          <i className="fi fi-rr-arrow-small-left flex justify-center items-center text-2xl"></i>
+          <FaArrowLeft size={16} />
         </button>
         <form onSubmit={handleSubmit} className="flex flex-grow">
           <input
@@ -45,7 +46,7 @@ export default function SearchField() {
             aria-label="Buscar"
             className="flex items-center justify-center w-16 h-10 rounded-r-full bg-primary-gray"
           >
-            <i className="fi fi-rr-search flex justify-center items-center"></i>
+            <FaSearch size={16} />
           </button>
         </form>
       </div>
@@ -55,7 +56,7 @@ export default function SearchField() {
         className="flex justify-center items-center w-10 h-10 text-primary-black/80 hover:text-primary-black transition-colors"
         onClick={() => setToggleBar(true)}
       >
-        <i className="fi fi-rr-search flex justify-center items-center"></i>
+        <FaSearch size={16} />
       </button>
     </div>
   );

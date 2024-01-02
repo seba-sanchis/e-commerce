@@ -5,6 +5,7 @@ import { collections, myprofile } from "@/constants";
 import { signOut } from "next-auth/react";
 import Link from "next/link";
 import { useState } from "react";
+import { FaBars, FaRegUserCircle, FaSignOutAlt, FaTimes } from "react-icons/fa";
 
 export default function Menu({ session }: { session: Sessions }) {
   const [toggleMenu, setToggleMenu] = useState(false);
@@ -16,11 +17,7 @@ export default function Menu({ session }: { session: Sessions }) {
         className="flex relative justify-center items-center w-10 h-10 z-20 text-primary-black/80 hover:text-primary-black transition-colors"
         onClick={() => setToggleMenu((state) => !state)}
       >
-        {toggleMenu ? (
-          <i className="fi fi-rr-cross flex justify-center items-center"></i>
-        ) : (
-          <i className="fi fi-rr-menu-burger flex justify-center items-center"></i>
-        )}
+        {toggleMenu ? <FaTimes size={16} /> : <FaBars size={16} />}
       </button>
 
       {/* Collections */}
@@ -91,7 +88,7 @@ export default function Menu({ session }: { session: Sessions }) {
                   onClick={() => signOut()}
                   type="button"
                 >
-                  <i className="fi fi-rr-exit flex items-center text-xl"></i>
+                  <FaSignOutAlt size={20} />
                   <span>Cerrar sesión</span>
                 </button>
               </li>
@@ -104,9 +101,7 @@ export default function Menu({ session }: { session: Sessions }) {
                   href="/sign-in"
                   onClick={() => setToggleMenu(false)}
                 >
-                  <span>
-                    <i className="fi fi-rr-circle-user flex items-center text-xl"></i>
-                  </span>{" "}
+                  <FaRegUserCircle size={20} />
                   <span>Ingresá</span>
                 </Link>
               </li>

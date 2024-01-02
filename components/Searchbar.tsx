@@ -3,6 +3,8 @@
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
+import { FaSearch } from "react-icons/fa";
+
 export default function Searchbar() {
   const router = useRouter();
 
@@ -31,7 +33,7 @@ export default function Searchbar() {
         aria-label="Buscar"
         className="flex items-center justify-center rounded-r-full bg-primary-gray w-16 h-10"
       >
-        <i className="fi fi-rr-search flex justify-center items-center"></i>
+        <FaSearch size={16} />
       </button>
     </form>
   );

@@ -7,6 +7,7 @@ import { Shipping, Validation } from "@/types";
 import { shippingValidation } from "@/lib/validations";
 import { editShipping } from "@/lib/actions/shipping.actions";
 import { regions } from "@/constants";
+import { FaAngleDown, FaAngleRight, FaExclamationCircle } from "react-icons/fa";
 
 export default function EditShipping({ shipping }: { shipping: Shipping }) {
   const router = useRouter();
@@ -59,7 +60,7 @@ export default function EditShipping({ shipping }: { shipping: Shipping }) {
         onClick={() => setToggleForm(true)}
       >
         <span className="group-hover:underline">Editar</span>
-        <i className="fi fi-rr-angle-small-right flex items-center"></i>
+        <FaAngleRight size={16} />
       </button>
       <span className="text-primary-red text-xs">
         {(!shipping?.region ||
@@ -110,7 +111,9 @@ export default function EditShipping({ shipping }: { shipping: Shipping }) {
                       ))}
                     </select>
                     <span className="sticky flex items-center">
-                      <i className="fi fi-rr-angle-small-down icon absolute right-4"></i>
+                      <span className="absolute right-4">
+                        <FaAngleDown size={24} />
+                      </span>
                     </span>
                   </div>
 
@@ -130,7 +133,9 @@ export default function EditShipping({ shipping }: { shipping: Shipping }) {
                     />
                     {error.location && (
                       <div className="flex items-center mt-2 text-xs text-primary-red">
-                        <i className="fi fi-rr-exclamation flex items-center mx-1"></i>
+                        <span className="mx-1">
+                          <FaExclamationCircle size={12} />
+                        </span>
                         <span>{error.location}</span>
                       </div>
                     )}
@@ -153,7 +158,9 @@ export default function EditShipping({ shipping }: { shipping: Shipping }) {
                       />
                       {error.address && (
                         <div className="flex items-center mt-2 text-xs text-primary-red">
-                          <i className="fi fi-rr-exclamation flex items-center mx-1"></i>
+                          <span className="mx-1">
+                            <FaExclamationCircle size={12} />
+                          </span>
                           <span>{error.address}</span>
                         </div>
                       )}
@@ -177,7 +184,9 @@ export default function EditShipping({ shipping }: { shipping: Shipping }) {
                       />
                       {error.zip && (
                         <div className="flex items-center mt-2 text-xs text-primary-red">
-                          <i className="fi fi-rr-exclamation flex items-center mx-1"></i>
+                          <span className="mx-1">
+                            <FaExclamationCircle size={12} />
+                          </span>
                           <span>{error.zip}</span>
                         </div>
                       )}
@@ -206,7 +215,9 @@ export default function EditShipping({ shipping }: { shipping: Shipping }) {
                       />
                       {error.areaCode && (
                         <div className="flex items-center mt-2 text-xs text-primary-red">
-                          <i className="fi fi-rr-exclamation flex items-center mx-1"></i>
+                          <span className="mx-1">
+                            <FaExclamationCircle size={12} />
+                          </span>
                           <span>{error.areaCode}</span>
                         </div>
                       )}
@@ -230,7 +241,9 @@ export default function EditShipping({ shipping }: { shipping: Shipping }) {
                       />
                       {error.phone && (
                         <div className="flex items-center mt-2 text-xs text-primary-red">
-                          <i className="fi fi-rr-exclamation flex items-center mx-1"></i>
+                          <span className="mx-1">
+                            <FaExclamationCircle size={12} />
+                          </span>
                           <span>{error.phone}</span>
                         </div>
                       )}

@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { Account, Validation } from "@/types";
 import { accountValidation } from "@/lib/validations";
 import { editAccount } from "@/lib/actions/account.actions";
+import { FaAngleRight, FaExclamationCircle } from "react-icons/fa";
 
 export default function EditAccount({ account }: { account: Account }) {
   const router = useRouter();
@@ -48,7 +49,7 @@ export default function EditAccount({ account }: { account: Account }) {
         onClick={() => setToggleForm(true)}
       >
         <span className="group-hover:underline">Administrar cuenta</span>
-        <i className="fi fi-rr-angle-small-right flex items-center"></i>
+        <FaAngleRight size={16} />
       </button>
       <div
         onClick={() => setToggleForm(false)}
@@ -91,7 +92,9 @@ export default function EditAccount({ account }: { account: Account }) {
                     />
                     {error?.email && (
                       <div className="flex items-center mt-2 text-xs text-primary-red">
-                        <i className="fi fi-rr-exclamation flex items-center mx-1"></i>
+                        <span className="mx-1">
+                          <FaExclamationCircle size={12} />
+                        </span>
                         <span>{error.email}</span>
                       </div>
                     )}
@@ -128,7 +131,9 @@ export default function EditAccount({ account }: { account: Account }) {
                     />
                     {error?.password && (
                       <div className="flex items-center mt-2 text-xs text-primary-red">
-                        <i className="fi fi-rr-exclamation flex items-center mx-1"></i>
+                        <span className="mx-1">
+                          <FaExclamationCircle size={12} />
+                        </span>
                         <span>{error.password}</span>
                       </div>
                     )}

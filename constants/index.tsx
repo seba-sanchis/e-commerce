@@ -1,20 +1,29 @@
+import {
+  FaBoxOpen,
+  FaCog,
+  FaRegCreditCard,
+  FaRegHeart,
+  FaShieldAlt,
+  FaWallet,
+} from "react-icons/fa";
+
 export const menu = ["Tienda"];
 
 export const myprofile = [
   {
     name: "Compras",
     url: "/profile/orders",
-    icon: <i className="fi fi-rr-box-open-full flex items-center text-xl"></i>,
+    icon: <FaBoxOpen size={20} />,
   },
   {
     name: "Favoritos",
     url: "/profile/favorites",
-    icon: <i className="fi fi-rr-heart flex items-center text-xl"></i>,
+    icon: <FaRegHeart size={20} />,
   },
   {
     name: "Configuración",
     url: "/profile/account",
-    icon: <i className="fi fi-rr-settings flex items-center text-xl"></i>,
+    icon: <FaCog size={20} />,
   },
 ];
 
@@ -32,19 +41,19 @@ export const collections = [
 export const payments = [
   {
     name: "Seguridad y protección.",
-    icon: <i className="fi fi-rr-shield-check icon"></i>,
+    icon: <FaShieldAlt size={20} />,
   },
   {
     name: "Medios de pago más usados.",
-    icon: <i className="fi fi-rr-wallet icon"></i>,
+    icon: <FaWallet size={20} />,
   },
   {
     name: "Cuotas con o sin tarjeta.",
-    icon: <i className="fi fi-rr-credit-card icon"></i>,
+    icon: <FaRegCreditCard size={20} />,
   },
   {
     name: "Envío gratuito a todo el país.",
-    icon: <i className="fi fi-rr-box-open-full icon"></i>,
+    icon: <FaBoxOpen size={20} />,
   },
 ];
 

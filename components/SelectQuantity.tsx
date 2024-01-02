@@ -6,6 +6,7 @@ import { ObjectId } from "mongodb";
 
 import { quantities } from "@/constants";
 import { updateItem } from "@/lib/actions/bag.actions";
+import { FaAngleDown } from "react-icons/fa";
 
 export default function SelectQuantity({
   itemId,
@@ -55,8 +56,8 @@ export default function SelectQuantity({
               </option>
             ))}
           </select>
-          <span>
-            <i className="fi fi-rr-angle-small-down flex items-center relative top-1 right-6 text-primary-blue"></i>
+          <span className="relative top-1.5 right-6 text-primary-blue">
+            <FaAngleDown size={20} />
           </span>
         </div>
       ) : (

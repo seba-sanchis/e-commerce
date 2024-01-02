@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { Product } from "@/types";
 import Link from "next/link";
 import Image from "next/image";
+import { FaAngleLeft, FaAngleRight } from "react-icons/fa";
 
 export default function Scroller({ products }: { products: Product[] }) {
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -163,7 +164,9 @@ export default function Scroller({ products }: { products: Product[] }) {
                   className="w-8 h-8"
                   onClick={prevSlide}
                 >
-                  <i className="fi fi-rr-angle-left flex justify-center items-center mr-1"></i>
+                  <div className="mr-0.5">
+                    <FaAngleLeft size={32} />
+                  </div>
                 </button>
               </div>
             )}
@@ -175,7 +178,9 @@ export default function Scroller({ products }: { products: Product[] }) {
                   className="w-8 h-8"
                   onClick={nextSlide}
                 >
-                  <i className="fi fi-rr-angle-right flex justify-center items-center ml-1"></i>
+                  <div className="ml-0.5">
+                    <FaAngleRight size={32} />
+                  </div>
                 </button>
               </div>
             )}
@@ -185,10 +190,10 @@ export default function Scroller({ products }: { products: Product[] }) {
       <ul className="flex top-4 justify-center py-2">
         {Array.from({ length: Math.ceil(products.length / groupSize) }).map(
           (_, index) => (
-            <li key={index}>
+            <li className="mx-2" key={index}>
               <button
                 aria-label={`Item ${index + 1}`}
-                className={`cursor-pointer rounded-full w-2 h-2 mx-2 transition-colors duration-100 ease-linear ${
+                className={`cursor-pointer rounded-full w-2 h-2 transition-colors duration-100 ease-linear ${
                   index === currentIndex
                     ? "bg-[rgba(0,0,0,.8)]"
                     : "bg-[rgba(0,0,0,.42)]"

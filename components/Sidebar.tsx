@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation";
 import { signOut } from "next-auth/react";
 
 import { myprofile } from "@/constants";
+import { FaSignOutAlt } from "react-icons/fa";
 
 export default function Sidebar() {
   const pathName = usePathname();
@@ -32,7 +33,7 @@ export default function Sidebar() {
           onClick={() => signOut()}
           type="button"
         >
-          <i className="fi fi-rr-exit flex items-center text-xl"></i>
+          <FaSignOutAlt size={20} />
           <span>Cerrar sesión</span>
         </button>
       </li>

@@ -2,6 +2,8 @@
 
 import { useState } from "react";
 
+import { FaRegCheckCircle } from "react-icons/fa";
+
 export default function ForgotPassword() {
   const [userEmail, setUserEmail] = useState("");
   const [emailSent, setEmailSent] = useState("");
@@ -26,7 +28,9 @@ export default function ForgotPassword() {
         />
         {emailSent && (
           <div className="flex items-center mt-2 text-xs text-primary-green">
-            <i className="fi fi-rr-check-circle flex items-center mx-1"></i>
+            <span className="mx-1">
+              <FaRegCheckCircle size={12} />
+            </span>
             <span>{emailSent}</span>
           </div>
         )}

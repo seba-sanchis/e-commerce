@@ -12,6 +12,7 @@ import {
   SelectQuantity,
 } from "@/components";
 import { Item, Sessions } from "@/types";
+import { FaRegComments } from "react-icons/fa";
 
 export default async function Page() {
   const session = (await getServerSession(authOptions)) as Sessions;
@@ -30,7 +31,10 @@ export default async function Page() {
 
         <div className="flex justify-center items-center p-4 md:p-5 mt-14 rounded-lg text-sm bg-primary-gray">
           <div className="flex md:px-24">
-            <i className="fi fi-rr-messages text-xl"></i>
+            <div>
+              <FaRegComments size={24} />
+            </div>
+
             <div className="ml-2">
               Ante cuanquier inquietud, comuníquese con nosotros por WhatsApp al
               número 000 0000-0000. Estaremos encantados en poder ayudarlo.

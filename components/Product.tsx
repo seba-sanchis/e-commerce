@@ -7,6 +7,7 @@ import Image from "next/image";
 import { addToFavorite } from "@/lib/actions/favorite.actions";
 import { addToBag } from "@/lib/actions/bag.actions";
 import { Product, Sessions } from "@/types";
+import { FaHeart, FaRegHeart, FaTruck } from "react-icons/fa";
 
 export default function Product({
   products,
@@ -167,8 +168,8 @@ export default function Product({
                   })}
               </span>
 
-              <div className="flex gap-2">
-                <i className="fi fi-rr-truck-side text-xl flex justify-center items-center"></i>
+              <div className="flex items-center gap-2">
+                <FaTruck size={24} />
                 <span>Envío gratis</span>
               </div>
             </div>
@@ -185,7 +186,7 @@ export default function Product({
                 onClick={handleFavorite}
                 type="button"
               >
-                <i className="fi fi-sr-heart icon"></i>
+                <FaHeart />
               </button>
             ) : (
               <button
@@ -194,7 +195,7 @@ export default function Product({
                 onClick={handleFavorite}
                 type="button"
               >
-                <i className="fi fi-rr-heart icon"></i>
+                <FaRegHeart size={24} />
               </button>
             )}
           </div>

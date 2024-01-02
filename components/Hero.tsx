@@ -1,6 +1,7 @@
 import { getContentByTag } from "@/lib/actions/content.actions";
 import Image from "next/image";
 import Link from "next/link";
+import { FaAngleRight } from "react-icons/fa";
 
 export default async function Hero() {
   const hero = await getContentByTag("banner");
@@ -20,7 +21,7 @@ export default async function Hero() {
             className="group flex justify-center items-center text-lg md:text-xl text-tertiary-blue"
           >
             <span className="group-hover:underline">Ver más</span>{" "}
-            <i className="fi fi-rr-angle-small-right icon"></i>
+            <FaAngleRight size={20} />
           </Link>
         </div>
         <div className="flex justify-center items-center flex-1">

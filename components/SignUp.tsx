@@ -8,6 +8,7 @@ import { regions } from "@/constants";
 import { UserProfile, Validation } from "@/types";
 import { newUser } from "@/lib/actions/user.actions";
 import { signUpValidation } from "@/lib/validations";
+import { FaAngleDown, FaExclamationCircle } from "react-icons/fa";
 
 export default function SignUp() {
   const router = useRouter();
@@ -101,7 +102,9 @@ export default function SignUp() {
               />
               {error.firstName && (
                 <div className="flex items-center mt-2 text-xs text-primary-red">
-                  <i className="fi fi-rr-exclamation flex items-center mx-1"></i>
+                  <span className="mx-1">
+                    <FaExclamationCircle size={12} />
+                  </span>
                   <span>{error.firstName}</span>
                 </div>
               )}
@@ -126,7 +129,9 @@ export default function SignUp() {
               />
               {error.lastName && (
                 <div className="flex items-center mt-2 text-xs text-primary-red">
-                  <i className="fi fi-rr-exclamation flex items-center mx-1"></i>
+                  <span className="mx-1">
+                    <FaExclamationCircle size={12} />
+                  </span>
                   <span>{error.lastName}</span>
                 </div>
               )}
@@ -153,7 +158,9 @@ export default function SignUp() {
               />
               {error.dni && (
                 <div className="flex items-center mt-2 text-xs text-primary-red">
-                  <i className="fi fi-rr-exclamation flex items-center mx-1"></i>
+                  <span className="mx-1">
+                    <FaExclamationCircle size={12} />
+                  </span>
                   <span>{error.dni}</span>
                 </div>
               )}
@@ -192,7 +199,9 @@ export default function SignUp() {
               </div>
               {error.birthday && (
                 <div className="flex items-center mt-2 text-xs text-primary-red">
-                  <i className="fi fi-rr-exclamation flex items-center mx-1"></i>
+                  <span className="mx-1">
+                    <FaExclamationCircle size={12} />
+                  </span>
                   <span>{error.birthday}</span>
                 </div>
               )}
@@ -221,7 +230,9 @@ export default function SignUp() {
               ))}
             </select>
             <span className="sticky flex items-center">
-              <i className="fi fi-rr-angle-small-down icon absolute right-4"></i>
+              <span className="absolute right-4">
+                <FaAngleDown size={24} />
+              </span>
             </span>
           </div>
 
@@ -244,7 +255,9 @@ export default function SignUp() {
             />
             {error.location && (
               <div className="flex items-center mt-2 text-xs text-primary-red">
-                <i className="fi fi-rr-exclamation flex items-center mx-1"></i>
+                <span className="mx-1">
+                  <FaExclamationCircle size={12} />
+                </span>
                 <span>{error.location}</span>
               </div>
             )}
@@ -270,7 +283,9 @@ export default function SignUp() {
               />
               {error.address && (
                 <div className="flex items-center mt-2 text-xs text-primary-red">
-                  <i className="fi fi-rr-exclamation flex items-center mx-1"></i>
+                  <span className="mx-1">
+                    <FaExclamationCircle size={12} />
+                  </span>
                   <span>{error.address}</span>
                 </div>
               )}
@@ -294,7 +309,9 @@ export default function SignUp() {
               />
               {error.zip && (
                 <div className="flex items-center mt-2 text-xs text-primary-red">
-                  <i className="fi fi-rr-exclamation flex items-center mx-1"></i>
+                  <span className="mx-1">
+                    <FaExclamationCircle size={12} />
+                  </span>
                   <span>{error.zip}</span>
                 </div>
               )}
@@ -324,7 +341,9 @@ export default function SignUp() {
             />
             {error.email && (
               <div className="flex items-center mt-2 text-xs text-primary-red">
-                <i className="fi fi-rr-exclamation flex items-center mx-1"></i>
+                <span className="mx-1">
+                  <FaExclamationCircle size={12} />
+                </span>
                 <span>{error.email}</span>
               </div>
             )}
@@ -364,7 +383,9 @@ export default function SignUp() {
             />
             {error.password && (
               <div className="flex items-center mt-2 text-xs text-primary-red">
-                <i className="fi fi-rr-exclamation flex items-center mx-1"></i>
+                <span className="mx-1">
+                  <FaExclamationCircle size={12} />
+                </span>
                 <span>{error.password}</span>
               </div>
             )}
@@ -393,7 +414,9 @@ export default function SignUp() {
             />
             {error.areaCode && (
               <div className="flex items-center mt-2 text-xs text-primary-red">
-                <i className="fi fi-rr-exclamation flex items-center mx-1"></i>
+                <span className="mx-1">
+                  <FaExclamationCircle size={12} />
+                </span>
                 <span>{error.areaCode}</span>
               </div>
             )}
@@ -417,7 +440,9 @@ export default function SignUp() {
             />
             {error.phone && (
               <div className="flex items-center mt-2 text-xs text-primary-red">
-                <i className="fi fi-rr-exclamation flex items-center mx-1"></i>
+                <span className="mx-1">
+                  <FaExclamationCircle size={12} />
+                </span>
                 <span>{error.phone}</span>
               </div>
             )}

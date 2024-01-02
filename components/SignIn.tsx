@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { signIn } from "next-auth/react";
+import { FaExclamationCircle } from "react-icons/fa";
 
 export default function SignIn() {
   const router = useRouter();
@@ -80,7 +81,9 @@ export default function SignIn() {
       )}
       {error && (
         <div className="flex items-center mt-2 text-xs text-primary-red">
-          <i className="fi fi-rr-exclamation flex items-center mr-1"></i>
+          <span className="mx-1">
+            <FaExclamationCircle size={12} />
+          </span>
           <span>Ingresá un email y contraseña válidos.</span>
         </div>
       )}

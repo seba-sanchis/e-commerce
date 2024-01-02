@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { FaAngleDown } from "react-icons/fa";
 
 export default function ProductDetails({
   color,
@@ -18,7 +19,9 @@ export default function ProductDetails({
         onClick={() => setToggleFeatures((state) => !state)}
       >
         <span>Ver detalle de producto</span>
-        <i className="fi fi-rr-angle-small-down flex items-center ml-1"></i>
+        <span className="ml-1">
+          <FaAngleDown size={16} />
+        </span>
       </button>
       <ul
         className={`mt-1 text-sm overflow-hidden transition-all ease-in-out duration-300 list-disc list-inside ${

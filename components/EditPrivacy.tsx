@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { privacyValidation } from "@/lib/validations";
 import { Privacy, Validation } from "@/types";
 import { editPrivacy } from "@/lib/actions/privacy.actions";
+import { FaAngleRight, FaExclamationCircle } from "react-icons/fa";
 
 export default function EditPrivacy({ privacy }: { privacy: Privacy }) {
   const router = useRouter();
@@ -56,7 +57,7 @@ export default function EditPrivacy({ privacy }: { privacy: Privacy }) {
         <span className="group-hover:underline">
           Administrar mi información personal
         </span>
-        <i className="fi fi-rr-angle-small-right flex items-center"></i>
+        <FaAngleRight size={16} />
       </button>
       <div
         onClick={() => setToggleForm(false)}
@@ -104,7 +105,9 @@ export default function EditPrivacy({ privacy }: { privacy: Privacy }) {
                       />
                       {error?.firstName && (
                         <div className="flex items-center mt-2 text-xs text-primary-red">
-                          <i className="fi fi-rr-exclamation flex items-center mx-1"></i>
+                          <span className="mx-1">
+                            <FaExclamationCircle size={12} />
+                          </span>
                           <span>{error.firstName}</span>
                         </div>
                       )}
@@ -129,7 +132,9 @@ export default function EditPrivacy({ privacy }: { privacy: Privacy }) {
                       />
                       {error?.lastName && (
                         <div className="flex items-center mt-2 text-xs text-primary-red">
-                          <i className="fi fi-rr-exclamation flex items-center mx-1"></i>
+                          <span className="mx-1">
+                            <FaExclamationCircle size={12} />
+                          </span>
                           <span>{error.lastName}</span>
                         </div>
                       )}
@@ -156,7 +161,9 @@ export default function EditPrivacy({ privacy }: { privacy: Privacy }) {
                       />
                       {error.dni && (
                         <div className="flex items-center mt-2 text-xs text-primary-red">
-                          <i className="fi fi-rr-exclamation flex items-center mx-1"></i>
+                          <span className="mx-1">
+                            <FaExclamationCircle size={12} />
+                          </span>
                           <span>{error.dni}</span>
                         </div>
                       )}
@@ -195,7 +202,9 @@ export default function EditPrivacy({ privacy }: { privacy: Privacy }) {
                       </div>
                       {error.birthday && (
                         <div className="flex items-center mt-2 text-xs text-primary-red">
-                          <i className="fi fi-rr-exclamation flex items-center mx-1"></i>
+                          <span className="mx-1">
+                            <FaExclamationCircle size={12} />
+                          </span>
                           <span>{error.birthday}</span>
                         </div>
                       )}

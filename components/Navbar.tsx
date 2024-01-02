@@ -5,6 +5,7 @@ import { authOptions } from "@/lib/options";
 import { Sessions } from "@/types";
 import { Flyout, Menu, Searchbar, SearchField } from ".";
 import { getContentByTag } from "@/lib/actions/content.actions";
+import { FaShoppingBag } from "react-icons/fa";
 
 export default async function Navbar() {
   const session = (await getServerSession(authOptions)) as Sessions;
@@ -42,7 +43,9 @@ export default async function Navbar() {
             aria-label="Carrito de compras"
             className="flex justify-center items-center w-10 h-10"
           >
-            <i className="fi fi-rr-shopping-bag flex justify-center items-center text-primary-black/80 hover:text-primary-black transition-colors"></i>
+            <span className="text-primary-black/80 hover:text-primary-black transition-colors">
+              <FaShoppingBag size={16} />
+            </span>
             {session && (
               <div className="absolute flex justify-end items-end w-8 h-8">
                 <span className="flex justify-center items-center w-3.5 h-3.5 rounded-full text-[10px] text-white bg-black">
