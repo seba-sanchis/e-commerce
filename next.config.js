@@ -7,6 +7,7 @@ const nextConfig = {
         hostname: "seba-sanchis.s3.amazonaws.com",
       },
     ],
+    minimumCacheTTL: 3600,
   },
   async headers() {
     return [
