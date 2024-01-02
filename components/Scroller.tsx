@@ -190,11 +190,7 @@ export default function Scroller({ products }: { products: Product[] }) {
       <ul className="flex top-4 justify-center my-6" role="tablist">
         {Array.from({ length: Math.ceil(products.length / groupSize) }).map(
           (_, index) => (
-            <li
-              className="flex mx-3"
-              key={index}
-              role="presentation"
-            >
+            <li className="flex mx-3" key={index} role="presentation">
               <button
                 aria-label={`Item ${index + 1}`}
                 className={`cursor-pointer rounded-full w-2 h-2 transition-colors duration-100 ease-linear ${
