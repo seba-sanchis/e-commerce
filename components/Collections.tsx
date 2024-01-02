@@ -10,12 +10,9 @@ export default async function Collections() {
 
   return (
     <section className="mb-8">
-      <div className="flex flex-col md:flex-row justify-between w-full max-w-[980px] px-4 md:px-0 mx-auto gap-3">
+      <div className="flex flex-col md:flex-row justify-between items-center w-full max-w-[980px] px-4 md:px-0 mx-auto gap-3">
         {engagement.map((item: Content) => (
-          <div
-            key={item.title}
-            className="relative w-full md:w-[484px] h-[336px]]"
-          >
+          <div key={item.title} className="relative max-w-[484px] h-[336px]]">
             <Image src={item.image} alt="engagement" width={484} height={336} />
             <div className="absolute top-0 left-0 right-0 bottom-0 flex flex-col justify-end items-center p-6 text-white">
               <h4 className="font-semibold text-3xl">{item.title}</h4>

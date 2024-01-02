@@ -7,7 +7,7 @@ export default async function Hero() {
   const hero = await getContentByTag("banner");
 
   return (
-    <section className="bg-primary-gray">
+    <section className="bg-primary-gray pt-12 pb-6 md:py-0">
       <div className="flex flex-col md:flex-row justify-center items-center w-full h-96  px-4 py-8 md:p-0 max-w-[980px] rounded mx-auto">
         <div className="flex flex-col justify-center items-center md:items-start mb-2 md:mb-0 md:gap-3.5 md:max-w-[33%]">
           <h2 className="text-3xl md:text-5xl font-semibold text-center md:text-left">
