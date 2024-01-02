@@ -187,10 +187,14 @@ export default function Scroller({ products }: { products: Product[] }) {
           </div>
         ))}
 
-      <ul className="flex top-4 justify-center py-2">
+      <ul className="flex top-4 justify-center my-4" role="tablist">
         {Array.from({ length: Math.ceil(products.length / groupSize) }).map(
           (_, index) => (
-            <li className="mx-2" key={index}>
+            <li
+              className="flex mx-2 border border-red-500"
+              key={index}
+              role="presentation"
+            >
               <button
                 aria-label={`Item ${index + 1}`}
                 className={`cursor-pointer rounded-full w-2 h-2 transition-colors duration-100 ease-linear ${
@@ -199,6 +203,7 @@ export default function Scroller({ products }: { products: Product[] }) {
                     : "bg-[rgba(0,0,0,.42)]"
                 }`}
                 onClick={() => setCurrentIndex(index)}
+                role="tab"
               ></button>
             </li>
           )
