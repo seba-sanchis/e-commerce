@@ -187,11 +187,11 @@ export default function Scroller({ products }: { products: Product[] }) {
           </div>
         ))}
 
-      <ul className="flex top-4 justify-center my-4" role="tablist">
+      <ul className="flex top-4 justify-center my-6" role="tablist">
         {Array.from({ length: Math.ceil(products.length / groupSize) }).map(
           (_, index) => (
             <li
-              className="flex mx-2 border border-red-500"
+              className="flex mx-2"
               key={index}
               role="presentation"
             >
