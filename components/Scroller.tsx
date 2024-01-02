@@ -191,7 +191,7 @@ export default function Scroller({ products }: { products: Product[] }) {
         {Array.from({ length: Math.ceil(products.length / groupSize) }).map(
           (_, index) => (
             <li
-              className="flex mx-2"
+              className="flex mx-3"
               key={index}
               role="presentation"
             >
