@@ -4,12 +4,9 @@ const nextConfig = {
     remotePatterns: [
       {
         protocol: "https",
-        hostname: "s3.amazonaws.com",
-        port: "",
-        pathname: "/seba-sanchis/**",
+        hostname: "seba-sanchis.s3.amazonaws.com",
       },
     ],
-    minimumCacheTTL: 3600,
   },
   async headers() {
     return [
