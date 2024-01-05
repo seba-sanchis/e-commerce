@@ -29,8 +29,8 @@ export const POST = async (request: NextRequest) => {
       };
 
       const payer = {
-        firstName: body.payer?.first_name,
-        lastName: body.payer?.last_name,
+        firstName: body.additional_info?.payer?.first_name,
+        lastName: body.additional_info?.payer?.last_name,
         email: body.payer?.email,
         identification: body.payer!.identification!.number,
       };

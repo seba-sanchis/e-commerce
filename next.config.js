@@ -6,6 +6,10 @@ const nextConfig = {
         protocol: "https",
         hostname: "seba-sanchis.s3.amazonaws.com",
       },
+      {
+        protocol: "https",
+        hostname: "http2.mlstatic.com",
+      },
     ],
   },
   async headers() {

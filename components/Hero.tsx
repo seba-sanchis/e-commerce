@@ -30,7 +30,7 @@ export default async function Hero() {
             alt="advertising hero"
             width={500}
             height={313}
-            loading="eager"
+            priority={true}
           />
         </div>
       </div>
