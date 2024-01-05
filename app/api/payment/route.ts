@@ -19,7 +19,7 @@ export const POST = async (request: NextRequest) => {
       const payment = new Payment(client);
 
       const body = await payment.get({ id: data.id });
-      console.log("body ->", body);
+
       const order = {
         orderId: body.order?.id?.toString(),
         date: body.date_approved,
