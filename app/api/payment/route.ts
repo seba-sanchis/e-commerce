@@ -6,8 +6,6 @@ import { Items } from "mercadopago/dist/clients/commonTypes";
 
 const { MERCADOPAGO_ACCESS_TOKEN } = process.env;
 
-export const runtime = 'edge';
-
 export const POST = async (request: NextRequest) => {
   const { data, type } = await request.json();
 
