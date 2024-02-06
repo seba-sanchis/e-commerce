@@ -31,8 +31,8 @@ export async function newOrder(
   picked: Picked[],
   transaction: Transaction
 ) {
-  const session = await startSession();
-  session.startTransaction();
+  // const session = await startSession();
+  // session.startTransaction();
 
   try {
     await connectToDB();
@@ -105,13 +105,14 @@ export async function newOrder(
 
     await currentSession.save();
 
-    await session.commitTransaction();
+    // await session.commitTransaction();
   } catch (error: any) {
-    await session.abortTransaction();
+    // await session.abortTransaction();
     throw new Error(`Failed to create a new order: ${error.message}`);
-  } finally {
-    session.endSession();
   }
+  // finally {
+  //   session.endSession();
+  // }
 }
 
 //Get all orders
