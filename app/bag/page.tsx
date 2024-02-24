@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { getServerSession } from "next-auth";
+import { FaRegComments } from "react-icons/fa";
 
 import { authOptions } from "@/lib/options";
 import { getBag } from "@/lib/actions/bag.actions";
@@ -11,7 +12,6 @@ import {
   SelectQuantity,
 } from "@/components";
 import { Item, Sessions } from "@/types";
-import { FaRegComments } from "react-icons/fa";
 
 export default async function Page() {
   const session = (await getServerSession(authOptions)) as Sessions;

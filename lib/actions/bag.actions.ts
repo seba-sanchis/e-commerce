@@ -2,13 +2,13 @@
 
 import { revalidatePath } from "next/cache";
 import { getServerSession } from "next-auth";
+import { ObjectId, Types } from "mongoose";
 
 import { connectToDB } from "../database";
 import { authOptions } from "../options";
-import { Item, Sessions } from "@/types";
 import Product from "@/models/product";
 import User from "@/models/user";
-import { Types } from "mongoose";
+import { Item, Sessions } from "@/types";
 
 // Add product to bag
 export async function addToBag(params: Item) {
@@ -72,7 +72,7 @@ export async function getBag(params: string) {
 
 // Update bag item
 export async function editBag(
-  itemId: Types.ObjectId,
+  itemId: ObjectId,
   quantity: number,
   size: string
 ) {
@@ -94,7 +94,7 @@ export async function editBag(
 
     // Find the item to be updated in the user's bag
     const itemToUpdate = currentUser.bag.find((item: { _id: Types.ObjectId }) =>
-      item._id.equals(itemId)
+      item._id.equals(itemId.toString())
     );
 
     if (!itemToUpdate) throw new Error("Item not found in user's bag.");
@@ -136,7 +136,7 @@ export async function editBag(
 }
 
 //Remove bag item
-export async function removeItem(itemId: Types.ObjectId) {
+export async function removeItem(itemId: ObjectId) {
   try {
     const session = (await getServerSession(authOptions)) as Sessions;
 
@@ -151,7 +151,7 @@ export async function removeItem(itemId: Types.ObjectId) {
 
     // Filter out the item to be removed from the bag array
     currentUser.bag = currentUser.bag.filter(
-      (item: Types.ObjectId) => !item._id.equals(itemId)
+      (item: Types.ObjectId) => !item._id.equals(itemId.toString())
     );
 
     // Save the updated user to persist the removal

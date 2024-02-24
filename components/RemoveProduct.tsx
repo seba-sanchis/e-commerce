@@ -1,11 +1,11 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { Types } from "mongoose";
+import { ObjectId } from "mongoose";
 
 import { removeItem } from "@/lib/actions/bag.actions";
 
-type Props = { itemId: Types.ObjectId };
+type Props = { itemId: ObjectId };
 
 export default function RemoveProduct({ itemId }: Props) {
   const router = useRouter();

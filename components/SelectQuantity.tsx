@@ -2,14 +2,14 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { Types } from "mongoose";
+import { ObjectId } from "mongoose";
+import { FaAngleDown } from "react-icons/fa";
 
 import { quantities } from "@/constants";
 import { editBag } from "@/lib/actions/bag.actions";
-import { FaAngleDown } from "react-icons/fa";
 
 type Props = {
-  itemId: Types.ObjectId;
+  itemId: ObjectId;
   quantity: number;
   size: string;
 };
