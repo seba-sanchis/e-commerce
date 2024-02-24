@@ -1,66 +1,42 @@
 "use server";
 
-import { NextResponse } from "next/server";
-import mongoose from "mongoose";
 import bcrypt from "bcryptjs";
-import { ObjectId } from "mongodb";
 
 import { connectToDB } from "../database";
-import { Account, Item, Privacy, Shipping, UserProfile } from "@/types";
-import AccountModel from "@/models/account";
-import ItemModel from "@/models/item";
-import OrderModel from "@/models/order";
-import PrivacyModel from "@/models/privacy";
-import ShippingModel from "@/models/shipping";
-import TransactionModel from "@/models/transaction";
-import UserModel from "@/models/user";
+import Order from "@/models/order";
+import User from "@/models/user";
+import { User as UserType } from "@/types";
+import { ObjectId } from "mongoose";
+import Product from "@/models/product";
 
 // Create a new user
-export async function newUser(params: UserProfile) {
-  const { account, privacy, shipping } = params;
-
-  const session = await mongoose.startSession();
-  session.startTransaction();
-
+export async function newUser(user: UserType) {
   try {
     await connectToDB();
 
     // Validations
-    if (account.password.length < 6)
+    if (user.password.length < 6)
       throw new Error("Password must be at least 6 characters.");
 
-    const userExists = await AccountModel.findOne({ email: account.email });
+    // check if user already exists
+    const userExists = await User.findOne({ email: user.email });
+
     if (userExists) throw new Error("Email already exists.");
 
     // Hash the password
-    const hashedPassword = await bcrypt.hash(account.password, 12);
+    const hashedPassword = await bcrypt.hash(user.password, 12);
 
-    // Create and save Account, Privacy, and Shipping documents within the same session
-    const savedAccount = await new AccountModel({
-      email: account.email,
+    // Create and save user document
+    const newUser = new User({
+      ...user,
       password: hashedPassword,
-    }).save({ session });
-    const savedPrivacy = await new PrivacyModel(privacy).save({ session });
-    const savedShipping = await new ShippingModel(shipping).save({ session });
-
-    // Create and save User document with references to Account, Privacy, and Shipping
-    const newUser = new UserModel({
-      account: savedAccount._id,
-      privacy: savedPrivacy._id,
-      shipping: savedShipping._id,
     });
 
-    await newUser.save({ session });
-
-    // Commit the transaction if all operations were successful
-    await session.commitTransaction();
-  } catch (error: any) {
-    // If an error occurs, abort the transaction
-    await session.abortTransaction();
-    throw new Error(`Failed to create a new user: ${error.message}`);
-  } finally {
-    // End the session
-    session.endSession();
+    await newUser.save();
+  } catch (error) {
+    if (error instanceof Error) {
+      throw new Error(`Failed to create a new user: ${error.message}`);
+    }
   }
 }
 
@@ -70,41 +46,37 @@ export async function getUserById(_id: ObjectId) {
     await connectToDB();
 
     // store the user id from MongoDB to session
-    const sessionUser = await UserModel.findOne({ _id })
-      .populate({
-        path: "account",
-        model: AccountModel,
-      })
-      .populate({
-        path: "privacy",
-        model: PrivacyModel,
-      })
-      .populate({
-        path: "shipping",
-        model: ShippingModel,
-      });
+    const currentUser = await User.findOne({ _id });
 
-    if (!sessionUser) throw new Error("User not found"); // Handle case when user is not found
-
-    // Calculate the total quantity of products in the bag
-    const items = sessionUser.bag.reduce(
-      (acc: number, item: Item) => acc + item.quantity,
-      0
-    );
+    // Handle case when user is not found
+    if (!currentUser) throw new Error("User not found");
 
     const session = {
-      id: sessionUser._id.toString(),
-      account: sessionUser.account,
-      privacy: sessionUser.privacy,
-      shipping: sessionUser.shipping,
-      bag: sessionUser.bag,
-      items: items,
-      favorite: sessionUser.favorite,
+      id: currentUser._id,
+      account: { email: currentUser.email },
+      privacy: {
+        firstName: currentUser.firstName,
+        lastName: currentUser.lastName,
+        dni: currentUser.dni,
+        birthday: currentUser.birthday,
+      },
+      shipping: {
+        region: currentUser.region,
+        location: currentUser.location,
+        address: currentUser.address,
+        zip: currentUser.zip,
+        areaCode: currentUser.areaCode,
+        phone: currentUser.phone,
+      },
+      bag: currentUser.bag,
+      favorite: currentUser.favorite,
     };
 
     return session;
-  } catch (error: any) {
-    throw new Error(`Failed to get user: ${error.message}`); // Handle any errors
+  } catch (error) {
+    if (error instanceof Error) {
+      throw new Error(`Failed to get user by id: ${error.message}`);
+    }
   }
 }
 
@@ -113,49 +85,44 @@ export async function getUserByEmail(email: string) {
   try {
     await connectToDB();
 
-    // Find the account with the given email
-    const account = await AccountModel.findOne({ email });
+    // Find user with the given email
+    const currentUser = await User.findOne({ email }).populate({
+      path: "bag",
+      populate: {
+        path: "product", // Populate the product field within bag
+        model: Product,
+      },
+    });
 
-    if (!account) throw new Error("Account not found"); // Handle case when account is not found
-
-    // store the user id from MongoDB to session
-    const sessionUser = await UserModel.findOne({
-      account: account._id,
-    })
-      .populate({
-        path: "privacy",
-        model: PrivacyModel,
-      })
-      .populate({
-        path: "shipping",
-        model: ShippingModel,
-      })
-      .populate({
-        path: "bag",
-        model: ItemModel,
-      });
-
-    if (!sessionUser) throw new Error("User not found"); // Handle case when user is not found
-
-    // Calculate the total quantity of products in the bag
-    const items = sessionUser.bag.reduce(
-      (acc: number, item: Item) => acc + item.quantity,
-      0
-    );
+    // check if user exists
+    if (!currentUser) throw new Error("User not found");
 
     const session = {
-      id: sessionUser._id.toString(),
-      account: account,
-      privacy: sessionUser.privacy,
-      shipping: sessionUser.shipping,
-      bag: sessionUser.bag,
-      items: items,
-      favorite: sessionUser.favorite,
+      id: currentUser._id,
+      email: currentUser.email,
+      password: currentUser.password,
+
+      firstName: currentUser.firstName,
+      lastName: currentUser.lastName,
+      dni: currentUser.dni,
+      birthday: currentUser.birthday,
+
+      region: currentUser.region,
+      location: currentUser.location,
+      address: currentUser.address,
+      zip: currentUser.zip,
+      areaCode: currentUser.areaCode,
+      phone: currentUser.phone,
+
+      bag: currentUser.bag,
+      favorite: currentUser.favorite,
     };
 
     return session;
-  } catch (error: any) {
-    throw new Error(`Failed to get user: ${error.message}`); // Handle any errors
+  } catch (error) {
+    if (error instanceof Error) {
+      throw new Error(`Failed to get user by email: ${error.message}`);
+    }
   }
 }
 
@@ -164,37 +131,22 @@ export async function getUsers() {
   try {
     await connectToDB();
 
-    // store the user id from MongoDB to session
-    const users = await UserModel.find({})
-      .populate({
-        path: "account",
-        model: AccountModel,
-      })
-      .populate({
-        path: "privacy",
-        model: PrivacyModel,
-      })
-      .populate({
-        path: "shipping",
-        model: ShippingModel,
-      })
-      .populate({
-        path: "purchases",
-        model: OrderModel,
-        populate: {
-          path: "transaction", // Populate the "transaction" field in purchases
-          model: TransactionModel,
-        },
-      });
+    // get all users from MongoDB
+    const users = await User.find({}).populate({
+      path: "purchases",
+      model: Order,
+    });
 
     return users;
-  } catch (error: any) {
-    throw new Error(`Failed to get user: ${error.message}`); // Handle any errors
+  } catch (error) {
+    if (error instanceof Error) {
+      throw new Error(`Failed to get all users: ${error.message}`);
+    }
   }
 }
 
 // Update user
-export async function editUser(user: Account & Privacy & Shipping) {
+export async function editUser(user: UserType) {
   const {
     _id,
     email,
@@ -214,42 +166,34 @@ export async function editUser(user: Account & Privacy & Shipping) {
     await connectToDB();
 
     // Find the existing user by ID and populate the referenced documents
-    const existingUser = await UserModel.findById(_id)
-      .populate("account")
-      .populate("privacy")
-      .populate("shipping")
-      .exec();
+    const currentUser = await User.findById(_id);
 
-    if (!existingUser) {
-      return NextResponse.json({ message: "User not found" }, { status: 404 });
-    }
+    if (!currentUser) throw new Error("User not found");
 
-    // Update the user with new data
-    existingUser.account.email = email;
+    // Update user's account with new data
+    currentUser.email = email;
 
-    existingUser.privacy.firstName = firstName;
-    existingUser.privacy.lastName = lastName;
-    existingUser.privacy.dni = dni;
-    existingUser.privacy.birthday = birthday;
+    // Update user's privacy with new data
+    currentUser.firstName = firstName;
+    currentUser.lastName = lastName;
+    currentUser.dni = dni;
+    currentUser.birthday = birthday;
 
-    existingUser.shipping.region = region;
-    existingUser.shipping.location = location;
-    existingUser.shipping.address = address;
-    existingUser.shipping.zip = zip;
-    existingUser.shipping.areaCode = areaCode;
-    existingUser.shipping.phone = phone;
-
-    // Save updated subdocuments
-    await existingUser.account.save();
-    await existingUser.privacy.save();
-    await existingUser.shipping.save();
+    // Update user's shipping with new data
+    currentUser.region = region;
+    currentUser.location = location;
+    currentUser.address = address;
+    currentUser.zip = zip;
+    currentUser.areaCode = areaCode;
+    currentUser.phone = phone;
 
     // Save the updated user
-    await existingUser.save();
+    await currentUser.save();
 
-    return existingUser;
-  } catch (error: any) {
-    console.log(error.message);
-    throw new Error(`Failed to update user: ${error.message}`);
+    return currentUser;
+  } catch (error) {
+    if (error instanceof Error) {
+      throw new Error(`Failed to update user: ${error.message}`);
+    }
   }
 }

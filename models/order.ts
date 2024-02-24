@@ -15,21 +15,78 @@ const OrderSchema = new Schema({
   },
   picked: [
     {
-      type: Schema.Types.ObjectId,
-      ref: "Picked",
+      category: {
+        type: String,
+        required: true,
+      },
+      description: String, // Optional description field
+      sku: {
+        type: String,
+        required: true,
+      },
+      thumbnail: {
+        type: String,
+        required: true,
+      },
+      quantity: {
+        type: Number,
+        required: true,
+      },
+      name: {
+        type: String,
+        required: true,
+      },
+      price: {
+        type: Number,
+        required: true,
+      },
     },
   ],
   payment: {
-    type: Schema.Types.ObjectId,
-    ref: "Payment",
+    company: {
+      type: String,
+      required: true,
+    },
+    type: {
+      type: String,
+      required: true,
+    },
   },
   payer: {
-    type: Schema.Types.ObjectId,
-    ref: "Payer",
+    firstName: String,
+    lastName: String,
+    email: {
+      type: String,
+      required: true,
+    },
+    identification: {
+      type: String,
+      required: true,
+    },
+    phone: {
+      areaCode: String,
+      number: String,
+      extension: String,
+    },
   },
   transaction: {
-    type: Schema.Types.ObjectId,
-    ref: "Transaction",
+    bank: String,
+    installment: {
+      type: Number,
+      required: true,
+    },
+    paid: {
+      type: Number,
+      required: true,
+    },
+    received: {
+      type: Number,
+      required: true,
+    },
+    overpaid: {
+      type: Number,
+      required: true,
+    },
   },
   installments: {
     type: Number,

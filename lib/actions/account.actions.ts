@@ -2,9 +2,9 @@
 
 import bcrypt from "bcryptjs";
 
-import { Account } from "@/types";
 import { connectToDB } from "../database";
-import AccountModel from "@/models/account";
+import User from "@/models/user";
+import { Account } from "@/types";
 
 // Update account
 export async function editAccount(params: Account) {
@@ -13,20 +13,22 @@ export async function editAccount(params: Account) {
   try {
     await connectToDB();
 
-    // Find the existing account by ID
-    const existingAccount = await AccountModel.findById(_id);
+    // Find the existing user by ID and populate the referenced documents
+    const currentUser = await User.findById(_id);
 
-    if (!existingAccount) throw new Error("Account not found");
+    if (!currentUser) throw new Error("User not found");
 
     // Hash the password
     const hashedPassword = await bcrypt.hash(password, 12);
 
     // Update the account with new data
-    existingAccount.email = email;
-    existingAccount.password = hashedPassword;
+    currentUser.email = email;
+    currentUser.password = hashedPassword;
 
-    await existingAccount.save();
-  } catch (error: any) {
-    throw new Error(`Failed to update account: ${error.message}`);
+    await currentUser.save();
+  } catch (error) {
+    if (error instanceof Error) {
+      throw new Error(`Failed to update account: ${error.message}`);
+    }
   }
 }

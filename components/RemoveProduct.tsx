@@ -1,21 +1,17 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { ObjectId } from "mongodb";
+import { Types } from "mongoose";
 
 import { removeItem } from "@/lib/actions/bag.actions";
 
-export default function RemoveProduct({
-  itemId,
-  userId,
-}: {
-  itemId: ObjectId;
-  userId: string;
-}) {
+type Props = { itemId: Types.ObjectId };
+
+export default function RemoveProduct({ itemId }: Props) {
   const router = useRouter();
 
   const handleDelete = () => {
-    removeItem(itemId, userId);
+    removeItem(itemId);
 
     router.refresh();
   };

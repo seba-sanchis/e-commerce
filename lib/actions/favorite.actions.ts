@@ -1,6 +1,6 @@
 "use server";
 
-import { ObjectId } from "mongodb";
+import { ObjectId } from "mongoose";
 
 import { connectToDB } from "../database";
 import UserModel from "@/models/user";
@@ -44,8 +44,10 @@ export async function addToFavorite(userId: string, productId: ObjectId) {
 
     // Save the updated user object
     await currentUser.save();
-  } catch (error: any) {
-    throw new Error(`Failed to add product to favorite: ${error.message}`); // Handle any errors
+  } catch (error) {
+    if (error instanceof Error) {
+      throw new Error(`Failed to add product to favorite: ${error.message}`);
+    }
   }
 }
 
@@ -55,14 +57,18 @@ export async function getFavorites(userId: string) {
     await connectToDB();
 
     // Find the user based on the provided userId
-    const currentSession = await UserModel.findById(userId).populate("favorite"); // Populate favorites
+    const currentSession = await UserModel.findById(userId).populate(
+      "favorite"
+    ); // Populate favorites
 
     if (!currentSession) {
       throw new Error(`User not found with id: ${userId}`);
     }
 
     return currentSession.favorite;
-  } catch (error: any) {
-    throw new Error(`Failed to fetch orders: ${error.message}`);
+  } catch (error) {
+    if (error instanceof Error) {
+      throw new Error(`Failed to get favorites: ${error.message}`);
+    }
   }
 }

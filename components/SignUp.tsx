@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { signIn } from "next-auth/react";
 
 import { regions } from "@/constants";
-import { UserProfile, Validation } from "@/types";
+import { User, Validation } from "@/types";
 import { newUser } from "@/lib/actions/user.actions";
 import { signUpValidation } from "@/lib/validations";
 import { FaAngleDown, FaExclamationCircle } from "react-icons/fa";
@@ -13,26 +13,20 @@ import { FaAngleDown, FaExclamationCircle } from "react-icons/fa";
 export default function SignUp() {
   const router = useRouter();
 
-  const [user, setUser] = useState<UserProfile>({
-    account: {
-      email: "",
-      password: "",
-      confirmPassword: "",
-    },
-    privacy: {
-      firstName: "",
-      lastName: "",
-      dni: "",
-      birthday: "",
-    },
-    shipping: {
-      region: "Buenos Aires",
-      location: "",
-      address: "",
-      zip: "",
-      areaCode: "",
-      phone: "",
-    },
+  const [user, setUser] = useState<User>({
+    email: "",
+    password: "",
+    confirmPassword: "",
+    firstName: "",
+    lastName: "",
+    dni: "",
+    birthday: "",
+    region: "Buenos Aires",
+    location: "",
+    address: "",
+    zip: "",
+    areaCode: "",
+    phone: "",
   });
 
   const [error, setError] = useState<Validation>({
@@ -63,8 +57,8 @@ export default function SignUp() {
 
       // Sign in the user
       await signIn("credentials", {
-        email: user.account.email,
-        password: user.account.password,
+        email: user.email,
+        password: user.password,
         redirect: false,
       });
 
@@ -85,11 +79,11 @@ export default function SignUp() {
           <div className="flex gap-4">
             <div>
               <input
-                value={user.privacy.firstName}
+                value={user.firstName}
                 onChange={(e) =>
                   setUser({
                     ...user,
-                    privacy: { ...user.privacy, firstName: e.target.value },
+                    firstName: e.target.value,
                   })
                 }
                 type="text"
@@ -112,11 +106,11 @@ export default function SignUp() {
 
             <div>
               <input
-                value={user.privacy.lastName}
+                value={user.lastName}
                 onChange={(e) =>
                   setUser({
                     ...user,
-                    privacy: { ...user.privacy, lastName: e.target.value },
+                    lastName: e.target.value,
                   })
                 }
                 type="text"
@@ -141,11 +135,11 @@ export default function SignUp() {
           <div className="flex gap-4">
             <div className="w-1/2">
               <input
-                value={user.privacy.dni}
+                value={user.dni}
                 onChange={(e) =>
                   setUser({
                     ...user,
-                    privacy: { ...user.privacy, dni: e.target.value },
+                    dni: e.target.value,
                   })
                 }
                 type="text"
@@ -174,16 +168,16 @@ export default function SignUp() {
                 }`}
               >
                 <input
-                  value={user.privacy.birthday.slice(0, 10)}
+                  value={user.birthday.slice(0, 10)}
                   onChange={(e) =>
                     setUser({
                       ...user,
-                      privacy: { ...user.privacy, birthday: e.target.value },
+                      birthday: e.target.value,
                     })
                   }
                   type="date"
                   className={`w-full h-full px-4 z-10 focus:opacity-100 ${
-                    user.privacy.birthday ? "opacity-100" : "opacity-0"
+                    user.birthday ? "opacity-100" : "opacity-0"
                   }`}
                 />
 
@@ -214,11 +208,11 @@ export default function SignUp() {
         <div className="flex flex-col gap-4 w-full py-8 max-w-[460px] mx-auto">
           <div className="flex items-center border border-[#d6d6d6] rounded w-full h-14 justify-between">
             <select
-              value={user.shipping.region}
+              value={user.region}
               onChange={(e) =>
                 setUser({
                   ...user,
-                  shipping: { ...user.shipping, region: e.target.value },
+                  region: e.target.value,
                 })
               }
               className="appearance-none bg-transparent w-full h-full px-4 cursor-pointer z-10"
@@ -238,11 +232,11 @@ export default function SignUp() {
 
           <div>
             <input
-              value={user.shipping.location}
+              value={user.location}
               onChange={(e) =>
                 setUser({
                   ...user,
-                  shipping: { ...user.shipping, location: e.target.value },
+                  location: e.target.value,
                 })
               }
               type="text"
@@ -266,11 +260,11 @@ export default function SignUp() {
           <div className="flex gap-4">
             <div className="w-2/3">
               <input
-                value={user.shipping.address}
+                value={user.address}
                 onChange={(e) =>
                   setUser({
                     ...user,
-                    shipping: { ...user.shipping, address: e.target.value },
+                    address: e.target.value,
                   })
                 }
                 type="text"
@@ -292,11 +286,11 @@ export default function SignUp() {
             </div>
             <div className="w-1/3">
               <input
-                value={user.shipping.zip}
+                value={user.zip}
                 onChange={(e) =>
                   setUser({
                     ...user,
-                    shipping: { ...user.shipping, zip: e.target.value },
+                    zip: e.target.value,
                   })
                 }
                 type="text"
@@ -324,11 +318,11 @@ export default function SignUp() {
         <div className="flex flex-col gap-4 w-full py-8 max-w-[460px] mx-auto">
           <div>
             <input
-              value={user.account.email}
+              value={user.email}
               onChange={(e) =>
                 setUser({
                   ...user,
-                  account: { ...user.account, email: e.target.value },
+                  email: e.target.value,
                 })
               }
               type="email"
@@ -349,11 +343,11 @@ export default function SignUp() {
             )}
           </div>
           <input
-            value={user.account.password}
+            value={user.password}
             onChange={(e) =>
               setUser({
                 ...user,
-                account: { ...user.account, password: e.target.value },
+                password: e.target.value,
               })
             }
             type="password"
@@ -366,11 +360,11 @@ export default function SignUp() {
           />
           <div>
             <input
-              value={user.account.confirmPassword}
+              value={user.confirmPassword}
               onChange={(e) =>
                 setUser({
                   ...user,
-                  account: { ...user.account, confirmPassword: e.target.value },
+                  confirmPassword: e.target.value,
                 })
               }
               type="password"
@@ -397,11 +391,11 @@ export default function SignUp() {
         <div className="flex gap-4 w-full py-8 max-w-[460px] mx-auto">
           <div className="w-1/3">
             <input
-              value={user.shipping.areaCode}
+              value={user.areaCode}
               onChange={(e) =>
                 setUser({
                   ...user,
-                  shipping: { ...user.shipping, areaCode: e.target.value },
+                  areaCode: e.target.value,
                 })
               }
               type="text"
@@ -423,11 +417,11 @@ export default function SignUp() {
           </div>
           <div className="w-2/3">
             <input
-              value={user.shipping.phone}
+              value={user.phone}
               onChange={(e) =>
                 setUser({
                   ...user,
-                  shipping: { ...user.shipping, phone: e.target.value },
+                  phone: e.target.value,
                 })
               }
               type="text"

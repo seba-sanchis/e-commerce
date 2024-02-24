@@ -28,7 +28,7 @@ export default async function Page() {
 
   return (
     <div className="w-full">
-      {response.map((order) => (
+      {response?.map((order) => (
         <div
           key={order._id}
           className="flex flex-col md:flex-row m-4 p-4 rounded-2xl bg-[#f2f2f2]"

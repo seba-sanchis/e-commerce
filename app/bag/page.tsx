@@ -1,10 +1,9 @@
 import Image from "next/image";
 import Link from "next/link";
 import { getServerSession } from "next-auth";
-import { ObjectId } from "mongodb";
 
 import { authOptions } from "@/lib/options";
-import { getItems } from "@/lib/actions/bag.actions";
+import { getBag } from "@/lib/actions/bag.actions";
 import {
   CheckOut,
   ProductDetails,
@@ -19,7 +18,7 @@ export default async function Page() {
 
   const sessionData = await JSON.parse(JSON.stringify(session));
 
-  const response = await getItems(session.user?.id as string);
+  const response = await getBag(session.user?.id as string);
 
   const data = await JSON.parse(JSON.stringify(response));
 
@@ -43,7 +42,7 @@ export default async function Page() {
         </div>
 
         <ol className="mt-16">
-          {data.bag.map((item: Item) => (
+          {sessionData.user.bag.map((item: Item) => (
             <li
               key={item.product.sku}
               className="flex flex-col md:flex-row items-center md:items-start gap-2 md:gap-0 pb-8 mb-8 md:pb-16 md:mb-16 border-b border-secondary-gray"
@@ -76,9 +75,9 @@ export default async function Page() {
                   </h2>
                   <div className="flex justify-between w-full">
                     <SelectQuantity
-                      itemId={item._id as ObjectId}
+                      itemId={item._id!}
                       quantity={item.quantity}
-                      size={item.size as string}
+                      size={item.size}
                     />
                     <div className="text-2xl font-semibold">
                       {(item.product?.price * item.quantity).toLocaleString(
@@ -95,13 +94,10 @@ export default async function Page() {
                 <div className="flex justify-between items-start w-full">
                   <ProductDetails
                     color={item.product?.color}
-                    size={item.size as string}
+                    size={item.size}
                   />
 
-                  <RemoveProduct
-                    itemId={item._id as ObjectId}
-                    userId={session.user?.id as string}
-                  />
+                  <RemoveProduct itemId={item._id!} />
                 </div>
               </div>
             </li>
@@ -144,7 +140,7 @@ export default async function Page() {
             </div>
           </div>
         </div>
-        <CheckOut bag={data.bag} session={sessionData} />
+        <CheckOut bag={data.bag} />
       </div>
     </div>
   );

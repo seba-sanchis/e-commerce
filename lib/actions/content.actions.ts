@@ -1,6 +1,6 @@
 "use server";
 
-import { ObjectId } from "mongodb";
+import { ObjectId } from "mongoose";
 
 import { connectToDB } from "../database";
 import ContentModel from "@/models/content";
@@ -14,8 +14,10 @@ export async function getContent() {
     const content = await ContentModel.find({});
 
     return content;
-  } catch (error: any) {
-    throw new Error(`Failed to get all content: ${error.message}`); // Handle any errors
+  } catch (error) {
+    if (error instanceof Error) {
+      throw new Error(`Failed to get all content: ${error.message}`);
+    }
   }
 }
 
@@ -27,8 +29,10 @@ export async function getContentById(params: ObjectId) {
     const content = await ContentModel.findOne({ _id: params });
 
     return content;
-  } catch (error: any) {
-    throw new Error(`Failed to get content by ID: ${error.message}`); // Handle any errors
+  } catch (error) {
+    if (error instanceof Error) {
+      throw new Error(`Failed to get content by ID: ${error.message}`);
+    }
   }
 }
 
@@ -46,8 +50,10 @@ export async function getContentByTag(params: string) {
       // If there are more than one items, return the array
       return data;
     }
-  } catch (error: any) {
-    throw new Error(`Failed to get content by type: ${error.message}`);
+  } catch (error) {
+    if (error instanceof Error) {
+      throw new Error(`Failed to get content by tag: ${error.message}`);
+    }
   }
 }
 
@@ -74,7 +80,9 @@ export async function editContent(params: Content) {
     await existingContent.save();
 
     return existingContent;
-  } catch (error: any) {
-    throw new Error(`Failed to update content: ${error.message}`);
+  } catch (error) {
+    if (error instanceof Error) {
+      throw new Error(`Failed to update content: ${error.message}`);
+    }
   }
 }

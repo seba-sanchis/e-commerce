@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
+import { ObjectId } from "mongoose";
 
-import { ObjectId } from "mongodb";
 import { editProduct, getProductsById } from "@/lib/actions/product.actions";
 
 export const dynamic = "force-dynamic"; // defaults to force-static

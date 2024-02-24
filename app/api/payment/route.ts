@@ -3,6 +3,7 @@ import { MercadoPagoConfig, Payment } from "mercadopago";
 
 import { newOrder } from "@/lib/actions/order.actions";
 import { Items } from "mercadopago/dist/clients/commonTypes";
+import { PaymentResponse } from "mercadopago/dist/clients/payment/commonTypes";
 
 const { MERCADOPAGO_ACCESS_TOKEN } = process.env;
 
@@ -18,7 +19,10 @@ export const POST = async (request: NextRequest) => {
 
       const payment = new Payment(client);
 
-      const body = await payment.get({ id: data.id });
+      const body: PaymentResponse = await payment.get({ id: data.id });
+
+      if (!body.additional_info?.items)
+        throw new Error("No items found in additional info");
 
       const order = {
         orderId: body.order?.id?.toString(),
@@ -26,51 +30,49 @@ export const POST = async (request: NextRequest) => {
         status: body.status,
         installments: body.installments,
         reference: body.external_reference,
+
+        payer: {
+          firstName: body.additional_info?.payer?.first_name,
+          lastName: body.additional_info?.payer?.last_name,
+          email: body.payer?.email,
+          identification: body.payer!.identification!.number,
+
+          phone: {
+            areaCode: body.payer?.phone?.area_code,
+            number: body.payer?.phone?.number,
+            extension: body.payer?.phone?.extension,
+          },
+        },
+
+        payment: {
+          company: body.payment_method?.id,
+          type: body.payment_method?.type,
+        },
+
+        picked: body.additional_info.items.map((item: Items) => ({
+          category: item.category_id,
+          description: item.description,
+          sku: item.id,
+          thumbnail: item.picture_url,
+          quantity: item.quantity,
+          name: item.title,
+          price: item.unit_price,
+        })),
+
+        transaction: {
+          bank: body.transaction_details?.financial_institution,
+          installment: body.transaction_details?.installment_amount,
+          paid: body.transaction_details?.total_paid_amount,
+          received: body.transaction_details?.net_received_amount,
+          overpaid: body.transaction_details?.overpaid_amount,
+        },
       };
 
-      const payer = {
-        firstName: body.additional_info?.payer?.first_name,
-        lastName: body.additional_info?.payer?.last_name,
-        email: body.payer?.email,
-        identification: body.payer!.identification!.number,
-      };
-
-      const paymentMethod = {
-        company: body.payment_method?.id,
-        type: body.payment_method?.type,
-      };
-
-      const phone = {
-        areaCode: body.payer?.phone?.area_code,
-        number: body.payer?.phone?.number,
-        extension: body.payer?.phone?.extension,
-      };
-
-      const picked = body.additional_info!.items!.map((item: Items) => ({
-        category: item.category_id,
-        description: item.description,
-        sku: item.id,
-        thumbnail: item.picture_url,
-        quantity: item.quantity,
-        name: item.title,
-        price: item.unit_price,
-      }));
-
-      const transaction = {
-        bank: body.transaction_details?.financial_institution,
-        installment: body.transaction_details?.installment_amount,
-        paid: body.transaction_details?.total_paid_amount,
-        received: body.transaction_details?.net_received_amount,
-        overpaid: body.transaction_details?.overpaid_amount,
-      };
-
-      await newOrder(order, payer, paymentMethod, phone, picked, transaction);
+      await newOrder(order);
     }
 
     return NextResponse.json({ status: 201 });
-  } catch (error: any) {
-    console.log("Failed to create a new order: ", error.message);
-
+  } catch (error) {
     return NextResponse.json(
       { message: "Failed to create a new order" },
       { status: 500 }

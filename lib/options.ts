@@ -33,19 +33,21 @@ export const authOptions: NextAuthOptions = {
           // check if password is correct
           const passwordMatch = await bcrypt.compare(
             credentials.password,
-            credentialUser.account.password
+            credentialUser.password
           );
 
           if (!passwordMatch) throw new Error("Invalid credentials");
 
           const user = {
             id: credentialUser.id.toString(),
-            email: credentialUser.account.email,
+            email: credentialUser.email,
           };
 
           return user;
-        } catch (error: any) {
-          console.log("Error checking if user exists: ", error.message);
+        } catch (error) {
+          if (error instanceof Error) {
+            console.log(`Error checking if user exists: ${error.message}`);
+          }
           return null;
         }
       },
@@ -67,8 +69,10 @@ export const authOptions: NextAuthOptions = {
         session.user = response;
 
         return session;
-      } catch (error: any) {
-        console.log("Error storing the user in session: ", error.message);
+      } catch (error) {
+        if (error instanceof Error) {
+          console.log(`Error storing the user in session: ${error.message}`);
+        }
         return session;
       }
     },
@@ -89,8 +93,10 @@ export const authOptions: NextAuthOptions = {
         }
 
         return true;
-      } catch (error: any) {
-        console.log("Error checking if user exists: ", error.message);
+      } catch (error) {
+        if (error instanceof Error) {
+          console.log(`Error checking if user exists: ${error.message}`);
+        }
         return false;
       }
     },

@@ -1,11 +1,11 @@
 "use server";
 
-import { ObjectId } from "mongodb";
+import { NextResponse } from "next/server";
+import { ObjectId } from "mongoose";
 
 import { connectToDB } from "../database";
 import ProductModel from "@/models/product";
 import { Product } from "@/types";
-import { NextResponse } from "next/server";
 
 // Get products by name
 export async function getProducts() {
@@ -15,8 +15,10 @@ export async function getProducts() {
     const data = await ProductModel.find({});
 
     return data;
-  } catch (error: any) {
-    throw new Error(`Failed to get products by name: ${error.message}`); // Handle any errors
+  } catch (error) {
+    if (error instanceof Error) {
+      throw new Error(`Failed to get all products: ${error.message}`);
+    }
   }
 }
 
@@ -28,8 +30,10 @@ export async function getProductsById(_id: ObjectId) {
     const data = await ProductModel.findById(_id);
 
     return data;
-  } catch (error: any) {
-    throw new Error(`Failed to get products by name: ${error.message}`); // Handle any errors
+  } catch (error) {
+    if (error instanceof Error) {
+      throw new Error(`Failed to get products by ID: ${error.message}`);
+    }
   }
 }
 
@@ -41,8 +45,10 @@ export async function getProductsByName(params: string) {
     const data = await ProductModel.find({ name: params });
 
     return data;
-  } catch (error: any) {
-    throw new Error(`Failed to get products by name: ${error.message}`); // Handle any errors
+  } catch (error) {
+    if (error instanceof Error) {
+      throw new Error(`Failed to get products by name: ${error.message}`);
+    }
   }
 }
 
@@ -54,8 +60,10 @@ export async function getProductsBySales() {
     const products = await ProductModel.find().sort({ sold: -1 }).limit(8);
 
     return products;
-  } catch (error: any) {
-    throw new Error(`Failed to get all products: ${error.message}`); // Handle any errors
+  } catch (error) {
+    if (error instanceof Error) {
+      throw new Error(`Failed to get products by sales: ${error.message}`);
+    }
   }
 }
 
@@ -89,8 +97,10 @@ export async function getProductsBySearch(params: string) {
     });
 
     return data;
-  } catch (error: any) {
-    throw new Error(`Failed to get products by search: ${error.message}`); // Handle any errors
+  } catch (error) {
+    if (error instanceof Error) {
+      throw new Error(`Failed to get products by search: ${error.message}`);
+    }
   }
 }
 
@@ -139,7 +149,9 @@ export async function editProduct(params: Product) {
     await existingProduct.save();
 
     return existingProduct;
-  } catch (error: any) {
-    throw new Error(`Failed to update product: ${error.message}`);
+  } catch (error) {
+    if (error instanceof Error) {
+      throw new Error(`Failed to update product: ${error.message}`);
+    }
   }
 }

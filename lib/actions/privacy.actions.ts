@@ -1,8 +1,8 @@
 "use server";
 
-import { Privacy } from "@/types";
 import { connectToDB } from "../database";
-import PrivacyModel from "@/models/privacy";
+import User from "@/models/user";
+import { Privacy } from "@/types";
 
 // Update privacy
 export async function editPrivacy(params: Privacy) {
@@ -11,19 +11,21 @@ export async function editPrivacy(params: Privacy) {
   try {
     await connectToDB();
 
-    // Find the existing privacy by ID
-    const existingPrivacy = await PrivacyModel.findById(_id);
+    // Find the existing user by ID and populate the referenced documents
+    const currentUser = await User.findById(_id);
 
-    if (!existingPrivacy) throw new Error("Privacy not found");
+    if (!currentUser) throw new Error("User not found");
 
     // Update the privacy with new data
-    existingPrivacy.firstName = firstName;
-    existingPrivacy.lastName = lastName;
-    existingPrivacy.dni = dni;
-    existingPrivacy.birthday = birthday;
+    currentUser.firstName = firstName;
+    currentUser.lastName = lastName;
+    currentUser.dni = dni;
+    currentUser.birthday = birthday;
 
-    await existingPrivacy.save();
-  } catch (error: any) {
-    throw new Error(`Failed to update privacy: ${error.message}`);
+    await currentUser.save();
+  } catch (error) {
+    if (error instanceof Error) {
+      throw new Error(`Failed to update privacy: ${error.message}`);
+    }
   }
 }

@@ -10,9 +10,7 @@ export default async function Page() {
 
   if (!session?.user) redirect("/");
 
-  const { account, privacy, shipping } = await JSON.parse(
-    JSON.stringify(session.user)
-  );
+  const user = await JSON.parse(JSON.stringify(session.user));
 
   return (
     <div className="flex flex-col gap-8 w-full m-4">
@@ -22,20 +20,20 @@ export default async function Page() {
           <div>
             <h4 className="font-semibold">Dirección de envío</h4>
             <div>
-              <span>{shipping?.address}</span>,{" "}
-              <span>{shipping?.location}</span>
+              <span>{user?.address}</span>,{" "}
+              <span>{user?.location}</span>
             </div>
-            <div>{shipping?.zip}</div>
-            <div>{shipping?.region}</div>
+            <div>{user?.zip}</div>
+            <div>{user?.region}</div>
           </div>
           <div>
             <h4 className="font-semibold">Información de contacto</h4>
             <div>
-              <span>{shipping?.areaCode}</span> <span>{shipping?.phone}</span>
+              <span>{user?.areaCode}</span> <span>{user?.phone}</span>
             </div>
           </div>
         </div>
-        <EditShipping shipping={shipping!} />
+        <EditShipping shipping={user} />
       </div>
 
       <div>
@@ -48,14 +46,14 @@ export default async function Page() {
             proteger tu privacidad.
           </div>
         </div>
-        <EditPrivacy privacy={privacy!} />
+        <EditPrivacy privacy={user} />
       </div>
       <div>
         <h3 className="text-2xl font-semibold mb-1.5">Cuenta</h3>
         <div>
-          <div>{account?.email}</div>
+          <div>{user?.email}</div>
         </div>
-        <EditAccount account={account!} />
+        <EditAccount account={user} />
       </div>
     </div>
   );

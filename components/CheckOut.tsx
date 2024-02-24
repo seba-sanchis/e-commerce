@@ -10,13 +10,7 @@ import { newCheckOut } from "@/lib/actions/checkout.actions";
 import { Item, Sessions } from "@/types";
 import { Items } from "mercadopago/dist/clients/commonTypes";
 
-export default function CheckOut({
-  bag,
-  session,
-}: {
-  bag: Item[];
-  session: Sessions;
-}) {
+export default function CheckOut({ bag }: { bag: Item[] }) {
   const router = useRouter();
   const [order, setOrder] = useState<Items[]>([]);
 
@@ -40,25 +34,11 @@ export default function CheckOut({
   }, [bag]);
 
   const handleCheckOut = async () => {
-    if (
-      session.user &&
-      session.user.id &&
-      session.user.account &&
-      session.user.privacy
-    ) {
-      const response = await newCheckOut(
-        order,
-        session.user.id,
-        session.user.account.email,
-        session.user.privacy.dni,
-        session.user.privacy.firstName,
-        session.user.privacy.lastName
-      );
+    const response = await newCheckOut(order);
 
-      router.push(response);
-    } else {
-      router.push("/sign-in");
-    }
+    if (!response) throw new Error("Failed to checkout");
+
+    router.push(response);
   };
 
   return (

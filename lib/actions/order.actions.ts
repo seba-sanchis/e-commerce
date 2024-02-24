@@ -1,118 +1,60 @@
 "use server";
 
-import { startSession } from "mongoose";
-
 import { connectToDB } from "../database";
-import ItemModel from "@/models/item";
-import OrderModel from "@/models/order";
-import PayerModel from "@/models/payer";
-import PaymentModel from "@/models/payment";
-import PhoneModel from "@/models/phone";
-import PickedModel from "@/models/picked";
-import ProductModel from "@/models/product";
-import TransactionModel from "@/models/transaction";
-import UserModel from "@/models/user";
-import {
-  Item,
-  Order,
-  Payer,
-  Payment,
-  Phone,
-  Picked,
-  Transaction,
-} from "@/types";
+import Order from "@/models/order";
+import Product from "@/models/product";
+import User from "@/models/user";
+import { Order as OrderType } from "@/types";
 
 // Create a new order
-export async function newOrder(
-  order: Order,
-  payer: Payer,
-  paymentMethod: Payment,
-  phone: Phone,
-  picked: Picked[],
-  transaction: Transaction
-) {
-  // const session = await startSession();
-  // session.startTransaction();
-
+export async function newOrder(order: OrderType) {
   try {
     await connectToDB();
 
-    const [newPayer, newPayment, newPicked, newTransaction] = await Promise.all(
-      [
-        new PayerModel({
-          ...payer,
-          phone: phone ? new PhoneModel(payer.phone) : undefined,
-        }).save(),
-
-        new PaymentModel(paymentMethod).save(),
-
-        PickedModel.create(picked),
-
-        new TransactionModel(transaction).save(),
-      ]
-    );
-
-    const newOrder = new OrderModel({
-      ...order,
-      payer: newPayer._id,
-      payment: newPayment._id,
-      picked: newPicked.map((item: Picked) => item._id),
-      transaction: newTransaction._id,
-    });
+    const newOrder = new Order(order);
 
     await newOrder.save();
 
-    const currentSession = await UserModel.findById(order.reference);
+    const currentUser = await User.findById(order.reference);
 
-    currentSession.purchases.push(newOrder);
+    if (!currentUser) throw new Error("User not found");
 
-    const updateProductPromises = newPicked.map(async (pickedItem) => {
-      const product = await ProductModel.findOne({ sku: pickedItem.sku });
+    currentUser.purchases.push(newOrder);
+
+    for (const item of newOrder.picked) {
+      const product = await Product.findOne({ sku: item.sku });
 
       if (!product) {
-        throw new Error(`Product with SKU ${pickedItem.sku} not found`);
+        throw new Error(`Product with SKU ${item.sku} not found`);
       }
 
       if (product.sizes && product.sizes.length > 0) {
-        const sizeIndex = product.sizes.indexOf(pickedItem.description);
-        if (
-          sizeIndex !== -1 &&
-          product.stock[sizeIndex] >= pickedItem.quantity
-        ) {
-          product.stock[sizeIndex] -= pickedItem.quantity;
-          product.sold[sizeIndex] += pickedItem.quantity;
+        const sizeIndex = product.sizes.indexOf(item.description);
+        if (sizeIndex !== -1 && product.stock[sizeIndex] >= item.quantity) {
+          product.stock[sizeIndex] -= item.quantity;
+          product.sold[sizeIndex] += item.quantity;
+          await product.save();
         } else {
-          throw new Error(
-            `Not enough stock for size ${pickedItem.description}`
-          );
+          throw new Error(`Not enough stock for size ${item.description}`);
         }
-      } else if (product.stock[0] >= pickedItem.quantity) {
-        product.stock[0] -= pickedItem.quantity;
-        product.sold[0] += pickedItem.quantity;
+      } else if (product.stock[0] >= item.quantity) {
+        product.stock[0] -= item.quantity;
+        product.sold[0] += item.quantity;
+        await product.save();
       } else {
         throw new Error(`Not enough stock for product ${product.name}`);
       }
+    }
 
-      await product.save();
-    });
+    // Clear user's bag after successfully processing the order
+    currentUser.bag = [];
 
-    await Promise.all(updateProductPromises);
-
-    const itemsToRemove = currentSession.bag.map((item: Item) => item._id);
-    await ItemModel.deleteMany({ _id: { $in: itemsToRemove } });
-
-    currentSession.bag = [];
-
-    await currentSession.save();
-
-    // await session.commitTransaction();
-  } catch (error: any) {
-    // await session.abortTransaction();
-    throw new Error(`Failed to create a new order: ${error.message}`);
+    await currentUser.save();
+  } catch (error) {
+    if (error instanceof Error) {
+      throw new Error(`Failed to create a new order: ${error.message}`);
+    }
   }
-  // finally {
-  //   session.endSession();
-  // }
 }
 
 //Get all orders
@@ -121,20 +63,13 @@ export async function getOrders() {
     await connectToDB();
 
     // Fetch orders associated with the user
-    const orders = await OrderModel.find()
-      .populate({
-        path: "transaction",
-        model: TransactionModel,
-      })
-      .populate({
-        path: "payer",
-        model: PayerModel,
-      })
-      .sort({ date: -1 }); // Sort by date
+    const orders = await Order.find().sort({ date: -1 }); // Sort by date
 
     return orders;
-  } catch (error: any) {
-    throw new Error(`Failed to fetch orders: ${error.message}`);
+  } catch (error) {
+    if (error instanceof Error) {
+      throw new Error(`Failed to fetch orders: ${error.message}`);
+    }
   }
 }
 
@@ -144,22 +79,17 @@ export async function getUserOrders(params: string) {
     await connectToDB();
 
     // Find the user based on the provided userId
-    const currentSession = await UserModel.findById(params);
+    const currentUser = await User.findById(params);
 
-    if (!currentSession) {
-      throw new Error(`User not found with id: ${params}`);
-    }
+    if (!currentUser) throw new Error("User not found");
 
     // Fetch orders associated with the user
-    const orders = await OrderModel.find({ reference: params })
-      .populate("payer") // Populate the payer subdocument
-      .populate("payment") // Populate the payment subdocument
-      .populate("picked") // Populate the picked subdocuments
-      .populate("transaction") // Populate the transaction subdocument
-      .sort({ date: -1 }); // Sort by date
+    const orders = await Order.find({ reference: params }).sort({ date: -1 }); // Sort by date
 
     return orders;
-  } catch (error: any) {
-    throw new Error(`Failed to fetch orders: ${error.message}`);
+  } catch (error) {
+    if (error instanceof Error) {
+      throw new Error(`Failed to fetch orders: ${error.message}`);
+    }
   }
 }

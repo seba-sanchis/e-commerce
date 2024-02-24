@@ -1,4 +1,4 @@
-import type { ObjectId } from "mongodb";
+import { ObjectId } from "mongoose";
 import type { Session } from "next-auth";
 
 export interface Account {
@@ -22,7 +22,7 @@ export interface Item {
   _id?: ObjectId;
   product: Product;
   quantity: number;
-  size?: string;
+  size: string;
 }
 
 export interface Order {
@@ -104,7 +104,6 @@ export interface Sessions extends Session {
     privacy?: Privacy | null;
     shipping?: Shipping | null;
     bag?: Item[] | null;
-    items?: number | null;
     favorite?: Product[] | null;
   };
 }
@@ -128,16 +127,6 @@ export interface Transaction {
   overpaid: number | undefined;
 }
 
-export interface UserProfile {
-  _id?: ObjectId;
-  account: Account;
-  privacy: Privacy;
-  shipping: Shipping;
-  bag?: Item[];
-  favorite?: Product[];
-  purchases?: Order[];
-}
-
 export interface Validation {
   email?: string;
   password?: string;
@@ -152,4 +141,92 @@ export interface Validation {
   zip?: string;
   areaCode?: string;
   phone?: string;
+}
+
+export interface User {
+  _id?: ObjectId;
+  email: string;
+  password: string;
+  confirmPassword?: string;
+
+  firstName: string;
+  lastName: string;
+  dni: string;
+  birthday: string;
+
+  region: string;
+  location: string;
+  address: string;
+  zip: string;
+  areaCode: string;
+  phone: string;
+
+  bag?: {
+    product: {
+      sku: string;
+      category: string;
+      name: string;
+      image: string;
+      description: string;
+      features: string[];
+      color: string;
+      sizes: string[];
+      stock: number[];
+      sold: number[];
+      price: number;
+    };
+    quantity: number;
+    size?: string;
+  }[];
+  favorite?: {
+    sku: string;
+    category: string;
+    name: string;
+    image: string;
+    description: string;
+    features: string[];
+    color: string;
+    sizes: string[];
+    stock: number[];
+    sold: number[];
+    price: number;
+  }[];
+  purchases?: {
+    orderId: string | undefined;
+    date: string | undefined;
+    status: string | undefined;
+    picked?: {
+      category: string | undefined;
+      description: string | undefined;
+      sku: string;
+      thumbnail: string | undefined;
+      quantity: number;
+      name: string;
+      price: number;
+    }[];
+    payment?: {
+      company: string | undefined;
+      type: string | undefined;
+    };
+    payer?: {
+      firstName: string | undefined;
+      lastName: string | undefined;
+      email: string | undefined;
+      identification: string | undefined;
+      phone?: {
+        areaCode: string | undefined;
+        number: string | undefined;
+        extension?: string | undefined;
+      };
+    };
+    transaction?: {
+      bank: string | undefined;
+      installment: number | undefined;
+      paid: number | undefined;
+      received: number | undefined;
+      overpaid: number | undefined;
+    };
+    installments: number | undefined;
+    reference: string | undefined;
+  }[];
 }

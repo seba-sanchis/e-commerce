@@ -5,7 +5,7 @@ import { getProductsBySearch } from "@/lib/actions/product.actions";
 export default async function Page({ params }: { params: { id: string } }) {
   const response = await getProductsBySearch(params.id);
 
-  const products = response.filter(
+  const products = response?.filter(
     (product, index, self) =>
       index === self.findIndex((p) => p.name === product.name)
   );
@@ -27,10 +27,10 @@ export default async function Page({ params }: { params: { id: string } }) {
           </div>
           <div className="flex justify-center flex-wrap flex-1 gap-2 md:gap-4">
             {collection
-              ? products.map((product) => (
+              ? products?.map((product) => (
                   <ProductCard key={product.sku} product={product} />
                 ))
-              : response.map((product) => (
+              : response?.map((product) => (
                   <ProductCard key={product.sku} product={product} />
                 ))}
           </div>

@@ -2,21 +2,19 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { ObjectId } from "mongodb";
+import { Types } from "mongoose";
 
 import { quantities } from "@/constants";
-import { updateItem } from "@/lib/actions/bag.actions";
+import { editBag } from "@/lib/actions/bag.actions";
 import { FaAngleDown } from "react-icons/fa";
 
-export default function SelectQuantity({
-  itemId,
-  quantity,
-  size,
-}: {
-  itemId: ObjectId;
+type Props = {
+  itemId: Types.ObjectId;
   quantity: number;
   size: string;
-}) {
+};
+
+export default function SelectQuantity({ itemId, quantity, size }: Props) {
   const router = useRouter();
 
   const [newQuantity, setNewQuantity] = useState<number | string>();
@@ -33,7 +31,7 @@ export default function SelectQuantity({
     setNewQuantity(Number(newValue));
 
     try {
-      await updateItem(itemId, Number(newValue), size);
+      await editBag(itemId, Number(newValue), size);
       router.refresh();
     } catch (error) {
       // If there's not enough stock, update the state to show the previous quantity

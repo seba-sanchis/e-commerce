@@ -21,7 +21,6 @@ export default function Product({
   const [isPending, startTransition] = useTransition();
 
   const [product, setProduct] = useState<Product>();
-  const [quantity, setQuantity] = useState(1);
   const [item, setItem] = useState({
     product: Object(),
     quantity: 0,
@@ -34,14 +33,14 @@ export default function Product({
   });
 
   useEffect(() => {
-    const found = products.find(
+    const foundProduct = products.find(
       (product) =>
         product.color.includes(selected.color) &&
         product.sizes.includes(selected.size)
     );
 
-    setProduct(found);
-    setItem({ product: found?._id, quantity: quantity, size: selected.size });
+    setProduct(foundProduct);
+    setItem({ product: foundProduct?._id, quantity: 1, size: selected.size });
   }, [selected]);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {

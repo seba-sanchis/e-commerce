@@ -1,8 +1,8 @@
 "use server";
 
-import { Shipping } from "@/types";
 import { connectToDB } from "../database";
-import ShippingModel from "@/models/shipping";
+import User from "@/models/user";
+import { Shipping } from "@/types";
 
 // Update shipping
 export async function editShipping(params: Shipping) {
@@ -11,21 +11,23 @@ export async function editShipping(params: Shipping) {
   try {
     await connectToDB();
 
-    // Find the existing shipping by ID
-    const existingShipping = await ShippingModel.findById(_id);
+    // Find the existing user by ID and populate the referenced documents
+    const currentUser = await User.findById(_id);
 
-    if (!existingShipping) throw new Error("Shipping not found");
+    if (!currentUser) throw new Error("User not found");
 
     // Update the shipping with new data
-    existingShipping.region = region;
-    existingShipping.location = location;
-    existingShipping.address = address;
-    existingShipping.zip = zip;
-    existingShipping.areaCode = areaCode;
-    existingShipping.phone = phone;
+    currentUser.region = region;
+    currentUser.location = location;
+    currentUser.address = address;
+    currentUser.zip = zip;
+    currentUser.areaCode = areaCode;
+    currentUser.phone = phone;
 
-    await existingShipping.save();
-  } catch (error: any) {
-    throw new Error(`Failed to update shipping: ${error.message}`);
+    await currentUser.save();
+  } catch (error) {
+    if (error instanceof Error) {
+      throw new Error(`Failed to update shipping: ${error.message}`);
+    }
   }
 }

@@ -3,13 +3,12 @@
 import { useState } from "react";
 import { FaAngleDown } from "react-icons/fa";
 
-export default function ProductDetails({
-  color,
-  size,
-}: {
+type Props = {
   color: string;
-  size: string;
-}) {
+  size: string | undefined;
+};
+
+export default function ProductDetails({ color, size }: Props) {
   const [toggleFeatures, setToggleFeatures] = useState(false);
 
   return (

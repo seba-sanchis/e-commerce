@@ -1,4 +1,10 @@
-import { Account, Privacy, Shipping, UserProfile, Validation } from "@/types";
+import {
+  Account,
+  Privacy,
+  Shipping,
+  User,
+  Validation,
+} from "@/types";
 
 export function accountValidation(account: Account) {
   let error: Validation = {};
@@ -98,70 +104,70 @@ export function signInValidation(account: Account) {
   return error;
 }
 
-export function signUpValidation(user: UserProfile) {
+export function signUpValidation(user: User) {
   let error: Validation = {};
 
-  if (!user.account.email) {
+  if (!user.email) {
     error.email = "El email es requerido.";
-  } else if (!/\S+@\S+\.\S+/.test(user.account.email)) {
+  } else if (!/\S+@\S+\.\S+/.test(user.email)) {
     error.email = "El email no es válido.";
   }
 
-  if (!user.account.password) {
+  if (!user.password) {
     error.password = "La contraseña es requerida.";
   }
 
-  if (user.account.password !== user.account.confirmPassword) {
+  if (user.password !== user.confirmPassword) {
     error.password = "Las contraseñas no coinciden.";
   }
 
-  if (!user.privacy.firstName) {
+  if (!user.firstName) {
     error.firstName = "El nombre es requerido.";
   }
 
-  if (!user.privacy.lastName) {
+  if (!user.lastName) {
     error.lastName = "El apellido es requerido.";
   }
 
-  if (!user.privacy.dni) {
+  if (!user.dni) {
     error.dni = "El dni es requerido.";
   }
 
-  if (!user.privacy.birthday) {
+  if (!user.birthday) {
     error.birthday = "La fecha de nacimiento es requerida.";
   }
 
-  if (!user.shipping.region) {
+  if (!user.region) {
     error.region = "La provincia es requerida.";
   }
 
-  if (!user.shipping.location) {
+  if (!user.location) {
     error.location = "La ciudad es requerida.";
   }
 
-  if (!user.shipping.address) {
+  if (!user.address) {
     error.address = "La dirección es requerida.";
   }
 
-  if (!user.shipping.zip) {
+  if (!user.zip) {
     error.zip = "El CP es requerido.";
   } else {
-    if (!/^.+$/.test(user.shipping.zip)) {
+    if (!/^.+$/.test(user.zip)) {
       error.zip = "El CP no es válido.";
     }
   }
 
-  if (!user.shipping.areaCode) {
+  if (!user.areaCode) {
     error.areaCode = "El CA es requerido.";
   } else {
-    if (!/^.+$/.test(user.shipping.areaCode)) {
+    if (!/^.+$/.test(user.areaCode)) {
       error.areaCode = "El CA no es válido.";
     }
   }
 
-  if (!user.shipping.phone) {
+  if (!user.phone) {
     error.phone = "El número de teléfono es requerido.";
-  } else if (!/^\d{8}$/.test(user.shipping.phone)) {
+  } else if (!/^\d{8}$/.test(user.phone)) {
     error.phone = "El número de teléfono no es válido.";
   }
 

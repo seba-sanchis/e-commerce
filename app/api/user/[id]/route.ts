@@ -1,8 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
-import { ObjectId } from "mongodb";
+import { ObjectId } from "mongoose";
 
-import { connectToDB } from "@/lib/database";
-import UserModel from "@/models/user";
 import { editUser, getUserById } from "@/lib/actions/user.actions";
 
 export const dynamic = "force-dynamic"; // defaults to force-static

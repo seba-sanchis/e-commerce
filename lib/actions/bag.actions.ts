@@ -2,68 +2,68 @@
 
 import { revalidatePath } from "next/cache";
 import { getServerSession } from "next-auth";
-import { ObjectId } from "mongodb";
 
 import { connectToDB } from "../database";
 import { authOptions } from "../options";
-import UserModel from "@/models/user";
-import ItemModel from "@/models/item";
-import ProductModel from "@/models/product";
 import { Item, Sessions } from "@/types";
+import Product from "@/models/product";
+import User from "@/models/user";
+import { Types } from "mongoose";
 
 // Add product to bag
 export async function addToBag(params: Item) {
-  const session = (await getServerSession(authOptions)) as Sessions;
+  try {
+    const session = (await getServerSession(authOptions)) as Sessions;
 
-  await connectToDB();
+    await connectToDB();
 
-  // Find the existing client by ID
-  const currentSession = await UserModel.findById(session.user?.id).populate({
-    path: "bag",
-    populate: {
-      path: "product", // Populate the product field within bag
-      model: ProductModel,
-    },
-  });
-
-  const alreadyInBag = currentSession.bag.find(
-    (bagItem: Item) =>
-      bagItem.product._id?.toString() === params.product.toString() &&
-      bagItem.size === params.size
-  );
-
-  if (alreadyInBag) {
-    // Product already in bag, update the quantity
-    alreadyInBag.quantity += params.quantity;
-
-    await ItemModel.findByIdAndUpdate(alreadyInBag._id, {
-      quantity: alreadyInBag.quantity,
+    // Find the existing client by ID
+    const currentUser = await User.findById(session.user?.id).populate({
+      path: "bag",
+      populate: {
+        path: "product", // Populate the product field within bag
+        model: Product,
+      },
     });
-  } else {
-    // Product not in bag, add as a new item
-    const newItem = new ItemModel(params);
 
-    await newItem.save();
+    const alreadyInBag = currentUser.bag.find(
+      (bagItem: Item) =>
+        bagItem.product._id?.toString() === params.product.toString() &&
+        bagItem.size === params.size
+    );
 
-    currentSession.bag = [...currentSession.bag, newItem];
+    if (alreadyInBag) {
+      // Product already in bag, update the quantity
+      alreadyInBag.quantity += params.quantity;
+    } else {
+      // Product not in bag, add as a new item
+      currentUser.bag.push(params);
+    }
 
-    await currentSession.save();
+    // Mark the 'bag' array as modified before saving
+    currentUser.markModified("bag");
+
+    // Save the updated user with the modified bag
+    await currentUser.save();
+  } catch (error) {
+    if (error instanceof Error) {
+      throw new Error(`Failed to add item to bag: ${error.message}`);
+    }
   }
 
   revalidatePath("/bag");
 }
 
 //Get bag items
-export async function getItems(params: string) {
+export async function getBag(params: string) {
   await connectToDB();
 
   // Find the existing client by ID
-  const currentSession = await UserModel.findById(params).populate({
+  const currentSession = await User.findById(params).populate({
     path: "bag",
     populate: {
       path: "product", // Populate the product field within bag
-      model: ProductModel,
-      // select: "_id name parentId image", // Select only _id and username fields of the author
+      model: Product,
     },
   });
 
@@ -71,23 +71,37 @@ export async function getItems(params: string) {
 }
 
 // Update bag item
-export async function updateItem(
-  itemId: ObjectId,
+export async function editBag(
+  itemId: Types.ObjectId,
   quantity: number,
   size: string
 ) {
   try {
+    const session = (await getServerSession(authOptions)) as Sessions;
+
     await connectToDB();
 
-    // Find the item to be updated
-    const itemToUpdate = await ItemModel.findById(itemId);
+    // Find the user by ID and populate the bag
+    const currentUser = await User.findById(session.user?.id).populate({
+      path: "bag",
+      populate: {
+        path: "product", // Populate the product field within bag
+        model: Product,
+      },
+    });
 
-    if (!itemToUpdate) {
-      throw new Error(`Item with ID ${itemId} not found.`);
-    }
+    if (!currentUser) throw new Error("User not found");
+
+    // Find the item to be updated in the user's bag
+    const itemToUpdate = currentUser.bag.find((item: { _id: Types.ObjectId }) =>
+      item._id.equals(itemId)
+    );
+
+    if (!itemToUpdate) throw new Error("Item not found in user's bag.");
 
     // Check if there is enough stock for the requested quantity
-    const product = await ProductModel.findById(itemToUpdate.product);
+    const product = await Product.findById(itemToUpdate.product);
+
     if (product) {
       // If the product has sizes, find the stock for the selected size
       if (product.sizes && product.sizes.length > 0) {
@@ -106,52 +120,47 @@ export async function updateItem(
         }
       }
     } else {
-      throw new Error(`Product with ID ${itemToUpdate.product} not found.`);
+      throw new Error("Product not found.");
     }
 
     // Update the item's quantity if there is enough stock
     itemToUpdate.quantity = quantity;
-    await itemToUpdate.save();
-  } catch (error: any) {
-    throw new Error(`Failed to update item: ${error.message}`);
+
+    // Save the updated user to persist changes
+    await currentUser.save();
+  } catch (error) {
+    if (error instanceof Error) {
+      throw new Error(`Failed to update item: ${error.message}`);
+    }
   }
 }
 
 //Remove bag item
-export async function removeItem(itemId: ObjectId, userId: string) {
+export async function removeItem(itemId: Types.ObjectId) {
   try {
+    const session = (await getServerSession(authOptions)) as Sessions;
+
     await connectToDB();
 
-    // Find the item to be deleted
-    const itemToDelete = await ItemModel.findById(itemId);
+    // Find the user by ID
+    const currentUser = await User.findById(session.user?.id);
 
-    if (!itemToDelete) {
-      throw new Error("Item not found");
-    }
-
-    // Capture the item's ID before deleting
-    const itemIdToDelete = itemToDelete._id;
-
-    // Delete the item
-    const deletedItem = await ItemModel.findByIdAndDelete(itemId);
-
-    if (!deletedItem) {
-      throw new Error("Item not found");
-    }
-
-    // Find the user associated with the item
-    const user = await UserModel.findById(userId);
-
-    if (!user) {
+    if (!currentUser) {
       throw new Error("User not found");
     }
 
-    // Update the user's bag by removing the deleted item
-    user.bag.pull(itemIdToDelete); // Use Mongoose's pull method to remove the item from the bag array
-    await user.save();
-  } catch (error: any) {
-    throw new Error(
-      `Failed to delete item and update user's bag: ${error.message}`
+    // Filter out the item to be removed from the bag array
+    currentUser.bag = currentUser.bag.filter(
+      (item: Types.ObjectId) => !item._id.equals(itemId)
     );
+
+    // Save the updated user to persist the removal
+    await currentUser.save();
+  } catch (error) {
+    if (error instanceof Error) {
+      throw new Error(
+        `Failed to delete item and update user's bag: ${error.message}`
+      );
+    }
   }
 }
