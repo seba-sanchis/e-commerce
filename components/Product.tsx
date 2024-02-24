@@ -185,7 +185,7 @@ export default function Product({
                 onClick={handleFavorite}
                 type="button"
               >
-                <FaHeart />
+                <FaHeart size={24} />
               </button>
             ) : (
               <button
