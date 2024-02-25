@@ -3,7 +3,7 @@ import { redirect } from "next/navigation";
 import { getServerSession } from "next-auth";
 
 import { SignUp } from "@/components";
-import { authOptions } from "@/lib/options";
+import { authOptions } from "@/lib/auth";
 import { Sessions } from "@/types";
 
 export default async function Page() {

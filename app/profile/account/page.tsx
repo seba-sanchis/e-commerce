@@ -1,7 +1,7 @@
 import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
 
-import { authOptions } from "@/lib/options";
+import { authOptions } from "@/lib/auth";
 import { Sessions } from "@/types";
 import { EditAccount, EditPrivacy, EditShipping } from "@/components";
 
@@ -20,8 +20,7 @@ export default async function Page() {
           <div>
             <h4 className="font-semibold">Dirección de envío</h4>
             <div>
-              <span>{user?.address}</span>,{" "}
-              <span>{user?.location}</span>
+              <span>{user?.address}</span>, <span>{user?.location}</span>
             </div>
             <div>{user?.zip}</div>
             <div>{user?.region}</div>

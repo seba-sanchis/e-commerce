@@ -1,37 +1,38 @@
 "use client";
 
 import { useState } from "react";
-
 import { FaRegCheckCircle } from "react-icons/fa";
 
-export default function ForgotPassword() {
-  const [userEmail, setUserEmail] = useState("");
-  const [emailSent, setEmailSent] = useState("");
+import { generateToken } from "@/lib/actions/account.actions";
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+export default function ForgotPassword() {
+  const [email, setEmail] = useState("");
+  const [message, setMessage] = useState("");
+
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
 
-    // nodemailer module
+    await generateToken(email);
 
-    setEmailSent("¡Correo enviado con éxito!");
-  };
+    setMessage("¡Correo enviado con éxito!");
+  }
 
   return (
     <form onSubmit={handleSubmit} className="flex flex-col gap-4 mt-4">
       <div className="w-80 h-20">
         <input
-          value={userEmail}
-          onChange={(e) => setUserEmail(e.target.value)}
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
           type="email"
           placeholder="Email"
           className="input border-[#d6d6d6] bg-[hsla(0,0%,100%,.8)]"
         />
-        {emailSent && (
+        {message && (
           <div className="flex items-center mt-2 text-xs text-primary-green">
             <span className="mx-1">
               <FaRegCheckCircle size={12} />
             </span>
-            <span>{emailSent}</span>
+            <span>{message}</span>
           </div>
         )}
       </div>

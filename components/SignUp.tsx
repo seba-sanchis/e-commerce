@@ -3,12 +3,12 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { signIn } from "next-auth/react";
+import { FaAngleDown, FaExclamationCircle } from "react-icons/fa";
 
 import { regions } from "@/constants";
 import { User, Validation } from "@/types";
 import { newUser } from "@/lib/actions/user.actions";
 import { signUpValidation } from "@/lib/validations";
-import { FaAngleDown, FaExclamationCircle } from "react-icons/fa";
 
 export default function SignUp() {
   const router = useRouter();
@@ -16,7 +16,6 @@ export default function SignUp() {
   const [user, setUser] = useState<User>({
     email: "",
     password: "",
-    confirmPassword: "",
     firstName: "",
     lastName: "",
     dni: "",
@@ -28,6 +27,8 @@ export default function SignUp() {
     areaCode: "",
     phone: "",
   });
+
+  const [confirmPassword, setConfirmPassword] = useState("");
 
   const [error, setError] = useState<Validation>({
     firstName: "",
@@ -360,13 +361,8 @@ export default function SignUp() {
           />
           <div>
             <input
-              value={user.confirmPassword}
-              onChange={(e) =>
-                setUser({
-                  ...user,
-                  confirmPassword: e.target.value,
-                })
-              }
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
               type="password"
               placeholder="Confirmar contraseña"
               className={`input ${

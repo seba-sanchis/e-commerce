@@ -2,7 +2,7 @@ import { getServerSession } from "next-auth";
 import Image from "next/image";
 import Link from "next/link";
 
-import { authOptions } from "@/lib/options";
+import { authOptions } from "@/lib/auth";
 import { getFavorites } from "@/lib/actions/favorite.actions";
 import { Product, Sessions } from "@/types";
 

@@ -1,14 +1,14 @@
 import Link from "next/link";
 import { getServerSession } from "next-auth";
 
-import { authOptions } from "@/lib/options";
+import { authOptions } from "@/lib/auth";
 import { Sessions } from "@/types";
 import { Flyout, Menu, Searchbar, SearchField } from ".";
 import { getContentByTag } from "@/lib/actions/content.actions";
 import { FaShoppingBag } from "react-icons/fa";
 
 export default async function Navbar() {
-  const session: Sessions = (await getServerSession(authOptions)) as Sessions;
+  const session = (await getServerSession(authOptions)) as Sessions;
   const sessionData = await JSON.parse(JSON.stringify(session));
 
   const organization = await getContentByTag("organization");

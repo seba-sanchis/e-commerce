@@ -8,6 +8,12 @@ export interface Account {
   confirmPassword?: string;
 }
 
+export interface Contact {
+  name: string;
+  email: string;
+  message: string;
+}
+
 export interface Content {
   _id?: ObjectId;
   title: string;
@@ -27,45 +33,45 @@ export interface Item {
 
 export interface Order {
   _id?: ObjectId;
-  orderId: string | undefined;
-  date: string | undefined;
-  status: string | undefined;
+  orderId: string;
+  date: string;
+  status: string;
   picked?: Picked[];
   payment?: Payment;
   payer?: Payer;
   transaction?: Transaction;
-  installments: number | undefined;
-  reference: string | undefined;
-}
-
-export interface Payment {
-  _id?: ObjectId;
-  company: string | undefined;
-  type: string | undefined;
+  installments: number;
+  reference: string;
 }
 
 export interface Payer {
   _id?: ObjectId;
-  firstName: string | undefined;
-  lastName: string | undefined;
-  email: string | undefined;
-  identification: string | undefined;
+  firstName: string;
+  lastName: string;
+  email: string;
+  identification: string;
   phone?: Phone;
+}
+
+export interface Payment {
+  _id?: ObjectId;
+  company: string;
+  type: string;
 }
 
 export interface Phone {
   _id?: ObjectId;
-  areaCode: string | undefined;
-  number: string | undefined;
-  extension?: string | undefined;
+  areaCode: string;
+  number: string;
+  extension?: string;
 }
 
 export interface Picked {
   _id?: ObjectId;
-  category: string | undefined;
-  description: string | undefined;
+  category: string;
+  description: string;
   sku: string;
-  thumbnail: string | undefined;
+  thumbnail: string;
   quantity: number;
   name: string;
   price: number;
@@ -95,16 +101,13 @@ export interface Product {
 }
 
 export interface Sessions extends Session {
-  user?: {
-    id?: string | null;
-    name?: string | null;
-    email?: string | null;
-    image?: string | null;
-    account?: Account | null;
-    privacy?: Privacy | null;
-    shipping?: Shipping | null;
-    bag?: Item[] | null;
-    favorite?: Product[] | null;
+  user: {
+    id: string;
+    name?: string;
+    image?: string;
+    email: string;
+    bag: Item[];
+    favorite: Product[];
   };
 }
 
@@ -127,6 +130,38 @@ export interface Transaction {
   overpaid: number | undefined;
 }
 
+export interface User {
+  _id?: ObjectId;
+  email: string;
+  password: string;
+
+  firstName: string;
+  lastName: string;
+  dni: string;
+  birthday: string;
+
+  region: string;
+  location: string;
+  address: string;
+  zip: string;
+  areaCode: string;
+  phone: string;
+
+  bag?: Item[];
+  favorite?: Product[];
+  purchases?: {
+    orderId: string;
+    date: string;
+    status: string;
+    picked: Picked[];
+    payment: Payment;
+    payer: Payer;
+    transaction: Transaction;
+    installments: number;
+    reference: string;
+  }[];
+}
+
 export interface Validation {
   email?: string;
   password?: string;
@@ -141,92 +176,4 @@ export interface Validation {
   zip?: string;
   areaCode?: string;
   phone?: string;
-}
-
-export interface User {
-  _id?: ObjectId;
-  email: string;
-  password: string;
-  confirmPassword?: string;
-
-  firstName: string;
-  lastName: string;
-  dni: string;
-  birthday: string;
-
-  region: string;
-  location: string;
-  address: string;
-  zip: string;
-  areaCode: string;
-  phone: string;
-
-  bag?: {
-    product: {
-      sku: string;
-      category: string;
-      name: string;
-      image: string;
-      description: string;
-      features: string[];
-      color: string;
-      sizes: string[];
-      stock: number[];
-      sold: number[];
-      price: number;
-    };
-    quantity: number;
-    size?: string;
-  }[];
-  favorite?: {
-    sku: string;
-    category: string;
-    name: string;
-    image: string;
-    description: string;
-    features: string[];
-    color: string;
-    sizes: string[];
-    stock: number[];
-    sold: number[];
-    price: number;
-  }[];
-  purchases?: {
-    orderId: string | undefined;
-    date: string | undefined;
-    status: string | undefined;
-    picked?: {
-      category: string | undefined;
-      description: string | undefined;
-      sku: string;
-      thumbnail: string | undefined;
-      quantity: number;
-      name: string;
-      price: number;
-    }[];
-    payment?: {
-      company: string | undefined;
-      type: string | undefined;
-    };
-    payer?: {
-      firstName: string | undefined;
-      lastName: string | undefined;
-      email: string | undefined;
-      identification: string | undefined;
-      phone?: {
-        areaCode: string | undefined;
-        number: string | undefined;
-        extension?: string | undefined;
-      };
-    };
-    transaction?: {
-      bank: string | undefined;
-      installment: number | undefined;
-      paid: number | undefined;
-      received: number | undefined;
-      overpaid: number | undefined;
-    };
-    installments: number | undefined;
-    reference: string | undefined;
-  }[];
 }

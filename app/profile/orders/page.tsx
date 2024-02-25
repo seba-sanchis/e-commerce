@@ -1,7 +1,7 @@
 import { getServerSession } from "next-auth";
 import Image from "next/image";
 
-import { authOptions } from "@/lib/options";
+import { authOptions } from "@/lib/auth";
 import { Picked, Sessions } from "@/types";
 import { getUserOrders } from "@/lib/actions/order.actions";
 

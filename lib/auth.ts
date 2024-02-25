@@ -1,12 +1,12 @@
-import type { NextAuthOptions, User } from "next-auth";
-import bcrypt from "bcryptjs";
+import type { NextAuthOptions, User as Users } from "next-auth";
+import { AdapterUser } from "next-auth/adapters";
 import CredentialsProvider from "next-auth/providers/credentials";
 import GoogleProvider from "next-auth/providers/google";
+import bcrypt from "bcryptjs";
 
-import UserModel from "@/models/user";
-import { Sessions } from "@/types";
 import { getUserByEmail } from "./actions/user.actions";
-import { AdapterUser } from "next-auth/adapters";
+import User from "@/models/user";
+import { Sessions, User as UserType } from "@/types";
 
 export const authOptions: NextAuthOptions = {
   providers: [
@@ -45,21 +45,17 @@ export const authOptions: NextAuthOptions = {
 
           return user;
         } catch (error) {
-          if (error instanceof Error) {
+          if (error instanceof Error)
             console.log(`Error checking if user exists: ${error.message}`);
-          }
+
           return null;
         }
       },
     }),
   ],
-  callbacks: {
-    // async jwt({ token, user, account, profile }) {
-    //   if (user) token.user = user;
 
-    //   return token;
-    // },
-    async session({ session }: { session: Sessions }) {
+  callbacks: {
+    async session({ session }) {
       try {
         if (!session.user?.email) throw new Error("Invalid email");
 
@@ -70,13 +66,13 @@ export const authOptions: NextAuthOptions = {
 
         return session;
       } catch (error) {
-        if (error instanceof Error) {
+        if (error instanceof Error)
           console.log(`Error storing the user in session: ${error.message}`);
-        }
+
         return session;
       }
     },
-    async signIn({ user }: { user: AdapterUser | User }) {
+    async signIn({ user }: { user: AdapterUser | Users }) {
       try {
         if (!user.email) throw new Error("Invalid email");
 
@@ -84,19 +80,13 @@ export const authOptions: NextAuthOptions = {
         const userExists = await getUserByEmail(user.email);
 
         // if not, create a new document and save user in MongoDB
-        if (!userExists) {
-          await UserModel.create({
-            email: user.email as string,
-            // name: user.name as string,
-            // image: user.image as string,
-          });
-        }
+        if (!userExists) await User.create({ email: user.email });
 
         return true;
       } catch (error) {
-        if (error instanceof Error) {
+        if (error instanceof Error)
           console.log(`Error checking if user exists: ${error.message}`);
-        }
+
         return false;
       }
     },

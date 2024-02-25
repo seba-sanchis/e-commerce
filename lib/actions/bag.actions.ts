@@ -5,7 +5,7 @@ import { getServerSession } from "next-auth";
 import { ObjectId, Types } from "mongoose";
 
 import { connectToDB } from "../database";
-import { authOptions } from "../options";
+import { authOptions } from "../auth";
 import Product from "@/models/product";
 import User from "@/models/user";
 import { Item, Sessions } from "@/types";

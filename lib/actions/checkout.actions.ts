@@ -6,7 +6,7 @@ import { MercadoPagoConfig, Preference } from "mercadopago";
 import { Items } from "mercadopago/dist/clients/commonTypes";
 import { getServerSession } from "next-auth";
 import { connectToDB } from "../database";
-import { authOptions } from "../options";
+import { authOptions } from "../auth";
 
 const { MERCADOPAGO_ACCESS_TOKEN, MERCADOPAGO_URL } = process.env;
 

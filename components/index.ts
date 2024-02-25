@@ -16,6 +16,7 @@ export { default as Product } from "./Product";
 export { default as ProductCard } from "./ProductCard";
 export { default as ProductDetails } from "./ProductDetails";
 export { default as RemoveProduct } from "./RemoveProduct";
+export { default as ResetPassword } from "./ResetPassword";
 export { default as Scroller } from "./Scroller";
 export { default as Searchbar } from "./Searchbar";
 export { default as SearchField } from "./SearchField";

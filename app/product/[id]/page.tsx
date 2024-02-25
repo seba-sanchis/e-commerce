@@ -1,7 +1,7 @@
 import { getServerSession } from "next-auth";
 
 import { Product } from "@/components";
-import { authOptions } from "@/lib/options";
+import { authOptions } from "@/lib/auth";
 import { getProductsByName } from "@/lib/actions/product.actions";
 import { Sessions } from "@/types";
 
