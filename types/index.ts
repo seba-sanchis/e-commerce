@@ -123,17 +123,18 @@ export interface Shipping {
 
 export interface Transaction {
   _id?: ObjectId;
-  bank: string | undefined;
-  installment: number | undefined;
-  paid: number | undefined;
-  received: number | undefined;
-  overpaid: number | undefined;
+  bank: string;
+  installment: number;
+  paid: number;
+  received: number;
+  overpaid: number;
 }
 
 export interface User {
   _id?: ObjectId;
   email: string;
   password: string;
+  confirmPassword?: string;
 
   firstName: string;
   lastName: string;

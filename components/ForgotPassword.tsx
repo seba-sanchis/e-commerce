@@ -19,7 +19,7 @@ export default function ForgotPassword() {
 
   return (
     <form onSubmit={handleSubmit} className="flex flex-col gap-4 mt-4">
-      <div className="w-80 h-20">
+      <div className="w-80">
         <input
           value={email}
           onChange={(e) => setEmail(e.target.value)}
@@ -28,7 +28,7 @@ export default function ForgotPassword() {
           className="input border-[#d6d6d6] bg-[hsla(0,0%,100%,.8)]"
         />
         {message && (
-          <div className="flex items-center mt-2 text-xs text-primary-green">
+          <div className="absolute flex items-center mt-2 text-xs text-primary-green">
             <span className="mx-1">
               <FaRegCheckCircle size={12} />
             </span>
@@ -36,7 +36,7 @@ export default function ForgotPassword() {
           </div>
         )}
       </div>
-      <button className="button">Restablecer</button>
+      <button className="button mt-4">Restablecer</button>
     </form>
   );
 }

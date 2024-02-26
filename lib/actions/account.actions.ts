@@ -19,8 +19,15 @@ export async function editAccount(params: Account) {
   try {
     await connectToDB();
 
-    // Find the existing user by ID and populate the referenced documents
-    const currentUser = await User.findById(_id);
+    let currentUser;
+
+    if (_id) {
+      // Find existing user by ID
+      currentUser = await User.findById(_id);
+    } else {
+      // Find existing user by email
+      currentUser = await User.findOne({ email });
+    }
 
     if (!currentUser) throw new Error("User not found");
 

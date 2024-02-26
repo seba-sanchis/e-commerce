@@ -2,11 +2,11 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-
-import { Account, Validation } from "@/types";
-import { accountValidation } from "@/lib/validations";
-import { editAccount } from "@/lib/actions/account.actions";
 import { FaAngleRight, FaExclamationCircle } from "react-icons/fa";
+
+import { editAccount } from "@/lib/actions/account.actions";
+import { accountValidation } from "@/lib/validations";
+import { Account, Validation } from "@/types";
 
 export default function EditAccount({ account }: { account: Account }) {
   const router = useRouter();
@@ -20,7 +20,6 @@ export default function EditAccount({ account }: { account: Account }) {
     password: "",
     confirmPassword: "",
   });
-
   const [error, setError] = useState<Validation>();
 
   const handleSubmit = async (e: React.FormEvent) => {
