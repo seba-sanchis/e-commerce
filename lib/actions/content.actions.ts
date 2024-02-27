@@ -3,15 +3,15 @@
 import { ObjectId } from "mongoose";
 
 import { connectToDB } from "../database";
-import ContentModel from "@/models/content";
-import { Content } from "@/types";
+import Content from "@/models/content";
+import { Content as ContentType } from "@/types";
 
 // Get all content
 export async function getContent() {
   try {
     await connectToDB();
 
-    const content = await ContentModel.find({});
+    const content = await Content.find({});
 
     return content;
   } catch (error) {
@@ -26,7 +26,7 @@ export async function getContentById(params: ObjectId) {
   try {
     await connectToDB();
 
-    const content = await ContentModel.findOne({ _id: params });
+    const content = await Content.findOne({ _id: params });
 
     return content;
   } catch (error) {
@@ -41,7 +41,7 @@ export async function getContentByTag(params: string) {
   try {
     await connectToDB();
 
-    const data = await ContentModel.find({ tag: params });
+    const data = await Content.find({ tag: params });
 
     if (data.length === 1) {
       // If there's only one item, return it as an object
@@ -58,14 +58,14 @@ export async function getContentByTag(params: string) {
 }
 
 // Update content
-export async function editContent(params: Content) {
+export async function editContent(params: ContentType) {
   const { _id, title, subtitle, image, url, tag } = params;
 
   try {
     await connectToDB();
 
     // Find the existing client by ID
-    const existingContent = await ContentModel.findById(_id);
+    const existingContent = await Content.findById(_id);
 
     if (!existingContent) throw new Error("Content not found");
 

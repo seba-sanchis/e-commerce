@@ -11,7 +11,7 @@ export interface Account {
 export interface Contact {
   name: string;
   email: string;
-  message: string;
+  url: string;
 }
 
 export interface Content {

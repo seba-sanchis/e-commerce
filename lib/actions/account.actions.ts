@@ -62,9 +62,9 @@ export async function generateToken(email: string) {
     if (!user) throw new Error("User not found");
 
     const contact = {
-      name: user.firstName,
+      name: `${user.firstName} ${user.lastName}`,
       email: user.email,
-      message: `Ingresá al siguiente link para restablecer tu contraseña: ${NEXTAUTH_URL}/reset/${token}`,
+      url: `${NEXTAUTH_URL}/reset/${token}`,
     };
 
     await sendEmail(contact);
