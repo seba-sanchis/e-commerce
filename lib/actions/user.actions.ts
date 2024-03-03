@@ -53,21 +53,20 @@ export async function getUserById(_id: ObjectId) {
 
     const session = {
       id: currentUser._id,
-      account: { email: currentUser.email },
-      privacy: {
-        firstName: currentUser.firstName,
-        lastName: currentUser.lastName,
-        dni: currentUser.dni,
-        birthday: currentUser.birthday,
-      },
-      shipping: {
-        region: currentUser.region,
-        location: currentUser.location,
-        address: currentUser.address,
-        zip: currentUser.zip,
-        areaCode: currentUser.areaCode,
-        phone: currentUser.phone,
-      },
+      email: currentUser.email,
+
+      firstName: currentUser.firstName,
+      lastName: currentUser.lastName,
+      dni: currentUser.dni,
+      birthday: currentUser.birthday,
+
+      region: currentUser.region,
+      location: currentUser.location,
+      address: currentUser.address,
+      zip: currentUser.zip,
+      areaCode: currentUser.areaCode,
+      phone: currentUser.phone,
+
       bag: currentUser.bag,
       favorite: currentUser.favorite,
     };
